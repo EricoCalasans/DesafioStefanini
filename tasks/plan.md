@@ -1,17 +1,17 @@
 # Plano de construção
 
-**Status:** plano proposto após especificação, sem implementação iniciada. **Referências:** [mapa](../CAPABILITY-MAP.md), [PRD](../docs/PRD.md), [backlog](todo.md), [proposta hipotética](../specs/SPEC-proposta.md).
+**Status:** execução autorizada pelo candidato em 22/10/2026; revisão cruzada das specs concluída e bootstrap em andamento. **Referências:** [mapa](../CAPABILITY-MAP.md), [PRD](../docs/PRD.md), [backlog](todo.md), [proposta hipotética](../specs/SPEC-proposta.md).
 
 **Prazo de entrega informado pelo candidato:** 23/10/2026 às 18:00 (horário de Brasília). As 240 horas e três semanas da [proposta](../specs/SPEC-proposta.md) são um cenário técnico-comercial hipotético, não uma previsão para esta candidatura. O escopo integral não cabe no prazo real; priorizar o núcleo demonstrável, preservar requisitos obrigatórios e reportar cortes e verificações pendentes com transparência.
 
-**Gate inicial:** toolchain local, Docker, raiz Git, branches iniciais, stack, contratos e primeira fatia estão preparados ou decididos pelo Codex com base no PRD; o candidato delegou as decisões técnicas em 22/10. Não há revisão técnica ou instalação pendente do candidato para começar. Aguardar sua instrução explícita, então criar a primeira branch de feature e executar a etapa 1. Preparar a explicação dos trade-offs para que o candidato os consiga defender na apresentação.
+**Gate inicial:** o candidato autorizou a implementação seguindo as specs. Node `24.22.1`, SDK .NET `10.0.402`, Docker/Compose, PostgreSQL `17.11`, MongoDB `8.0.34-noble`, contratos e critérios estão disponíveis ou registrados. Será usado um único repositório Git, com os serviços identificados por `apps/orders` (TypeScript/NestJS) e `apps/catalog` (C#/.NET); a pasta `local-only/`, ignorada pelo Git, guarda a fonte do desafio e caches locais. O próximo passo é criar a branch de feature e entregar cada fatia com teste e commit claro. As decisões e trade-offs precisam continuar fáceis de explicar pelo candidato.
 
 ## 1. Sequência e marcos verificáveis
 
 | Etapa | Trabalho | Marco para avançar |
 |---|---|---|
-| 0 - Especificação | Análise, PRD, contratos, matriz e revisão | Documentos coerentes; candidato revê escolhas antes de codificar |
-| 1 - Fundação | Toolchain, estrutura, GitFlow, Compose, roles, build e CI mínimo | Ambas as aplicações sobem; bancos isolados e configuração validada |
+| 0 - Especificação | Análise, PRD, contratos, matriz e revisão | **Concluída:** documentação validada; execução autorizada pelo candidato |
+| 1 - Fundação | Toolchain, estrutura, GitFlow, Compose, roles, build e CI mínimo | Em andamento; ambas as aplicações compilam, bancos isolados e configuração validada |
 | 2 - Catálogo | MongoDB, validador/índices, seed e endpoints | Lote real com uma busca, contratos e erros verificados |
 | 3 - Primeiro fluxo de pedido | Domínio, desconto, porta de catálogo, SQL e POST | Pedido canônico real, valores corretos e rollback comprovado |
 | 4 - Leitura e robustez | GETs/paginação, snapshots, falhas e logs | Leituras independentes do fornecedor; erros definidos |

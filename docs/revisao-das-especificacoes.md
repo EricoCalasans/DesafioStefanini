@@ -57,6 +57,14 @@ Cada ponto R01-R53 possui destino e futura evidência na [matriz](matriz-de-rast
 
 As funcionalidades do núcleo estão especificadas com objetivo, stack, estrutura, comandos futuros, convenções, testes, limites e critérios de sucesso. Os artefatos de liderança têm público, formato, conteúdo, controle de tamanho/capacidade e aceite. O pacote de entrega tem bloqueadores objetivos.
 
+## 4.1 Revisão cruzada imediatamente antes da implementação
+
+Foi feita uma nova leitura do PRD, mapa, arquitetura, critérios e backlog após a autorização explícita para codificar. A validação documental foi repetida: OpenAPI 3.1 e referências locais válidos; 153 links locais resolvidos; R01-R53, Q01-Q50 e T01-T45 sem lacunas; cinco exemplos compatíveis e seis payloads inválidos rejeitados; exemplo canônico e aritmética da proposta coerentes. Não surgiu requisito funcional do PRD sem destino nas specs nem divergência que exigisse mudar contrato ou regra de negócio.
+
+Os pontos operacionais foram alinhados antes do primeiro código: os dois serviços terão diretórios inequívocos (`apps/orders` para NestJS/TypeScript e `apps/catalog` para ASP.NET Core/C#), os contratos ficam em `contracts/` na mesma raiz Git, e o `.gitignore` cobre dependências, builds, testes, IDEs, segredos e material local. O PDF recebido e os caches de preparação serão movidos para `local-only/`, ignorada pelo Git, preservando-os fora do pacote versionado. Isso não cria outro repositório nem altera requisitos do produto.
+
+Pontos de atenção preservados para implementação e revisão: PostgreSQL e MongoDB precisam ser reais nos testes de integração; a consulta de lote deve usar uma busca Mongo `$in`; o preço é consultado antes de abrir a transação SQL; pedido e itens são confirmados juntos; leituras históricas não chamam Catálogo; desconto usa centavos inteiros e `HALF_UP`; respostas externas são validadas como entrada não confiável; nenhuma evidência documental substitui build/teste/smoke executado. O prazo até 23/10 às 18:00 BRT segue sendo a principal restrição e será refletido honestamente no status de cada tarefa.
+
 ## 5. Pendências reais
 
 | Pendência | Efeito | Momento de resolver |
@@ -79,9 +87,9 @@ As decisões 001-004 estão registradas nos ADRs: o candidato aceitou 001/002 e 
 Os pacotes não são dependências das futuras APIs. Na raiz, com Python disponível, criar ambiente isolado, instalar as versões fixadas e executar:
 
 ```powershell
-python -m venv tmp/spec-validation
-& .\tmp\spec-validation\Scripts\python.exe -m pip install -r scripts/requirements-documentacao.txt
-& .\tmp\spec-validation\Scripts\python.exe scripts/validar-especificacoes.py
+python -m venv local-only/preflight/spec-validation
+& .\local-only\preflight\spec-validation\Scripts\python.exe -m pip install -r scripts/requirements-documentacao.txt
+& .\local-only\preflight\spec-validation\Scripts\python.exe scripts/validar-especificacoes.py
 ```
 
-O script revalida documentos locais e atualiza o relatório. Não executa serviços. Para reaplicá-lo após ampliar o mapa, a matriz ou o backlog, atualizar conscientemente as contagens esperadas; não alterar contagens para ocultar um documento faltante.
+O diretório `local-only/` é ignorado e separado dos arquivos rastreados. O script revalida documentos locais e atualiza o relatório. Não executa serviços. Para reaplicá-lo após ampliar o mapa, a matriz ou o backlog, atualizar conscientemente as contagens esperadas; não alterar contagens para ocultar um documento faltante.

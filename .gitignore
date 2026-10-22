@@ -1,16 +1,62 @@
-# Intermediários de leitura/validação, sem valor de entrega.
-/tmp/
-
-# Material de referência confidencial fornecido ao candidato.
-/coe-leader-desenvolvimento-candidatura-desafio-tecnico (1).pdf
-
-# Segredos e saídas transitórias da futura implementação.
+# Segredos locais. Exemplos sem credenciais permanecem versionados.
 .env
 .env.*
 !.env.example
+!.env.*.example
+
+# Dependências e saídas Node.js / TypeScript.
 node_modules/
+**/node_modules/
 dist/
+**/dist/
 coverage/
-TestResults/
-bin/
-obj/
+**/coverage/
+.npm/
+.eslintcache
+.prettier-cache
+*.tsbuildinfo
+
+# Saídas e configuração local .NET / IDEs Microsoft.
+**/bin/
+**/obj/
+**/TestResults/
+*.trx
+*.coverage
+*.coveragexml
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Python usado apenas em ferramentas locais de documentação.
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Material do candidato, ferramentas locais e caches que não fazem parte da entrega.
+/local-only/
+/tmp/
+/.local/
+/.cache/
+/docker-data/
+/test-results/
+/playwright-report/
+/npm-debug.log*
+/yarn-debug.log*
+/yarn-error.log*
+
+# Arquivo-fonte confidencial do desafio (manter fora do pacote versionado).
+/coe-leader-desenvolvimento-candidatura-desafio-tecnico*.pdf
+
+# Arquivos de sistema e preferências de ferramentas locais.
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/*
+!.vscode/extensions.json
