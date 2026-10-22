@@ -2,25 +2,27 @@
 
 Esta pasta contém somente os recursos usados pelos dois projetos durante desenvolvimento e demonstração:
 
-- compose.yaml: PostgreSQL 17 e MongoDB 8, publicados apenas no loopback local.
-- postgres/01-roles.sql: cria as contas de runtime e migração do PostgreSQL com permissões separadas.
+- compose.yaml: PostgreSQL 17, MongoDB 8 e as APIs em containers separados; portas publicadas apenas no loopback local.
+- postgres/01-roles.sql: cria `orders_test` e as contas de runtime e migração do PostgreSQL com permissões separadas.
 - mongo/bootstrap.js: configura validator e índices, cria contas separadas e insere quatro produtos sintéticos de forma idempotente.
 - setup-local.ps1: gera credenciais aleatórias fora do repositório.
+- test-orders.ps1 e test-orders.sh: executam testes PostgreSQL somente contra `orders_test`.
+- smoke-system.mjs: valida endpoints das duas APIs pela interface HTTP.
 - .env.example: nomes e formatos das configurações, sem segredos utilizáveis.
 
 ## Preparar e iniciar
 
 Execute infra/setup-local.ps1 no PowerShell para gerar segredos na pasta irmã chamada desafio-local. O script interrompe se o arquivo de credenciais já existir, para preservar a senha correspondente aos volumes persistidos.
 
-Da raiz do repositório, inicie as bases e aplique o bootstrap do Catálogo:
+Da raiz do repositório, inicie os bancos e APIs; o Compose executa o bootstrap do Catálogo e as migrations de Pedidos:
 
-    docker compose --env-file ..\desafio-local\.env -f infra\compose.yaml up -d --wait
-    docker compose --env-file ..\desafio-local\.env -f infra\compose.yaml run --rm --no-deps mongo-bootstrap
+    docker compose --env-file ..\desafio-local\.env -f infra\compose.yaml up -d --build --wait
+    node infra/smoke-system.mjs
 
-O PostgreSQL cria os papéis no primeiro início do volume. O Mongo bootstrap pode ser repetido: atualiza o validator, garante índices e usuários, e usa upsert para preservar produtos existentes. Testes de integração devem usar bancos e credenciais isolados.
+O PostgreSQL cria os papéis e o banco separado `orders_test` no primeiro início do volume. O Mongo bootstrap pode ser repetido: atualiza o validator, garante índices e usuários, e usa upsert para preservar produtos existentes. Os testes de integração usam exclusivamente `orders_test`.
 
 Para parar os contêineres sem apagar os dados:
 
     docker compose --env-file ..\desafio-local\.env -f infra\compose.yaml down
 
-Os serviços de API ainda são executados e verificados individualmente em suas pastas de projeto. Nenhum arquivo de credencial ou material de referência deve ser copiado para o Git.
+Para executar os testes de integração no Windows, rode `infra/test-orders.ps1`; no Linux ou macOS, exporte os dois URLs `ORDERS_TEST_*` e rode `bash infra/test-orders.sh`. Nenhum arquivo de credencial ou material de referência deve ser copiado para o Git.

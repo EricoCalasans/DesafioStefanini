@@ -45,6 +45,10 @@ venv/
 /docker-data/
 /test-results/
 /playwright-report/
+/.vite/
+/.turbo/
+*.log
+*.pid
 /npm-debug.log*
 /yarn-debug.log*
 /yarn-error.log*

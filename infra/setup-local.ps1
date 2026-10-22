@@ -35,6 +35,8 @@ $content = @(
     "CATALOG_SEED_PASSWORD=$catalogSeed",
     "ORDERS_DATABASE_URL=postgresql://orders_runtime:$ordersRuntime@postgres:5432/orders",
     "ORDERS_MIGRATION_DATABASE_URL=postgresql://orders_migrator:$ordersMigrator@postgres:5432/orders",
+    "ORDERS_TEST_DATABASE_URL=postgresql://orders_runtime:$ordersRuntime@postgres:5432/orders_test",
+    "ORDERS_TEST_MIGRATION_DATABASE_URL=postgresql://orders_migrator:$ordersMigrator@postgres:5432/orders_test",
     "CATALOG_MONGODB_URI=mongodb://catalog_runtime:$catalogRuntime@mongo:27017/catalog?authSource=catalog",
     'CATALOG_MONGODB_DATABASE=catalog',
     "MONGO_ADMIN_URI=mongodb://mongo_root:$mongoRoot@mongo:27017/admin?authSource=admin",
@@ -47,4 +49,4 @@ $content = @(
 
 [System.IO.File]::WriteAllText($envFile, ($content -join [Environment]::NewLine) + [Environment]::NewLine, [System.Text.UTF8Encoding]::new($false))
 Write-Output "Local development secrets were generated outside the repository at $envFile."
-Write-Output ('Start the databases with: docker compose --env-file "{0}" -f "{1}" up -d --wait' -f $envFile, $composeFile)
+Write-Output ('Start the databases and APIs with: docker compose --env-file "{0}" -f "{1}" up -d --build --wait' -f $envFile, $composeFile)
