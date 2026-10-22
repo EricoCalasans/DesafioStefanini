@@ -1,0 +1,253 @@
+openapi: 3.1.0
+info:
+  title: Componentes comuns do desafio COE Leader
+  version: 1.0.0
+  description: Componentes compartilhados de contrato; não representam um terceiro serviço.
+paths: {}
+components:
+  parameters:
+    CorrelationId:
+      name: X-Correlation-Id
+      in: header
+      required: false
+      description: UUID de correlação. Ausente ou inválido será substituído por novo UUID.
+      schema:
+        type: string
+        format: uuid
+    Page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 1000000
+        default: 1
+    PageSize:
+      name: pageSize
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+  headers:
+    CorrelationId:
+      description: Identificador propagado entre serviços e logs.
+      required: true
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    ProductId:
+      type: string
+      format: uuid
+      pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+      examples: [11111111-1111-4111-8111-111111111111]
+    MoneyCents:
+      type: integer
+      minimum: 0
+      maximum: 1000000000000
+      description: Inteiro em centavos de BRL; sem ponto flutuante.
+    Pagination:
+      type: object
+      additionalProperties: false
+      required: [page, pageSize, totalItems, totalPages]
+      properties:
+        page:
+          type: integer
+          minimum: 1
+          maximum: 1000000
+        pageSize:
+          type: integer
+          minimum: 1
+          maximum: 100
+        totalItems:
+          type: integer
+          minimum: 0
+        totalPages:
+          type: integer
+          minimum: 0
+          description: Zero quando totalItems é zero.
+    FieldError:
+      type: object
+      additionalProperties: false
+      required: [field, code, message]
+      properties:
+        field:
+          type: string
+        code:
+          type: string
+        message:
+          type: string
+        productId:
+          $ref: '#/components/schemas/ProductId'
+    Problem:
+      type: object
+      additionalProperties: false
+      required: [type, title, status, detail, instance, code, traceId]
+      properties:
+        type:
+          type: string
+          const: about:blank
+        title:
+          type: string
+          minLength: 1
+        status:
+          type: integer
+          minimum: 400
+          maximum: 599
+        detail:
+          type: string
+          minLength: 1
+        instance:
+          type: string
+          description: Caminho da requisição, sem query sensível.
+        code:
+          type: string
+          enum:
+            - INVALID_JSON
+            - VALIDATION_ERROR
+            - PAYLOAD_TOO_LARGE
+            - UNSUPPORTED_MEDIA_TYPE
+            - DUPLICATE_PRODUCT_IDS
+            - PRODUCTS_NOT_ORDERABLE
+            - PRODUCT_NOT_FOUND
+            - ORDER_NOT_FOUND
+            - ORDER_AMOUNT_LIMIT_EXCEEDED
+            - CATALOG_INVALID_RESPONSE
+            - CATALOG_UNAVAILABLE
+            - CATALOG_TIMEOUT
+            - PERSISTENCE_UNAVAILABLE
+            - INTERNAL_ERROR
+        traceId:
+          type: string
+          format: uuid
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/FieldError'
+    Health:
+      type: object
+      additionalProperties: false
+      required: [status, service, checks]
+      properties:
+        status:
+          type: string
+          enum: [UP, DOWN]
+        service:
+          type: string
+          enum: [orders, catalog]
+        checks:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required: [name, status]
+            properties:
+              name:
+                type: string
+                enum: [postgres, mongo]
+              status:
+                type: string
+                enum: [UP, DOWN]
+  responses:
+    BadRequest:
+      description: JSON, estrutura, campo ou parâmetro inválido.
+      headers:
+        X-Correlation-Id:
+          $ref: '#/components/headers/CorrelationId'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+    NotFound:
+      description: Recurso individual inexistente.
+      headers:
+        X-Correlation-Id:
+          $ref: '#/components/headers/CorrelationId'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+    TooLarge:
+      description: Corpo acima de 64 KiB.
+      headers:
+        X-Correlation-Id:
+          $ref: '#/components/headers/CorrelationId'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+    UnsupportedMedia:
+      description: Use application/json no corpo da requisição.
+      headers:
+        X-Correlation-Id:
+          $ref: '#/components/headers/CorrelationId'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+    Unprocessable:
+      description: Entrada estruturalmente válida viola regra de negócio.
+      headers:
+        X-Correlation-Id:
+          $ref: '#/components/headers/CorrelationId'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+    BadGateway:
+      description: Resposta inesperada ou inválida do Catálogo.
+      headers:
+        X-Correlation-Id:
+          $ref: '#/components/headers/CorrelationId'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+    Unavailable:
+      description: Serviço ou persistência indisponível; detalhes internos omitidos.
+      headers:
+        X-Correlation-Id:
+          $ref: '#/components/headers/CorrelationId'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+    GatewayTimeout:
+      description: Consulta HTTP ao Catálogo excedeu o timeout.
+      headers:
+        X-Correlation-Id:
+          $ref: '#/components/headers/CorrelationId'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+    InternalError:
+      description: Falha inesperada sanitizada.
+      headers:
+        X-Correlation-Id:
+          $ref: '#/components/headers/CorrelationId'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+    Healthy:
+      description: Processo ou dependências locais disponíveis.
+      headers:
+        X-Correlation-Id:
+          $ref: '#/components/headers/CorrelationId'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Health'
+    NotReady:
+      description: Dependência local essencial indisponível.
+      headers:
+        X-Correlation-Id:
+          $ref: '#/components/headers/CorrelationId'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Health'

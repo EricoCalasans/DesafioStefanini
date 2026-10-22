@@ -1,0 +1,78 @@
+{
+  "kind": "documentation-review",
+  "scope": "Specs, contratos e exemplos; nenhuma aplicação executada",
+  "date": "2026-10-21",
+  "tools": {
+    "openapi-spec-validator": "0.9.0",
+    "PyYAML": "6.0.3",
+    "jsonschema": "4.26.0"
+  },
+  "checks": [
+    {
+      "check": "OpenAPI catalogo.openapi.yaml",
+      "result": "pass",
+      "detail": "OpenAPI 3.1 válido"
+    },
+    {
+      "check": "OpenAPI common.openapi.yaml",
+      "result": "pass",
+      "detail": "OpenAPI 3.1 válido"
+    },
+    {
+      "check": "OpenAPI pedidos.openapi.yaml",
+      "result": "pass",
+      "detail": "OpenAPI 3.1 válido"
+    },
+    {
+      "check": "Links locais Markdown",
+      "result": "pass",
+      "detail": "151 links locais com destino existente"
+    },
+    {
+      "check": "IDs e contagem de artefatos",
+      "result": "pass",
+      "detail": "R01-R53, Q01-Q50 e T01-T45 sem lacunas ou duplicações; 9 specs"
+    },
+    {
+      "check": "Exemplo criar-pedido.json",
+      "result": "pass",
+      "detail": "criar-pedido.json compatível com CreateOrder"
+    },
+    {
+      "check": "Exemplo pedido.json",
+      "result": "pass",
+      "detail": "pedido.json compatível com Order"
+    },
+    {
+      "check": "Exemplo consulta-produtos.json",
+      "result": "pass",
+      "detail": "consulta-produtos.json compatível com ProductQuery"
+    },
+    {
+      "check": "Exemplo produtos.json",
+      "result": "pass",
+      "detail": "produtos.json compatível com ProductQueryResult"
+    },
+    {
+      "check": "Exemplo problema-produto-inativo.json",
+      "result": "pass",
+      "detail": "problema-produto-inativo.json compatível com Problem"
+    },
+    {
+      "check": "Semântica do exemplo canônico",
+      "result": "pass",
+      "detail": "Conjuntos, preços, linhas, subtotal, desconto e total consistentes"
+    },
+    {
+      "check": "Contratos - exemplos negativos",
+      "result": "pass",
+      "detail": "6 exemplos inválidos recusados pelo schema; não é teste do servidor"
+    },
+    {
+      "check": "Aritmética da proposta",
+      "result": "pass",
+      "detail": "204 h base +36 h reserva =240 h; 120 h/pessoa; preço hipotético R$49.500 reconciliado"
+    }
+  ],
+  "result": "pass"
+}

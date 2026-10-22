@@ -1,0 +1,343 @@
+openapi: 3.1.0
+info:
+  title: Pedidos - Desafio COE Leader
+  version: 1.0.0
+  description: >-
+    Contrato proposto, ainda não implementado. BRL em centavos, preço obtido do Catálogo.
+    Campos desconhecidos e query params extras são rejeitados. Não há idempotência de POST.
+    X-Correlation-Id é devolvido nas respostas tratadas pela aplicação.
+servers:
+  - url: http://localhost:3000
+security: []
+tags:
+  - name: Orders
+  - name: Operations
+paths:
+  /api/v1/orders:
+    post:
+      operationId: createOrder
+      tags: [Orders]
+      summary: Criar pedido com produtos e preços validados no Catálogo
+      description: >-
+        De 1 a 100 produtos distintos. Duplicados retornam 422.
+        Não aceita preço, desconto ou status do cliente. Responde depois do commit.
+      parameters:
+        - $ref: './common.openapi.yaml#/components/parameters/CorrelationId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrder'
+            example:
+              customer:
+                name: Cliente Exemplo
+                email: cliente@example.com
+              items:
+                - productId: 11111111-1111-4111-8111-111111111111
+                  quantity: 2
+                - productId: 22222222-2222-4222-8222-222222222222
+                  quantity: 1
+      responses:
+        '201':
+          description: Pedido integralmente persistido.
+          headers:
+            Location:
+              required: true
+              description: Caminho da consulta do recurso criado.
+              schema:
+                type: string
+                pattern: '^/api/v1/orders/[0-9a-f-]{36}$'
+            X-Correlation-Id:
+              $ref: './common.openapi.yaml#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          $ref: './common.openapi.yaml#/components/responses/BadRequest'
+        '413':
+          $ref: './common.openapi.yaml#/components/responses/TooLarge'
+        '415':
+          $ref: './common.openapi.yaml#/components/responses/UnsupportedMedia'
+        '422':
+          $ref: './common.openapi.yaml#/components/responses/Unprocessable'
+        '502':
+          $ref: './common.openapi.yaml#/components/responses/BadGateway'
+        '503':
+          $ref: './common.openapi.yaml#/components/responses/Unavailable'
+        '504':
+          $ref: './common.openapi.yaml#/components/responses/GatewayTimeout'
+        '500':
+          $ref: './common.openapi.yaml#/components/responses/InternalError'
+    get:
+      operationId: listOrders
+      tags: [Orders]
+      summary: Listar resumos por criação decrescente e ID decrescente
+      parameters:
+        - $ref: './common.openapi.yaml#/components/parameters/CorrelationId'
+        - $ref: './common.openapi.yaml#/components/parameters/Page'
+        - $ref: './common.openapi.yaml#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: Página e contagem no mesmo snapshot SQL, inclusive vazia.
+          headers:
+            X-Correlation-Id:
+              $ref: './common.openapi.yaml#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderPage'
+        '400':
+          $ref: './common.openapi.yaml#/components/responses/BadRequest'
+        '503':
+          $ref: './common.openapi.yaml#/components/responses/Unavailable'
+        '500':
+          $ref: './common.openapi.yaml#/components/responses/InternalError'
+  /api/v1/orders/{orderId}:
+    get:
+      operationId: getOrder
+      tags: [Orders]
+      summary: Consultar pedido completo sem acessar o Catálogo
+      parameters:
+        - $ref: './common.openapi.yaml#/components/parameters/CorrelationId'
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Valores e fotografias originais do pedido.
+          headers:
+            X-Correlation-Id:
+              $ref: './common.openapi.yaml#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          $ref: './common.openapi.yaml#/components/responses/BadRequest'
+        '404':
+          $ref: './common.openapi.yaml#/components/responses/NotFound'
+        '503':
+          $ref: './common.openapi.yaml#/components/responses/Unavailable'
+        '500':
+          $ref: './common.openapi.yaml#/components/responses/InternalError'
+  /health/live:
+    get:
+      operationId: ordersLive
+      tags: [Operations]
+      summary: Verificar somente o processo
+      responses:
+        '200':
+          $ref: './common.openapi.yaml#/components/responses/Healthy'
+  /health/ready:
+    get:
+      operationId: ordersReady
+      tags: [Operations]
+      summary: Verificar PostgreSQL; não bloquear GETs pela saúde remota do Catálogo
+      responses:
+        '200':
+          $ref: './common.openapi.yaml#/components/responses/Healthy'
+        '503':
+          $ref: './common.openapi.yaml#/components/responses/NotReady'
+components:
+  schemas:
+    Customer:
+      type: object
+      additionalProperties: false
+      required: [name, email]
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 120
+          pattern: '^[^\u0000-\u001F\u007F]+$'
+          description: Trim antes da validação; espaços internos preservados.
+        email:
+          type: string
+          format: email
+          minLength: 3
+          maxLength: 254
+          pattern: '^[\x21-\x7E]+$'
+          description: E-mail ASCII; trim antes da validação, caixa preservada.
+    CreateOrderItem:
+      type: object
+      additionalProperties: false
+      required: [productId, quantity]
+      properties:
+        productId:
+          $ref: './common.openapi.yaml#/components/schemas/ProductId'
+        quantity:
+          type: integer
+          minimum: 1
+          maximum: 10000
+    CreateOrder:
+      type: object
+      additionalProperties: false
+      required: [customer, items]
+      properties:
+        customer:
+          $ref: '#/components/schemas/Customer'
+        items:
+          type: array
+          minItems: 1
+          maxItems: 100
+          description: IDs devem ser distintos, regra semântica com erro 422.
+          items:
+            $ref: '#/components/schemas/CreateOrderItem'
+    DiscountPolicy:
+      type: object
+      additionalProperties: false
+      required: [ruleId, enabled, thresholdCents, rateBps, rounding]
+      properties:
+        ruleId:
+          type: string
+          minLength: 1
+          maxLength: 64
+          pattern: '^[A-Za-z0-9_-]+$'
+        enabled:
+          type: boolean
+        thresholdCents:
+          $ref: './common.openapi.yaml#/components/schemas/MoneyCents'
+        rateBps:
+          type: integer
+          minimum: 0
+          maximum: 10000
+        rounding:
+          type: string
+          const: HALF_UP
+    Discount:
+      type: object
+      additionalProperties: false
+      required: [applied, amountCents, policy]
+      properties:
+        applied:
+          type: boolean
+          description: Verdadeiro apenas se amountCents for maior que zero.
+        amountCents:
+          $ref: './common.openapi.yaml#/components/schemas/MoneyCents'
+        policy:
+          $ref: '#/components/schemas/DiscountPolicy'
+    OrderItem:
+      type: object
+      additionalProperties: false
+      required: [lineNumber, productId, sku, productName, unitPriceCents, quantity, lineSubtotalCents, priceVersion, productUpdatedAt]
+      properties:
+        lineNumber:
+          type: integer
+          minimum: 1
+          maximum: 100
+        productId:
+          $ref: './common.openapi.yaml#/components/schemas/ProductId'
+        sku:
+          type: string
+          minLength: 1
+          maxLength: 40
+          pattern: '^[^\u0000-\u001F\u007F]+$'
+        productName:
+          type: string
+          minLength: 1
+          maxLength: 120
+          pattern: '^[^\u0000-\u001F\u007F]+$'
+        unitPriceCents:
+          type: integer
+          minimum: 1
+          maximum: 100000000
+        quantity:
+          type: integer
+          minimum: 1
+          maximum: 10000
+        lineSubtotalCents:
+          type: integer
+          minimum: 1
+          maximum: 1000000000000
+        priceVersion:
+          type: integer
+          minimum: 1
+          maximum: 2147483647
+        productUpdatedAt:
+          type: string
+          format: date-time
+    Order:
+      type: object
+      additionalProperties: false
+      required: [id, customer, items, currency, subtotalCents, discount, totalCents, status, pricingObservedAt, createdAt]
+      properties:
+        id:
+          type: string
+          format: uuid
+        customer:
+          $ref: '#/components/schemas/Customer'
+        items:
+          type: array
+          minItems: 1
+          maxItems: 100
+          items:
+            $ref: '#/components/schemas/OrderItem'
+        currency:
+          type: string
+          const: BRL
+        subtotalCents:
+          type: integer
+          minimum: 1
+          maximum: 1000000000000
+        discount:
+          $ref: '#/components/schemas/Discount'
+        totalCents:
+          $ref: './common.openapi.yaml#/components/schemas/MoneyCents'
+        status:
+          type: string
+          const: CREATED
+        pricingObservedAt:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+    OrderSummary:
+      type: object
+      additionalProperties: false
+      required: [id, customer, currency, subtotalCents, discountAmountCents, totalCents, status, itemCount, createdAt]
+      properties:
+        id:
+          type: string
+          format: uuid
+        customer:
+          $ref: '#/components/schemas/Customer'
+        currency:
+          type: string
+          const: BRL
+        subtotalCents:
+          type: integer
+          minimum: 1
+          maximum: 1000000000000
+        discountAmountCents:
+          $ref: './common.openapi.yaml#/components/schemas/MoneyCents'
+        totalCents:
+          $ref: './common.openapi.yaml#/components/schemas/MoneyCents'
+        status:
+          type: string
+          const: CREATED
+        itemCount:
+          type: integer
+          minimum: 1
+          maximum: 100
+          description: Número de linhas distintas, não soma de quantidades.
+        createdAt:
+          type: string
+          format: date-time
+    OrderPage:
+      type: object
+      additionalProperties: false
+      required: [data, meta]
+      properties:
+        data:
+          type: array
+          maxItems: 100
+          items:
+            $ref: '#/components/schemas/OrderSummary'
+        meta:
+          $ref: './common.openapi.yaml#/components/schemas/Pagination'

@@ -1,0 +1,16 @@
+# Intermediários de leitura/validação, sem valor de entrega.
+/tmp/
+
+# Material de referência confidencial fornecido ao candidato.
+/coe-leader-desenvolvimento-candidatura-desafio-tecnico (1).pdf
+
+# Segredos e saídas transitórias da futura implementação.
+.env
+.env.*
+!.env.example
+node_modules/
+dist/
+coverage/
+TestResults/
+bin/
+obj/

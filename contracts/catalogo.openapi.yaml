@@ -1,0 +1,209 @@
+openapi: 3.1.0
+info:
+  title: Catálogo - Desafio COE Leader
+  version: 1.0.0
+  description: >-
+    Contrato proposto, ainda não implementado. BRL em centavos.
+    Entradas desconhecidas, inclusive query params, são rejeitadas.
+    X-Correlation-Id é devolvido nas respostas tratadas pela aplicação.
+servers:
+  - url: http://localhost:8080
+security: []
+tags:
+  - name: Products
+  - name: Operations
+paths:
+  /api/v1/products:
+    get:
+      operationId: listProducts
+      tags: [Products]
+      summary: Listar produtos ativos por ID crescente
+      parameters:
+        - $ref: './common.openapi.yaml#/components/parameters/CorrelationId'
+        - $ref: './common.openapi.yaml#/components/parameters/Page'
+        - $ref: './common.openapi.yaml#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: Página, inclusive vazia. Contagem e busca não garantem snapshot sob escrita concorrente.
+          headers:
+            X-Correlation-Id:
+              $ref: './common.openapi.yaml#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductPage'
+        '400':
+          $ref: './common.openapi.yaml#/components/responses/BadRequest'
+        '503':
+          $ref: './common.openapi.yaml#/components/responses/Unavailable'
+        '500':
+          $ref: './common.openapi.yaml#/components/responses/InternalError'
+  /api/v1/products/{productId}:
+    get:
+      operationId: getProduct
+      tags: [Products]
+      summary: Consultar produto existente, inclusive inativo
+      parameters:
+        - $ref: './common.openapi.yaml#/components/parameters/CorrelationId'
+        - name: productId
+          in: path
+          required: true
+          schema:
+            $ref: './common.openapi.yaml#/components/schemas/ProductId'
+      responses:
+        '200':
+          description: Produto atual.
+          headers:
+            X-Correlation-Id:
+              $ref: './common.openapi.yaml#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          $ref: './common.openapi.yaml#/components/responses/BadRequest'
+        '404':
+          $ref: './common.openapi.yaml#/components/responses/NotFound'
+        '503':
+          $ref: './common.openapi.yaml#/components/responses/Unavailable'
+        '500':
+          $ref: './common.openapi.yaml#/components/responses/InternalError'
+  /api/v1/products/query:
+    post:
+      operationId: queryProducts
+      tags: [Products]
+      summary: Consultar preços em lote sem criar recursos
+      description: >-
+        Uma busca lógica indexada em MongoDB. Encontrados incluem inativos.
+        Cada ID solicitado pertence a exatamente um dos conjuntos retornados.
+        IDs duplicados na entrada geram 422.
+      parameters:
+        - $ref: './common.openapi.yaml#/components/parameters/CorrelationId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductQuery'
+            example:
+              productIds:
+                - 11111111-1111-4111-8111-111111111111
+                - 22222222-2222-4222-8222-222222222222
+      responses:
+        '200':
+          description: Produtos e ausentes em ordem crescente de ID, no instante observado.
+          headers:
+            X-Correlation-Id:
+              $ref: './common.openapi.yaml#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductQueryResult'
+        '400':
+          $ref: './common.openapi.yaml#/components/responses/BadRequest'
+        '413':
+          $ref: './common.openapi.yaml#/components/responses/TooLarge'
+        '415':
+          $ref: './common.openapi.yaml#/components/responses/UnsupportedMedia'
+        '422':
+          $ref: './common.openapi.yaml#/components/responses/Unprocessable'
+        '503':
+          $ref: './common.openapi.yaml#/components/responses/Unavailable'
+        '500':
+          $ref: './common.openapi.yaml#/components/responses/InternalError'
+  /health/live:
+    get:
+      operationId: catalogLive
+      tags: [Operations]
+      summary: Verificar somente o processo
+      responses:
+        '200':
+          $ref: './common.openapi.yaml#/components/responses/Healthy'
+  /health/ready:
+    get:
+      operationId: catalogReady
+      tags: [Operations]
+      summary: Verificar conexão com MongoDB
+      responses:
+        '200':
+          $ref: './common.openapi.yaml#/components/responses/Healthy'
+        '503':
+          $ref: './common.openapi.yaml#/components/responses/NotReady'
+components:
+  schemas:
+    Product:
+      type: object
+      additionalProperties: false
+      required: [id, sku, name, currency, priceCents, active, priceVersion, updatedAt]
+      properties:
+        id:
+          $ref: './common.openapi.yaml#/components/schemas/ProductId'
+        sku:
+          type: string
+          minLength: 1
+          maxLength: 40
+          pattern: '^[^\u0000-\u001F\u007F]+$'
+        name:
+          type: string
+          minLength: 1
+          maxLength: 120
+          pattern: '^[^\u0000-\u001F\u007F]+$'
+        currency:
+          type: string
+          const: BRL
+        priceCents:
+          type: integer
+          minimum: 1
+          maximum: 100000000
+        active:
+          type: boolean
+        priceVersion:
+          type: integer
+          minimum: 1
+          maximum: 2147483647
+        updatedAt:
+          type: string
+          format: date-time
+    ProductPage:
+      type: object
+      additionalProperties: false
+      required: [data, meta]
+      properties:
+        data:
+          type: array
+          maxItems: 100
+          items:
+            $ref: '#/components/schemas/Product'
+        meta:
+          $ref: './common.openapi.yaml#/components/schemas/Pagination'
+    ProductQuery:
+      type: object
+      additionalProperties: false
+      required: [productIds]
+      properties:
+        productIds:
+          type: array
+          minItems: 1
+          maxItems: 100
+          description: Repetição é validada como regra de negócio e retorna 422.
+          items:
+            $ref: './common.openapi.yaml#/components/schemas/ProductId'
+    ProductQueryResult:
+      type: object
+      additionalProperties: false
+      required: [products, missingProductIds, observedAt]
+      properties:
+        products:
+          type: array
+          maxItems: 100
+          items:
+            $ref: '#/components/schemas/Product'
+        missingProductIds:
+          type: array
+          maxItems: 100
+          uniqueItems: true
+          items:
+            $ref: './common.openapi.yaml#/components/schemas/ProductId'
+        observedAt:
+          type: string
+          format: date-time
