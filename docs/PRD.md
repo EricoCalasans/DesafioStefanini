@@ -108,7 +108,7 @@ Frontend de negócio, autenticação de usuários, CRUD administrativo, estoque,
 | Item | Tipo | Mitigação |
 |---|---|---|
 | Candidato defender duas stacks | Premissa técnica; stack aceita em 22/10 | Exemplos pequenos e bootstrap; confirmar entendimento antes da demonstração |
-| PATH do Docker no processo atual do Codex | Ambiente local observado | Docker instalado e testado por caminho absoluto; reiniciar Codex para herdar o PATH do usuário |
+| Docker Desktop não está ativo na conferência atual | Ambiente local observado em 22/10 | CLI `29.9.2` e Compose `v5.6.0` estão no PATH, mas Docker Desktop não foi encontrado em execução e `docker info` não respondeu em 30 s; iniciar o daemon e validar antes do bootstrap |
 | Prazo real da candidatura: 23/10/2026 às 18:00, informado em 22/10 | Restrição concreta de execução | Priorizar núcleo demonstrável; não confundir com as três semanas hipotéticas nem declarar itens não executados como prontos |
 | Link da conversa e acesso ao GitHub | Dependência de entrega | Registrar como bloqueadores reais até existirem |
 | Mudança do preço entre consulta e commit | Limite de consistência | Snapshot do preço observado, sem reserva distribuída |

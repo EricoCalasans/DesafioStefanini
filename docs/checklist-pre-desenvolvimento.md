@@ -17,11 +17,12 @@
 
 - [x] Atualizar o Node para a linha 24 LTS, em versão **24.15 ou superior**, antes de gerar o projeto NestJS 12. Instalado/ativado `v24.22.1`; conferir novamente em um terminal novo após abrir o projeto.
 - [x] Instalar/verificar o **SDK .NET 10**: `dotnet --list-sdks` e `dotnet --version` confirmam `10.0.402`; versão fixada em `global.json`.
-- [x] Instalar/abrir **Docker Desktop** e confirmar que o daemon está iniciado. Docker Desktop `4.96.1` está instalado por usuário com backend WSL 2; Engine `29.9.2` está ativo.
-- [x] Conferir `docker compose version`, `docker version` e `docker info`: Compose `v5.6.0`; os três comandos responderam com sucesso. `docker compose up --help` também confirma suporte a `--wait` e `--wait-timeout`.
+- [x] Instalar e validar **Docker Desktop** em 21/10: versão `4.96.1`, instalação por usuário com backend WSL 2 e Engine `29.9.2` ativo naquela conferência.
+- [x] Validar em 21/10 `docker compose version`, `docker version` e `docker info`; Compose `v5.6.0` e suporte a `--wait`/`--wait-timeout` foram confirmados naquela conferência.
 - [x] Conferir Git com `git --version`: Git 2.44.0 instalado; repositório inicializado e histórico documental criado.
 - [x] Medir espaço em disco: C: tinha aproximadamente `0,87 GB` livres e E: `192,16 GB` na última conferência. Docker Desktop, dados WSL e plugins foram direcionados a E:; manter imagens/cache/dados ali e acompanhar o espaço baixo em C:.
-- [x] Confirmar que Docker Desktop/WSL2 inicia sem erro: o WSL `3.0.3.0` iniciou a distribuição `docker-desktop` em versão 2 e `docker info` confirmou o Engine.
+- [x] Confirmar em 21/10 que Docker Desktop/WSL2 iniciou sem erro: o WSL `3.0.3.0` iniciou a distribuição `docker-desktop` em versão 2 e `docker info` confirmou o Engine.
+- [ ] Reconfirmar o daemon antes do primeiro bootstrap. Em 22/10, o `PATH` deste processo encontrou Docker CLI `29.9.2` e `docker compose version` retornou `v5.6.0`, mas o processo Docker Desktop não foi encontrado; `docker info` não respondeu em 30 segundos.
 - [x] Verificar se as portas 3000, 8080, 5432 e 27017 estão livres: nenhuma estava em escuta na última conferência. Repetir antes do primeiro `compose up`.
 - [x] Não instalar Java para esta proposta; Java não faz parte da stack escolhida.
 
@@ -56,6 +57,7 @@ O repositório já foi inicializado na raiz. O PDF original e `tmp/` foram verif
 - [ ] Revisar os detalhes de [Pedidos](../specs/SPEC-pedidos.md) e [Catálogo](../specs/SPEC-catalogo.md), principalmente limites, cálculo e preço autoritativo.
 - [x] Validar estruturalmente os contratos REST em `contracts/`: o validador confirmou OpenAPI 3.1 e exemplos compatíveis com os schemas.
 - [ ] Candidato revisar/confirmar campos, validações, códigos de erro e exemplos dos contratos REST.
+- [ ] Candidato revisar e aceitar ou ajustar ADR 003 e ADR 004, em especial dependência síncrona do Catálogo, ausência de retry/idempotência e evidências obrigatórias de qualidade/entrega.
 - [ ] Entender o critério mais importante do Catálogo: buscar vários produtos com **uma consulta lógica em lote**, sem fazer uma chamada ao banco por item.
 - [ ] Confirmar a primeira fatia vertical: semear produtos no MongoDB, consultar catálogo por HTTP e demonstrar um pedido usando os preços retornados.
 Se a revisão do candidato mudar alguma escolha aceita, atualizar ADR/spec/contrato antes de escrever código.
@@ -91,7 +93,7 @@ Começar quando **as decisões essenciais (seção 1), as ferramentas que compil
 | Specs e contratos | Criados e revisados documentalmente; escolhas da seção 1 aceitas em 22/10 | Candidato revisar campos, erros e primeira fatia vertical |
 | Node | `v24.22.1`; arquivo `.node-version` criado | Validar em terminal novo ao iniciar o projeto |
 | .NET | SDK `10.0.402`; `dotnet --list-sdks` e `dotnet --version` confirmados; `global.json` criado | Instalar runtime e pacotes da aplicação no bootstrap |
-| Docker | Desktop `4.96.1` por usuário/WSL 2 em E:; Engine `29.9.2`; Compose `5.6.0`; daemon e `--wait` aprovados | O PATH do usuário contém `E:\Apps\DockerDesktop\resources\bin`; o processo atual do Codex ainda herdou o PATH antigo. Reiniciar o Codex para testar o comando sem caminho absoluto; `docker ps -a` confirmou que ainda não há contêineres |
+| Docker | Desktop `4.96.1`, Engine `29.9.2` e Compose `5.6.0` instalados/validados em 21/10; em 22/10 CLI e Compose foram encontrados pelo processo atual | O processo Docker Desktop não foi encontrado e `docker info` ficou sem resposta por 30 s. Iniciar Docker Desktop e reconfirmar Engine, `docker ps -a` e Compose antes do bootstrap; a última conferência sem contêineres do projeto foi em 21/10 |
 | Git | 2.44.0; `main` e `develop`; histórico documental e de preparação registrados | Criar branch de feature após revisar contrato e primeira fatia |
 | Recursos locais | C: `0,87 GB` livres; E: `192,16 GB`; portas 3000, 8080, 5432 e 27017 livres após iniciar Docker | Manter dados/imagens em E:, acompanhar C: e revalidar portas antes de subir serviços |
 | Banco/ambiente | Docker local com PostgreSQL e MongoDB confirmado em 22/10; sem banco online | Preparar Compose, volumes e papéis durante a fundação |
@@ -100,4 +102,4 @@ Começar quando **as decisões essenciais (seção 1), as ferramentas que compil
 
 O instalador colocou os plugins do Docker em `E:\DockerConfig\cli-plugins`; o caminho padrão de plugins em `.docker` é uma junção do Windows para esse diretório, porque C: não tem espaço para as cópias. Essa junção foi necessária para concluir o instalador e deixa `docker compose` disponível pelo caminho padrão.
 
-As situações desta tabela registram verificações feitas em 21/10/2026; a disponibilidade das portas e o estado do daemon podem mudar.
+As situações da tabela incluem verificações em 21 e 22/10/2026; disponibilidade de portas, espaço e estado do daemon podem mudar.
