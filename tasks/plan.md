@@ -4,7 +4,7 @@
 
 **Prazo de entrega informado pelo candidato:** 23/10/2026 às 18:00 (horário de Brasília). As 240 horas e três semanas da [proposta](../specs/SPEC-proposta.md) são um cenário técnico-comercial hipotético, não uma previsão para esta candidatura. O escopo integral não cabe no prazo real; priorizar o núcleo demonstrável, preservar requisitos obrigatórios e reportar cortes e verificações pendentes com transparência.
 
-**Gate inicial:** fechar os itens essenciais de [checklist pré-desenvolvimento](../docs/checklist-pre-desenvolvimento.md) antes do primeiro incremento. Toolchain local, Docker, raiz Git, branches iniciais, stack e regras centrais já foram preparados ou aceitos em 22/10. Falta o candidato revisar campos, erros e exemplos do contrato, confirmar a primeira fatia vertical e garantir que consegue explicar as escolhas. Depois disso, criar a primeira branch de feature e executar a etapa 1.
+**Gate inicial:** toolchain local, Docker, raiz Git, branches iniciais, stack, contratos e primeira fatia estão preparados ou decididos pelo Codex com base no PRD; o candidato delegou as decisões técnicas em 22/10. Não há revisão técnica ou instalação pendente do candidato para começar. Aguardar sua instrução explícita, então criar a primeira branch de feature e executar a etapa 1. Preparar a explicação dos trade-offs para que o candidato os consiga defender na apresentação.
 
 ## 1. Sequência e marcos verificáveis
 

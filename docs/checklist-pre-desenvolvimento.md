@@ -49,19 +49,19 @@ O repositório já foi inicializado na raiz. O PDF original e `tmp/` foram verif
 - [x] Executar `git status` antes de qualquer `git init`; a pasta ainda não era um repositório.
 - [x] Iniciar o repositório Git na raiz e criar o histórico inicial real da documentação (`e9a3660`).
 - [x] Criar as branches `main` e `develop` e documentar no README como criar `feature/<id>-descricao`, `release/*` e `hotfix/*`.
-- [ ] Criar a primeira branch de trabalho a partir de `develop` somente depois de fechar os itens obrigatórios deste checklist.
+- [ ] Criar a primeira branch de trabalho a partir de `develop` quando o candidato der a instrução explícita para iniciar o código.
 - [x] Verificar que o PDF confidencial está ignorado pelo Git e não consta no histórico local. Repetir essa checagem antes de publicar o repositório.
 
 ## 4. Fechar as especificações que guiam o primeiro código
 
-- [ ] Ler [PRD](PRD.md), [arquitetura](arquitetura.md), [ADRs](adr/README.md) e [mapa de capacidades](../CAPABILITY-MAP.md).
-- [ ] Revisar os detalhes de [Pedidos](../specs/SPEC-pedidos.md) e [Catálogo](../specs/SPEC-catalogo.md), principalmente limites, cálculo e preço autoritativo.
+- [x] Codex revisar [PRD](PRD.md), [arquitetura](arquitetura.md), [ADRs](adr/README.md) e [mapa de capacidades](../CAPABILITY-MAP.md); candidato delegou decisões técnicas ao Codex em 22/10/2026.
+- [x] Codex revisar [Pedidos](../specs/SPEC-pedidos.md) e [Catálogo](../specs/SPEC-catalogo.md), especialmente limites, cálculo e preço autoritativo.
 - [x] Validar estruturalmente os contratos REST em `contracts/`: o validador confirmou OpenAPI 3.1 e exemplos compatíveis com os schemas.
-- [ ] Candidato revisar/confirmar campos, validações, códigos de erro e exemplos dos contratos REST.
-- [ ] Candidato revisar e aceitar ou ajustar ADR 003 e ADR 004, em especial dependência síncrona do Catálogo, ausência de retry/idempotência e evidências obrigatórias de qualidade/entrega.
-- [ ] Entender o critério mais importante do Catálogo: buscar vários produtos com **uma consulta lógica em lote**, sem fazer uma chamada ao banco por item.
-- [ ] Confirmar a primeira fatia vertical: semear produtos no MongoDB, consultar catálogo por HTTP e demonstrar um pedido usando os preços retornados.
-Se a revisão do candidato mudar alguma escolha aceita, atualizar ADR/spec/contrato antes de escrever código.
+- [x] Codex revisar campos, validações, códigos de erro e exemplos dos contratos REST; a validação estrutural passou e as regras semânticas estão registradas nas specs.
+- [x] Codex aceitar ADR 003 e ADR 004 em 22/10/2026 sob delegação técnica explícita do candidato; riscos e evidências permanecem descritos nos ADRs.
+- [x] Especificar a consulta do Catálogo como **uma consulta lógica em lote**, sem uma chamada ao banco por item.
+- [x] Definir a primeira fatia vertical: semear produtos no MongoDB, consultar Catálogo por HTTP e demonstrar pedido com os preços retornados.
+O candidato não precisa aprovar escolhas técnicas antes do código; deverá receber explicação dos principais trade-offs para conseguir defendê-los na apresentação.
 
 ## 5. Definir o ambiente local de dados
 
@@ -86,21 +86,21 @@ Se a revisão do candidato mudar alguma escolha aceita, atualizar ADR/spec/contr
 
 ## Critério para iniciar o primeiro código
 
-Começar quando **as decisões essenciais (seção 1), as ferramentas que compilam/executam (seção 2), a raiz Git segura (seção 3) e o primeiro contrato/fatia (seção 4)** estiverem confirmados. As demais seções podem fechar junto com o bootstrap, mas ninguém deve construir contra stack, contrato ou regra que esteja em dúvida. A primeira execução de Compose e da CI torna-se o marco de saída da etapa de fundação.
+As decisões essenciais, a toolchain, a raiz Git segura, os contratos e a primeira fatia estão preparados ou decididos pelo Codex sob delegação do candidato. O único bloqueio para iniciar o código é a instrução explícita do candidato. `.env.example`, lockfiles das aplicações, Compose, volumes, papéis, seeds, migrations e CI pertencem ao bootstrap após essa instrução.
 
 ## Situação observada
 
 | Item | Situação na última conferência | Próxima ação |
 |---|---|---|
-| Specs e contratos | Criados e revisados documentalmente; escolhas da seção 1 aceitas em 22/10 | Candidato revisar campos, erros e primeira fatia vertical |
+| Specs e contratos | Criados, validados e revisados pelo Codex; decisões técnicas delegadas em 22/10 | Aguardar instrução para iniciar; preparar explicação dos trade-offs para a apresentação |
 | Node | `v24.22.1`; arquivo `.node-version` criado | Validar em terminal novo ao iniciar o projeto |
 | .NET | SDK `10.0.402` e runtime ASP.NET Core `10.0.13`; `global.json` criado | Restaurar e testar pacotes da aplicação no bootstrap |
 | Docker | Desktop `4.96.1`, Engine `29.9.2` e Compose `5.6.0` ativos/validados em 22/10; imagens `postgres:17.11` e `mongo:8.0.34-noble` baixadas; nenhum contêiner do projeto | Revalidar portas e saúde antes de `compose up`; criar Compose, volumes e papéis durante a fundação |
-| Git | 2.44.0; `main` e `develop`; histórico documental e de preparação registrados | Criar branch de feature após revisar contrato e primeira fatia |
+| Git | 2.44.0; `main` e `develop`; histórico documental e de preparação registrados | Criar branch de feature após instrução explícita para começar |
 | Recursos locais | C: `50,44 GB` livres; E: `210,23 GB` em 22/10; portas 3000, 8080, 5432 e 27017 estavam livres na última medição | Manter dados/imagens em E:, acompanhar C: e revalidar portas antes de subir serviços |
 | Banco/ambiente | Docker local com PostgreSQL e MongoDB confirmado em 22/10; sem banco online | Preparar Compose, volumes e papéis durante a fundação |
 | Prazo da candidatura | 23/10/2026 às 18:00, horário de Brasília | Priorizar entrega; três semanas seguem apenas na proposta hipotética |
-| Aplicações e testes de sistema | Ainda não iniciados | Começar após fechar o critério acima |
+| Aplicações e testes de sistema | Ainda não iniciados | Começar somente após instrução explícita do candidato |
 
 O instalador colocou os plugins do Docker em `E:\DockerConfig\cli-plugins`; o caminho padrão de plugins em `.docker` é uma junção do Windows para esse diretório, porque C: não tem espaço para as cópias. Essa junção foi necessária para concluir o instalador e deixa `docker compose` disponível pelo caminho padrão.
 

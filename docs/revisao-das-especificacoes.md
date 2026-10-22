@@ -1,6 +1,6 @@
 # Revisão das especificações
 
-**Data:** 21/10/2026. **Revisor:** assistente Codex, na mesma atividade de elaboração. **Status:** revisão documental concluída após correções; validação humana do candidato pendente. Não houve revisor externo, execução da aplicação ou aceite da banca.
+**Data:** 21/10/2026, atualizada em 22/10/2026. **Revisor:** assistente Codex, na mesma atividade de elaboração. **Status:** revisão documental concluída após correções; o candidato delegou ao Codex as decisões técnicas em 22/10. Não houve revisor externo, execução da aplicação ou aceite da banca.
 
 ## 1. Escopo da revisão
 
@@ -63,7 +63,7 @@ As funcionalidades do núcleo estão especificadas com objetivo, stack, estrutur
 |---|---|---|
 | Stack, banco local e regras centrais | Aceitos pelo candidato em 22/10/2026; ADR 001/002 atualizados | Decisão fechada; candidato ainda deve conseguir defender as escolhas |
 | Prazo real da candidatura | 23/10/2026 às 18:00 (horário de Brasília), informado pelo candidato em 22/10 | Priorizar imediatamente; 240 h/3 semanas continuam sendo cenário hipotético, não calendário desta entrega |
-| Revisão do contrato e primeira fatia vertical | Ainda aguardando validação do candidato | Antes da primeira branch de feature |
+| Revisão do contrato e primeira fatia vertical | Revisadas pelo Codex; o candidato delegou as decisões técnicas em 22/10 | Sem bloqueio técnico; candidato deve estudar os trade-offs antes da apresentação |
 | Toolchain local: Node, SDK .NET e Docker | Node `24.22.1`, SDK `10.0.402`/runtime `10.0.13`, Engine `29.9.2` e Compose `v5.6.0` confirmados em 22/10; imagens de banco baixadas | Escolher/lockar patches exatos das dependências de aplicação e imagens de runtime/build durante o bootstrap; revalidar portas |
 | Patches/driver C# exatos e lockfiles | Compatibilidade real do conjunto | Bootstrap, com build/teste |
 | Repositório GitHub e acessos | Entrega acessível | Preparação/fechamento |
@@ -72,7 +72,7 @@ As funcionalidades do núcleo estão especificadas com objetivo, stack, estrutur
 | Conta/orçamento/rede de cloud | Apenas extensão de deploy real | Antes de provisionar |
 | Testes e artefatos finais | Comprovação da implementação | Durante construção e release |
 
-As decisões aceitas estão registradas nos ADRs 001 e 002; os itens ainda pendentes são revisões, acessos, implementação e evidências. A documentação orienta a próxima etapa, mas a revisão do contrato e da primeira fatia ainda deve ocorrer antes da branch de feature.
+As decisões 001-004 estão registradas nos ADRs: o candidato aceitou 001/002 e delegou as demais decisões técnicas ao Codex em 22/10; o Codex revisou e aceitou 003/004. Permanecem pendentes acesso ao GitHub para publicação, implementação e evidências; SAI APP 3.0 e cloud são condicionais. A revisão do contrato e da primeira fatia não bloqueia a branch de feature.
 
 ## 6. Como reproduzir a validação documental
 

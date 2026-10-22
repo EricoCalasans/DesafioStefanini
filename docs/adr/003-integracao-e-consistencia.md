@@ -1,6 +1,6 @@
 # ADR 003 - Integração e consistência
 
-**Status:** proposto. **Data:** 21/10/2026.
+**Status:** aceito em 22/10/2026 pelo Codex, sob delegação técnica explícita do candidato. **Data da decisão:** 22/10/2026. **Elaborado:** 21/10/2026.
 
 **Contexto:** preço e item precisam ser validados na criação, evitando consulta por item; os bancos pertencem a serviços independentes.
 
@@ -11,3 +11,5 @@
 **Consequências:** criação depende da disponibilidade do Catálogo; erros são explicitados por 502/503/504. Não há garantia de que o preço atual permaneceu igual entre a leitura e o commit. Não há retry automático de criação nem garantia de idempotência; timeout após commit pode exigir consulta pelo ID se o cliente já o recebeu.
 
 **Verificação:** contador de chamada HTTP, busca única com `$in`, cenários de falha e teste de histórico independente do fornecedor.
+
+**Aceite registrado:** o candidato autorizou o Codex a tomar as decisões técnicas com base no PRD. O risco de POST sem retry/idempotência e a dependência síncrona do Catálogo serão explicados ao candidato antes da apresentação; isso não bloqueia o início do código.
