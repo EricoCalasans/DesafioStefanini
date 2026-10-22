@@ -83,20 +83,19 @@ var filter = Builders<ProductDocument>.Filter.In(p => p.Id, productIds);
 var products = await collection.Find(filter).ToListAsync(cancellationToken);
 ```
 
-## 7. Comandos futuros
+## 7. Comandos
 
-Executados da raiz, após implementação e pré-requisitos:
+Executados dentro do projeto independente de Catálogo:
 
-```powershell
-dotnet restore apps/catalog/Catalog.sln --locked-mode
-dotnet build apps/catalog/Catalog.sln --configuration Release --no-restore
-dotnet test apps/catalog/Catalog.sln --configuration Release --no-build
-dotnet format apps/catalog/Catalog.sln --verify-no-changes --no-restore
-dotnet run --project apps/catalog/Catalog.Api
-docker compose run --rm catalog-init
-```
+    Push-Location catalogo-dotnet
+    dotnet restore Catalog.sln --locked-mode
+    dotnet build Catalog.sln --configuration Release --no-restore
+    dotnet test Catalog.sln --configuration Release --no-build
+    dotnet format Catalog.sln --verify-no-changes --no-restore
+    dotnet run --project Catalog.Api
+    Pop-Location
 
-`catalog-init` é serviço de inicialização proposto, não endpoint público. A solução e os projetos ainda serão criados.
+O serviço `mongo-bootstrap` em `infra/compose.yaml` é inicialização compartilhada, não endpoint público. O projeto guarda sua solução e configuração; o escopo funcional do Catálogo ainda precisa ser completado e validado antes da entrega.
 
 ## 8. Critérios de sucesso e testes
 

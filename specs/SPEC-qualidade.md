@@ -6,7 +6,7 @@
 
 Provar regras, persistência, integração e requisitos de avaliação por evidências reproduzíveis. Vitest para TypeScript/ESM; xUnit para C#; PostgreSQL e MongoDB reais em testes de adaptadores; scripts de sistema em TypeScript executando HTTP contra os dois processos. Testes de contrato validam OpenAPI e semântica além do esquema.
 
-Unitários ficam em `apps/orders/test/unit` e `apps/catalog/Catalog.Tests.Unit`; integrações nos diretórios/projetos equivalentes; sistema em `tests/system`; experimentos de desempenho em `tests/performance`. Testes recebem configurações/portas isoladas e nunca apagam a base do candidato.
+Unitários ficam em `pedidos-typescript/test/unit` e `catalogo-dotnet/Catalog.Tests.Unit`; integrações nos diretórios/projetos equivalentes; testes de sistema e desempenho ficam dentro de `pedidos-typescript/test/system` e `pedidos-typescript/test/performance`, pois o fluxo HTTP entre serviços é orquestrado pelo projeto TypeScript. Cada suíte recebe configuração e portas isoladas e nunca apaga a base do candidato.
 
 Relógio e UUID controláveis nos testes de domínio. Adapters reais são verificados sem mock de banco. Stubs do Catálogo são reservados para falhas que seria difícil produzir com o fornecedor real. Pelo menos um fluxo completo usa as duas aplicações e os dois bancos.
 
@@ -98,15 +98,17 @@ Oráculos independentes: exemplos de centavos com cálculo manual, tabelas de bo
 
 ## 8. Comandos futuros e evidências
 
-```powershell
-npm run test:orders:unit -- --coverage
-npm run test:orders:integration
-dotnet test apps/catalog/Catalog.sln --configuration Release --collect:"XPlat Code Coverage"
-npm run contracts:validate
-npm run test:contracts
-npm run test:system
-npm run test:performance
-```
+    Push-Location pedidos-typescript
+    npm test -- --coverage
+    npm run test:integration
+    npm run test:contracts
+    npm run test:system
+    npm run test:performance
+    Pop-Location
+    Push-Location catalogo-dotnet
+    dotnet test Catalog.sln --configuration Release --collect:"XPlat Code Coverage"
+    Pop-Location
+    python docs/validation/validar-especificacoes.py
 
 Saída mínima: commit/tag, data, comando, ambiente, resumo e artefato/log; falhas e limitações preservadas. Destino `docs/evidencias/<commit>/` ou artefato do CI vinculado. Não versionar dumps com PII nem arquivos gigantes de cobertura sem necessidade. A [revisão atual das specs](../docs/revisao-das-especificacoes.md) é evidência documental, não execução desta matriz.
 

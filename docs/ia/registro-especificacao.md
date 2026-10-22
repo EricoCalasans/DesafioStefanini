@@ -45,3 +45,13 @@ Em 22/10/2026, o candidato delegou explicitamente ao Codex as decisões técnica
 **Decisões registradas:** ambiente local com Docker Compose, PostgreSQL para Pedidos e MongoDB para Catálogo; TypeScript/NestJS para Pedidos e C#/ASP.NET Core para Catálogo; BRL e centavos; desconto configurável, limiar inclusivo, preço oriundo do Catálogo; política demonstrativa `volume-v1` habilitada, limiar de 50.000 centavos e taxa de 1.000 pontos-base; cloud como extensão condicional.
 
 **Prazo real:** 23/10/2026 às 18:00 (horário de Brasília, `America/Sao_Paulo`). As três semanas e 240 horas da proposta continuam sendo a hipótese técnico-comercial pedida no desafio, não a janela de execução desta candidatura. Nenhum item de implementação foi declarado pronto por este registro.
+
+## Atualização de implementação e validação
+
+**Data:** 22/10/2026. **Solicitação efetiva:** o candidato autorizou o desenvolvimento completo segundo as specs e reforçou que os projetos deveriam ficar separados e que dependências como node_modules pertencem ao projeto consumidor.
+
+**Estrutura aplicada:** o único repositório Git contém os projetos independentes `pedidos-typescript/` e `catalogo-dotnet/` no primeiro nível. Documentação, specs, contratos e infraestrutura compartilhada têm diretórios próprios. O package.json, package-lock.json, `.node-version` e node_modules pertencem ao projeto TypeScript; `global.json`, solução e lockfiles NuGet pertencem ao projeto .NET. PDF, segredos e caches foram movidos para a pasta irmã desafio-local.
+
+**Evidências verificadas:** Pedidos passou em build, typecheck, lint e um teste unitário; Catálogo passou em restore, build e teste unitário. PostgreSQL e MongoDB estão saudáveis no Compose. A conta runtime do PostgreSQL conecta sem ser superuser e não tem permissão de CREATE no schema; o migrator tem essa permissão. O bootstrap Mongo foi executado duas vezes, preservou quatro produtos e validou a leitura pela conta runtime. Os resultados e limitações estão em [revisão atualizada das specs](../revisao-das-especificacoes.md) e [backlog](../tasks/todo.md).
+
+**Revisão assistida por IA:** os primeiros testes apontaram um caminho antigo no teste ASP.NET e um escape de regex incompatível com PCRE2. Ambos foram corrigidos; build e teste unitário .NET passaram e o bootstrap Mongo confirmou as quatro leituras. O escopo funcional de pedidos e catálogo, integração HTTP, migrations e testes completos ainda está pendente.

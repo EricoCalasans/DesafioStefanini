@@ -1,0 +1,60 @@
+name: coe-leader-challenge
+
+services:
+  postgres:
+    image: postgres:17.11
+    environment:
+      POSTGRES_DB: orders
+      POSTGRES_USER: postgres_admin
+      POSTGRES_PASSWORD: ${POSTGRES_ADMIN_PASSWORD:?Run infra/setup-local.ps1 first}
+      ORDERS_RUNTIME_PASSWORD: ${ORDERS_RUNTIME_PASSWORD:?Run infra/setup-local.ps1 first}
+      ORDERS_MIGRATOR_PASSWORD: ${ORDERS_MIGRATOR_PASSWORD:?Run infra/setup-local.ps1 first}
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./postgres/01-roles.sql:/docker-entrypoint-initdb.d/01-roles.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres_admin -d orders"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  mongo:
+    image: mongo:8.0.34-noble
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo_root
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD:?Run infra/setup-local.ps1 first}
+    ports:
+      - "127.0.0.1:${MONGO_PORT:-27017}:27017"
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+  mongo-bootstrap:
+    image: mongo:8.0.34-noble
+    depends_on:
+      mongo:
+        condition: service_healthy
+    environment:
+      CATALOG_RUNTIME_PASSWORD: ${CATALOG_RUNTIME_PASSWORD:?Run infra/setup-local.ps1 first}
+      CATALOG_SEED_PASSWORD: ${CATALOG_SEED_PASSWORD:?Run infra/setup-local.ps1 first}
+    entrypoint: ["mongosh"]
+    command:
+      - "${MONGO_ADMIN_URI:?Run infra/setup-local.ps1 first}"
+      - "--quiet"
+      - "--file"
+      - "/scripts/bootstrap.js"
+    volumes:
+      - ./mongo/bootstrap.js:/scripts/bootstrap.js:ro
+    restart: "no"
+
+volumes:
+  postgres-data:
+  mongo-data:

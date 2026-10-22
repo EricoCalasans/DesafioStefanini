@@ -1,10 +1,10 @@
 # Plano de construção
 
-**Status:** execução autorizada pelo candidato em 22/10/2026; revisão cruzada das specs concluída e bootstrap em andamento. **Referências:** [mapa](../CAPABILITY-MAP.md), [PRD](../docs/PRD.md), [backlog](todo.md), [proposta hipotética](../specs/SPEC-proposta.md).
+**Status:** execução autorizada pelo candidato em 22/10/2026; revisão cruzada das specs concluída e bootstrap em andamento. **Referências:** [mapa](../CAPABILITY-MAP.md), [PRD](../PRD.md), [backlog](todo.md), [proposta hipotética](../../specs/SPEC-proposta.md).
 
-**Prazo de entrega informado pelo candidato:** 23/10/2026 às 18:00 (horário de Brasília). As 240 horas e três semanas da [proposta](../specs/SPEC-proposta.md) são um cenário técnico-comercial hipotético, não uma previsão para esta candidatura. O escopo integral não cabe no prazo real; priorizar o núcleo demonstrável, preservar requisitos obrigatórios e reportar cortes e verificações pendentes com transparência.
+**Prazo de entrega informado pelo candidato:** 23/10/2026 às 18:00 (horário de Brasília). As 240 horas e três semanas da [proposta](../../specs/SPEC-proposta.md) são um cenário técnico-comercial hipotético, não uma previsão para esta candidatura. O escopo integral não cabe no prazo real; priorizar o núcleo demonstrável, preservar requisitos obrigatórios e reportar cortes e verificações pendentes com transparência.
 
-**Gate inicial:** o candidato autorizou a implementação seguindo as specs. Node `24.22.1`, SDK .NET `10.0.402`, Docker/Compose, PostgreSQL `17.11`, MongoDB `8.0.34-noble`, contratos e critérios estão disponíveis ou registrados. Será usado um único repositório Git, com os serviços identificados por `apps/orders` (TypeScript/NestJS) e `apps/catalog` (C#/.NET); a pasta `local-only/`, ignorada pelo Git, guarda a fonte do desafio e caches locais. O próximo passo é criar a branch de feature e entregar cada fatia com teste e commit claro. As decisões e trade-offs precisam continuar fáceis de explicar pelo candidato.
+**Gate inicial:** o candidato autorizou a implementação seguindo as specs. Node `24.22.1`, SDK .NET `10.0.402`, Docker/Compose, PostgreSQL `17.11`, MongoDB `8.0.34-noble`, contratos e critérios estão disponíveis ou registrados. Será usado um único repositório Git, com diretórios de projeto independentes na raiz: `pedidos-typescript/` (NestJS) e `catalogo-dotnet/` (ASP.NET Core). Cada um guarda suas dependências, configuração, builds e testes; a raiz não contém `package.json` nem `node_modules`. Contratos, documentação, specs e infraestrutura compartilhados ficam em pastas próprias. O PDF, segredos e caches locais ficam na pasta irmã `../desafio-local/`, fora do Git.
 
 ## 1. Sequência e marcos verificáveis
 

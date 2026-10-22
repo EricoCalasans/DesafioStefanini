@@ -10,6 +10,8 @@
 
 **Consequências:** tempo de documentação, revisão e teste entra nas estimativas. Trabalho individual será identificado como tal. Cloud real é condicional, e sua ausência não será mascarada como deploy executado.
 
+**Ajuste de ferramenta durante o bootstrap:** TypeScript 6.0.3 é requisito da stack aprovada; `typescript-eslint` 8.48.1 declara peer dependency `<6.0.0` e o npm recusou resolver a árvore. Para manter a versão da linguagem e instalações reproduzíveis, TypeScript terá `tsc --noEmit` para tipos e Biome 2.6.2 para lint/formatação. O `package-lock.json` fixa todo o grafo. Não usar `--force` nem ignorar peer dependencies.
+
 **Verificação:** falha deliberada em check impede job de deploy; evidência da tag; README reproduzido; guia com 1-2 páginas; proposta com capacidade reconciliada; link de IA conferido.
 
 **Aceite registrado:** o candidato delegou ao Codex as escolhas técnicas com base no PRD. GitFlow, testes com bancos reais, gate de CI, documentação factual de IA e link de conversa permanecem no escopo; cloud segue condicional.

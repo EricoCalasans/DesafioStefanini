@@ -1,0 +1,15 @@
+.git
+.github
+local-only
+tmp
+node_modules
+**/node_modules
+**/bin
+**/obj
+**/TestResults
+**/dist
+**/coverage
+/.env
+**/.env
+**/.env.*
+!**/.env.example

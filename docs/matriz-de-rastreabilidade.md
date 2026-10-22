@@ -1,6 +1,6 @@
 # Matriz de rastreabilidade do desafio
 
-**Data:** 21/10/2026. **Status global:** especificado e revisado documentalmente; implementação e evidências de execução pendentes.
+**Data:** 21/10/2026, atualizada em 22/10. **Status global:** especificado e revisado; implementação em andamento. T01/T02/T04/T05 têm evidências de bootstrap, enquanto os comportamentos de negócio seguem pendentes.
 
 53 pontos foram identificados a partir de todas as seções. O número inclui competências contextuais, critérios e repetições relevantes da entrega; **não significa 53 funcionalidades nem 53 obrigações de mesmo peso**. OBR = obrigação explícita; CTX = contexto/critério; DIF = diferencial; ART = artefato incluído por leitura conservadora do objetivo/entrega.
 
@@ -22,11 +22,11 @@ Página é a posição física no PDF. Cenários Qxx estão em [qualidade](../sp
 | R12 | §1, p3 | DIF SAI APP 3.0 | [IA/SDD](../specs/SPEC-ia-e-sdd.md) | Somente se houver acesso; não declarado como usado |
 | R13 | Adendo, p4 | OBR uso de IA | [IA/SDD](../specs/SPEC-ia-e-sdd.md) | Registro atual e registros das etapas futuras |
 | R14 | Adendo, p4 | OBR link da conversa | [IA/SDD](../specs/SPEC-ia-e-sdd.md), [entrega](../specs/SPEC-entrega.md) | IA05/Q50; link pendente |
-| R15 | §2.1, p4 | OBR dois serviços | [Mapa](../CAPABILITY-MAP.md), [integração](../specs/SPEC-integracao.md) | INT01; execução independente |
+| R15 | §2.1, p4 | OBR dois serviços | [Mapa](CAPABILITY-MAP.md), [integração](../specs/SPEC-integracao.md) | INT01; execução independente |
 | R16 | §2.1, p4 | OBR preços do Catálogo em cada criação | [Pedidos](../specs/SPEC-pedidos.md), [integração](../specs/SPEC-integracao.md) | INT01/02; Q29-Q36 |
 | R17 | §2.1, p4 | ART guia de code review | [Governança](../specs/SPEC-governanca.md) | GOV01-GOV04 |
 | R18 | §2.1, p4 | ART dimensionamento | [Proposta](../specs/SPEC-proposta.md) | PROP01-PROP05 |
-| R19 | §2.1, p4 | DIF Spec-Driven Development | [IA/SDD](../specs/SPEC-ia-e-sdd.md), [plano](../tasks/plan.md) | IA04; histórico de specs anterior ao código |
+| R19 | §2.1, p4 | DIF Spec-Driven Development | [IA/SDD](../specs/SPEC-ia-e-sdd.md), [plano](tasks/plan.md) | IA04; histórico de specs anterior ao código |
 | R20 | §2.2.1.1, p4 | OBR stack livre justificada | [Arquitetura](arquitetura.md), [ADR001](adr/001-stacks-e-fronteiras.md) | Razões/alternativas e build |
 | R21 | §2.2.1.1, p4 | OBR Clean Code/Architecture | [Pedidos](../specs/SPEC-pedidos.md), [arquitetura](arquitetura.md) | Revisão de dependências e testes puros |
 | R22 | §2.2.1.1, p4 | OBR banco relacional | [Pedidos](../specs/SPEC-pedidos.md) | ORD05/06; migrations e constraints |

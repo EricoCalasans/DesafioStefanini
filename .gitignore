@@ -38,8 +38,7 @@ __pycache__/
 .venv/
 venv/
 
-# Material do candidato, ferramentas locais e caches que não fazem parte da entrega.
-/local-only/
+# Artefatos locais e caches que não fazem parte da entrega.
 /tmp/
 /.local/
 /.cache/

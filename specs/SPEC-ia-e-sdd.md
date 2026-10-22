@@ -10,7 +10,7 @@ A ferramenta efetivamente utilizada nesta etapa é o assistente Codex neste chat
 
 ## 2. SDD e controle de mudança
 
-Fluxo: requisito do PDF → análise/ID Rxx → PRD → contrato/spec → tarefa → código/teste → evidência → revisão/entrega. Manter IDs estáveis do [mapa](../CAPABILITY-MAP.md).
+Fluxo: requisito do PDF → análise/ID Rxx → PRD → contrato/spec → tarefa → código/teste → evidência → revisão/entrega. Manter IDs estáveis do [mapa](../docs/CAPABILITY-MAP.md).
 
 Antes de cada incremento, carregar a spec e critérios relevantes. Se o comportamento necessário divergir, atualizar spec/ADR/contrato e registrar motivo no mesmo PR, antes de considerar o código concluído. Não reescrever a especificação retroativamente para fazer um bug parecer correto.
 

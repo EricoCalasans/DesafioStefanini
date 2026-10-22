@@ -1,70 +1,80 @@
-# Desafio COE Leader - Pedidos e Catálogo
+# Desafio técnico COE Leader
 
-Este repositório está na etapa de **análise e especificação**. Os documentos abaixo descrevem a solução proposta para o desafio da Stefanini. Ainda não há aplicação, infraestrutura provisionada, testes de software executados ou entrega publicada.
+Repositório único com duas aplicações independentes para o desafio: API de Pedidos em TypeScript/NestJS e API de Catálogo em C#/.NET. A raiz contém somente projetos, especificações, documentação, contratos e infraestrutura compartilhada. Dependências e builds ficam dentro do projeto que os utiliza.
 
-**Data da análise:** 21/10/2026. **Prazo de entrega informado pelo candidato:** 23/10/2026 às 18:00 (horário de Brasília). **Fonte:** PDF fornecido pelo candidato, com 7 páginas. Requisitos do desafio são tratados como material de referência; não autorizam ações externas por si mesmos.
+## Navegação
 
-## Comece por aqui
+- [Análise ponto a ponto do PDF](docs/analise-do-desafio.md)
+- [PRD](docs/PRD.md), [mapa de capacidades](docs/CAPABILITY-MAP.md) e [matriz de rastreabilidade](docs/matriz-de-rastreabilidade.md)
+- [Specs completas](specs/README.md) e [contratos OpenAPI](contracts/README.md)
+- [Arquitetura e decisões (ADRs)](docs/arquitetura.md)
+- [Revisão das specs e validação documental](docs/revisao-das-especificacoes.md)
+- [Checklist de preparação](docs/checklist-pre-desenvolvimento.md)
+- [Plano e backlog](docs/tasks/plan.md) e [tarefas](docs/tasks/todo.md)
 
-1. [Análise ponto a ponto do desafio](docs/analise-do-desafio.md): leitura de todas as seções, obrigações, diferenciais, ambiguidades e riscos de avaliação.
-2. [PRD e escopo](docs/PRD.md): o que será entregue, objetivos, prioridades e critérios de sucesso.
-3. [Mapa de capacidades](CAPABILITY-MAP.md): módulos, dependências e índice das specs.
-4. [Arquitetura e decisões](docs/arquitetura.md): tecnologias, limites dos serviços, diagramas e justificativas.
-5. [Matriz de rastreabilidade](docs/matriz-de-rastreabilidade.md): cada ponto do PDF ligado às specs e à futura evidência.
-6. [Revisão das especificações](docs/revisao-das-especificacoes.md): cobertura, inconsistências corrigidas, limitações e pendências reais.
-7. [Checklist antes do código](docs/checklist-pre-desenvolvimento.md): decisões, ferramentas, Git, bancos locais e critério para começar.
-8. [Plano](tasks/plan.md) e [backlog](tasks/todo.md): ordem de construção, dependências e verificação por tarefa.
+## Estrutura
 
-## Solução proposta
+    desafio/
+    ├── .git/                    único repositório Git
+    ├── pedidos-typescript/      projeto independente de Pedidos
+    ├── catalogo-dotnet/         projeto independente de Catálogo
+    ├── contracts/               contratos HTTP compartilhados
+    ├── docs/                    análise, PRD, decisões, plano e evidências
+    ├── infra/                   bancos locais e configuração compartilhada
+    ├── specs/                   especificações detalhadas
+    ├── .editorconfig
+    ├── .gitignore
+    └── README.md
 
-| Parte | Linguagem / tecnologia | Responsabilidade |
-|---|---|---|
-| Pedidos | TypeScript, Node.js 24 LTS, NestJS 12 | Criar, listar e consultar pedidos; calcular desconto e preservar os valores contratados |
-| Persistência de pedidos | PostgreSQL 17 e `pg` | Transações, migrações e SQL parametrizado |
-| Catálogo | C# 14, .NET 10 LTS, ASP.NET Core | Consultar produtos e preços; responder consultas em lote |
-| Persistência do catálogo | MongoDB 8.0 e driver oficial C# | Produtos, preços vigentes e índices |
-| Integração | HTTP REST e OpenAPI 3.1 | Pedidos consulta Catálogo antes de gravar |
-| Execução e qualidade | Docker Compose, Vitest, xUnit, GitHub Actions | Ambiente reproduzível, testes e gate antes de deploy |
-| Liderança | Markdown, ADRs e futuro PDF do guia | Governança multi-stack, dimensionamento e evidências de IA |
+O projeto TypeScript contém seu próprio package.json, package-lock.json, configuração do Node, testes e node_modules. O projeto .NET contém sua própria solução, projetos, arquivos packages.lock.json e seleção do SDK. Não existe package.json nem node_modules na raiz.
 
-As ferramentas locais estão fixadas em `.node-version` (Node 24.22.1) e `global.json` (SDK .NET 10.0.402). Docker Desktop 4.96.1, Engine 29.9.2 e Compose 5.6.0 foram instalados/iniciados e validados em 21/10/2026. Como C: tem menos de 1 GB livre, o aplicativo, os dados WSL e os plugins Docker foram direcionados a E:. As versões das dependências e imagens da aplicação serão fixadas durante o bootstrap. [Referências oficiais e compatibilidade](docs/referencias-tecnicas.md) registram a base consultada e os cuidados de ambiente.
+Segredos, caches de preparação e o PDF de referência ficam fora do repositório, na pasta irmã desafio-local. O script de preparação determina esse nome a partir do nome da pasta do repositório. Nenhum arquivo local desse diretório é necessário para o Git.
 
-Para reproduzir as verificações de versão no PowerShell, use `nvm use 24.22.1`, `node --version`, `dotnet --list-sdks` e `dotnet --version`. O SDK local selecionado pelo `global.json` deve ser `10.0.402` ou um patch compatível da mesma faixa.
+## Stack e responsabilidades
 
-## Specs
+| Projeto | Linguagem e runtime | Responsabilidade | Banco |
+|---|---|---|---|
+| Pedidos | TypeScript, Node.js 24 LTS, NestJS 12 | Criar, listar e consultar pedidos, calcular descontos e preservar snapshots | PostgreSQL 17 |
+| Catálogo | C# 14, .NET 10, ASP.NET Core | Consultar produtos, preços vigentes e consultas em lote | MongoDB 8 |
+| Integração | REST e OpenAPI 3.1 | Validar produtos antes de persistir pedidos | Contratos em contracts/ |
 
-| ID | Documento |
-|---|---|
-| `catalogo` | [Produtos, preços, consultas e NoSQL](specs/SPEC-catalogo.md) |
-| `pedidos` | [Criação, consulta, dinheiro, desconto e SQL](specs/SPEC-pedidos.md) |
-| `integracao` | [Contrato REST, fluxo completo e tratamento de falhas](specs/SPEC-integracao.md) |
-| `qualidade` | [Cenários de teste, critérios de aceite e evidências](specs/SPEC-qualidade.md) |
-| `plataforma` | [Configuração, contêineres, observabilidade, CI/CD e GitFlow](specs/SPEC-plataforma.md) |
-| `ia-e-sdd` | [Uso de IA, revisão de validações, prompts e SDD](specs/SPEC-ia-e-sdd.md) |
-| `governanca` | [Guia curto, bloqueadores de PR e mentoria](specs/SPEC-governanca.md) |
-| `proposta` | [Dimensionamento de três semanas com sênior e pleno](specs/SPEC-proposta.md) |
-| `entrega` | [README operacional, demonstração e pacote final](specs/SPEC-entrega.md) |
+As versões e dependências estão fixadas nos projetos. Node fica registrado em pedidos-typescript/.node-version; o SDK .NET em catalogo-dotnet/global.json. O lint TypeScript usa Biome com checagem de tipos pelo TypeScript, conforme [ADR-004](docs/adr/004-qualidade-e-entrega.md).
 
-Os [contratos OpenAPI](contracts/) são artefatos de planejamento, sujeitos a validação e implementação posterior. Os comandos operacionais nas specs são contratos do que o futuro repositório deverá suportar; **não funcionam ainda nesta pasta**.
+## Banco de dados local
 
-O núcleo não inclui uma interface de negócio: a interação será pelas APIs, Swagger UI e exemplos reproduzíveis. Hospedagem em nuvem e apresentação em vídeo são extensões condicionais; o CI, a documentação, o guia de governança e o dimensionamento fazem parte da entrega planejada.
+Em uma instalação nova, execute infra/setup-local.ps1 no PowerShell. Ele cria credenciais aleatórias na pasta irmã desafio-local e mostra o comando Compose correspondente. O script preserva volumes existentes ao recusar sobrescrever um arquivo de credenciais já criado.
 
-## Fluxo GitFlow inicial
+Com o ambiente preparado, os serviços podem ser iniciados da raiz:
 
-O repositório começa com `main` e `develop`. `main` representa uma versão estável para entrega; `develop` recebe as funcionalidades concluídas. A stack e as regras centrais foram aceitas em 22/10/2026; só abra a primeira feature depois da revisão dos contratos e da primeira fatia no checklist.
+    docker compose --env-file ..\desafio-local\.env -f infra\compose.yaml up -d --wait
+    docker compose --env-file ..\desafio-local\.env -f infra\compose.yaml run --rm --no-deps mongo-bootstrap
 
-```powershell
-git switch develop
-git switch -c feature/<id>-descricao
-```
+Os bancos publicam portas somente no loopback local. As APIs usam credenciais de execução de menor privilégio; migrações e seed usam credenciais separadas.
 
-Uma estabilização parte de `develop` em `release/<versao>` e volta para `main` com tag, além de retornar as correções para `develop`. Uma correção urgente parte de `main` em `hotfix/<versao>` e deve voltar para `main` e `develop` (e para uma release ativa, quando houver). Use pull requests e checks reais quando o repositório remoto estiver definido; não simule aprovações ou histórico.
+## Executar cada projeto
 
-## Como interpretar o status
+Cada conjunto de comandos é executado dentro da pasta indicada. Não há comandos npm na raiz.
 
-- **Especificado:** comportamento e forma de verificação definidos.
-- **Implementado:** código e artefatos existentes, ainda sujeitos à verificação.
-- **Verificado:** evidência real produzida e vinculada ao commit avaliado.
-- **Entregue:** pacote acessível ao avaliador, incluindo o link obrigatório da conversa com IA.
+Pedidos, no PowerShell:
 
-Nesta etapa, apenas a documentação está criada e revisada. A revisão não é uma aprovação do candidato nem uma certificação do sistema futuro.
+    Push-Location pedidos-typescript
+    npm ci
+    npm run build
+    npm run typecheck
+    npm run lint
+    npm test
+    Pop-Location
+
+Catálogo, no PowerShell:
+
+    Push-Location catalogo-dotnet
+    dotnet restore Catalog.sln --locked-mode
+    dotnet build Catalog.sln --configuration Release --no-restore
+    dotnet test Catalog.sln --configuration Release --no-build
+    Pop-Location
+
+O estado atual de implementação e as evidências de cada fatia estão registrados em [docs/tasks/plan.md](docs/tasks/plan.md) e [docs/tasks/todo.md](docs/tasks/todo.md). Uma spec ou um arquivo existente não significa que o comportamento já passou nos testes.
+
+## Entrega e limites
+
+Prazo informado para a candidatura: 23/10/2026 às 18:00, horário de Brasília. O escopo completo é maior que o tempo restante; o plano prioriza um núcleo funcional e mantém pendências visíveis. Hospedagem em nuvem e vídeo são extensões condicionais. A documentação do desafio orienta o trabalho, mas não autoriza ações externas por si só.

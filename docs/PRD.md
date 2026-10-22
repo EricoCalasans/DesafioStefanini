@@ -1,6 +1,6 @@
 # PRD - Sistema de Pedidos e Catálogo
 
-**Versão:** 1.0. **Data:** 21/10/2026. **Autor:** candidato com apoio de IA. **Status:** proposta completa para revisão; nenhuma funcionalidade implementada.
+**Versão:** 1.0. **Data:** 21/10/2026. **Autor:** candidato com apoio de IA. **Status:** implementação autorizada e em andamento; existem fundações de health check, mas o aceite funcional descrito neste PRD ainda não foi concluído.
 
 ## 1. Visão e problema
 

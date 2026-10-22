@@ -56,31 +56,33 @@ Aplicações rodam sem root. Imagens finais não contêm SDK/toolchain desnecess
 | `LOG_LEVEL` | `info`, enum permitido |
 | `APP_VERSION` | SHA/tag da aplicação, derivado de build |
 
-O `.env.example` conterá placeholders claros, sem segredo utilizável em ambiente público. O setup local ensinará criar `.env` e definir senhas. Não preencher `.env` do candidato automaticamente com credenciais reais nesta etapa. Aspas, caracteres reservados e URI encoding serão explicados para connection strings. O bootstrap deve evitar injeção de segredo em comandos/logs.
+O `infra/.env.example` contém placeholders e nenhuma credencial utilizável. `infra/setup-local.ps1` gera credenciais aleatórias no diretório irmão do repositório e recusa sobrescrever as existentes, preservando acesso aos volumes. Aspas, caracteres reservados e URI encoding serão tratados para connection strings. O bootstrap evita imprimir segredos em comandos/logs.
 
 Cada processo recebe somente o necessário. Ausência de variável obrigatória, URL inválida ou intervalos inconsistentes falha no startup com nome da chave e sem imprimir valor sensível. Alterar senha de bootstrap após criação do volume não altera usuários existentes automaticamente; documentar rotação/recriação local com cautela.
 
 ## 4. Comandos futuros e ergonomia
 
-Executar na raiz; npm será a interface comum dos scripts, inclusive para disparar ferramentas .NET. Usar scripts JS portáveis, sem depender de bash no Windows.
+Os comandos de cada stack são executados dentro do próprio projeto. Compose e ferramentas documentais são compartilhados pela raiz. Usar comandos PowerShell portáveis, sem depender de bash no Windows.
 
-```powershell
-Copy-Item .env.example .env
-npm ci
-docker compose config --quiet
-docker compose up --build --wait
-npm run smoke
-npm run lint
-npm run build
-npm run test:unit
-npm run test:integration
-npm run test:system
-docker compose down
-```
+    Push-Location pedidos-typescript
+    npm ci
+    npm run lint
+    npm run typecheck
+    npm run build
+    npm test
+    Pop-Location
+    Push-Location catalogo-dotnet
+    dotnet restore Catalog.sln --locked-mode
+    dotnet build Catalog.sln --configuration Release --no-restore
+    dotnet test Catalog.sln --configuration Release --no-build
+    Pop-Location
+    docker compose --env-file ..\desafio-local\.env -f infra\compose.yaml config --quiet
+    docker compose --env-file ..\desafio-local\.env -f infra\compose.yaml up -d --wait
+    docker compose --env-file ..\desafio-local\.env -f infra\compose.yaml run --rm --no-deps mongo-bootstrap
 
-`up` inclui serviços one-shot; confirmar compatibilidade de Compose/healthcheck com a versão escolhida. `down` preserva volumes por padrão. Reset destrutivo não será parte do caminho feliz; se existir script, deverá exigir identificação explícita do projeto descartável.
+`up` aguarda bancos saudáveis; o bootstrap do Mongo é um comando separado e idempotente. `down` preserva volumes por padrão. Reset destrutivo não faz parte do caminho feliz; qualquer rotina desse tipo deverá exigir identificação explícita do projeto descartável.
 
-Scripts de desenvolvimento: `dev:orders`, `dev:catalog`, `db:migrate`, `catalog:seed`. Scripts de teste deverão provisionar dependências isoladas, falhar com mensagem útil se Docker não estiver ativo e efetuar cleanup somente dos recursos que criaram.
+Scripts de desenvolvimento e teste pertencem ao respectivo package.json ou solução. Migrações PostgreSQL pertencem ao projeto Pedidos; bootstrap/seed Mongo pertence à infraestrutura compartilhada e não usa credenciais da API.
 
 ## 5. Health e logs
 

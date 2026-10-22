@@ -143,21 +143,22 @@ Erros de entrada 400; negócio 422; dependência 502/503/504; banco indisponíve
 
 Logar correlação, método, rota, status, duração, quantidade de linhas, resultado da dependência e ID do pedido quando criado. Não logar nome/e-mail/corpo inteiro. Métricas mínimas em logs: quantidade/duração de chamadas de lote e resultado de criação, sem cardinalidade por cliente.
 
-## 10. Comandos futuros
+## 10. Comandos
 
-Scripts de npm a implementar na raiz, com alvo em `apps/orders`:
+Todos os comandos Node são executados dentro do projeto independente de Pedidos; o package.json, o lockfile e as dependências pertencem somente a essa pasta:
 
-```powershell
-npm ci
-npm run build:orders
-npm run lint
-npm run test:orders:unit
-npm run test:orders:integration
-npm run db:migrate
-npm run dev:orders
-```
+    Push-Location pedidos-typescript
+    npm ci
+    npm run build
+    npm run typecheck
+    npm run lint
+    npm test
+    npm run test:integration
+    npm run db:migrate
+    npm run start:dev
+    Pop-Location
 
-Os testes de integração exigem banco isolado e conexão via ambiente, provisionados pelo script de teste/Compose. Não apontar ao banco da demonstração.
+`npm run typecheck` valida os tipos com TypeScript 6; `npm run lint` executa Biome, fixado no lockfile local. A troca de typescript-eslint por Biome foi registrada no [ADR-004](../docs/adr/004-qualidade-e-entrega.md) após incompatibilidade confirmada de peer dependency. Os testes de integração exigem bancos isolados e conexão via ambiente, provisionados pelo Compose. Não apontar ao banco da demonstração.
 
 ## 11. Critérios de sucesso
 

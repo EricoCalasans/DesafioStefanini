@@ -12,7 +12,7 @@ import yaml
 from jsonschema import Draft202012Validator, FormatChecker
 from openapi_spec_validator import validate
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 cache = {}
 errors = []
 checks = []
@@ -55,7 +55,15 @@ for path in sorted((ROOT / 'contracts').glob('*.yaml')):
 def local_links():
     count = 0
     missing = []
-    for path in [ROOT/'README.md', ROOT/'CAPABILITY-MAP.md', *sorted((ROOT/'docs').rglob('*.md')), *sorted((ROOT/'specs').glob('*.md')), *sorted((ROOT/'tasks').glob('*.md')), ROOT/'contracts/README.md']:
+    for path in [
+        ROOT/'README.md',
+        ROOT/'pedidos-typescript/README.md',
+        ROOT/'catalogo-dotnet/README.md',
+        ROOT/'infra/README.md',
+        *sorted((ROOT/'docs').rglob('*.md')),
+        *sorted((ROOT/'specs').glob('*.md')),
+        ROOT/'contracts/README.md',
+    ]:
         text = path.read_text(encoding='utf-8')
         for match in re.finditer(r'(?<!!)\[[^\]]+\]\(([^)]+)\)', text):
             target = match.group(1).strip().strip('<>')
@@ -78,7 +86,7 @@ def ids():
     assert len(specs) == 9, len(specs)
     quality = re.findall(r'^\| (Q\d\d) \|', (ROOT/'specs/SPEC-qualidade.md').read_text(encoding='utf-8'), re.M)
     assert Counter(quality) == Counter(f'Q{i:02d}' for i in range(1,51)), quality
-    tasks = re.findall(r'^- \[[ x]\] \*\*(T\d\d)', (ROOT/'tasks/todo.md').read_text(encoding='utf-8'), re.M)
+    tasks = re.findall(r'^- \[[ x]\] \*\*(T\d\d)', (ROOT/'docs/tasks/todo.md').read_text(encoding='utf-8'), re.M)
     assert Counter(tasks) == Counter(f'T{i:02d}' for i in range(1,46)), tasks
     return 'R01-R53, Q01-Q50 e T01-T45 sem lacunas ou duplicações; 9 specs'
 

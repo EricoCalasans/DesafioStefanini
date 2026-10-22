@@ -62,39 +62,20 @@ Catálogo: produto/preço, elegibilidade básica e limites de consulta; casos de
 
 Cada aplicação compõe seus adaptadores no ponto de entrada. DTOs HTTP, atributos ASP.NET, controllers Nest e modelos de banco não atravessam as fronteiras internas. Não criar biblioteca compartilhada de entidades entre C# e TypeScript. O contrato HTTP é a interface compartilhada.
 
-## 5. Estrutura futura
+## 5. Estrutura do repositório: um diretório independente por projeto
 
-```text
-apps/
-  orders/
-    src/domain/                 # valores, entidades, regras puras
-    src/application/            # casos de uso e portas
-    src/adapters/http/          # NestJS, validação e Problem Details
-    src/adapters/postgres/      # SQL, transação e mapeamento
-    src/adapters/catalog/       # cliente HTTP e validação do fornecedor
-    src/bootstrap/              # config e composição
-    migrations/                # SQL versionado
-    test/unit/ test/integration/
-  catalog/
-    Catalog.Domain/
-    Catalog.Application/
-    Catalog.Infrastructure/     # MongoDB e configuração
-    Catalog.Api/                # endpoints e composição
-    Catalog.Tests.Unit/
-    Catalog.Tests.Integration/
-contracts/                     # fonte de verdade OpenAPI
-tests/system/                  # dois processos e dois bancos reais
-tests/performance/             # lote e experimento de carga
-scripts/                       # smoke, seed, validação documental
-docs/adr/                      # razões, alternativas, consequências
-docs/ia/                       # prompts, resultados e validação reais
-docs/evidencias/                # logs e relatórios do commit
-specs/ tasks/                  # SDD e backlog
-infra/                         # Compose e caminho condicional de cloud
-.github/workflows/             # CI e deploy condicionado
-```
+    desafio/
+    ├── pedidos-typescript/      # Projeto independente: NestJS, npm, testes e builds
+    ├── catalogo-dotnet/         # Projeto independente: ASP.NET Core, solução e testes
+    ├── contracts/               # Contratos REST/OpenAPI compartilhados
+    ├── docs/                    # PRD, análise, ADRs, plano e validação documental
+    ├── infra/                   # Compose, bancos, seed e configuração local
+    ├── specs/                   # Especificações detalhadas
+    ├── .git/                    # Único repositório Git
+    ├── .gitignore
+    └── README.md
 
-Arquivos e projetos serão criados apenas na etapa de implementação. A estrutura é um contrato proposto, não um inventário de arquivos já existentes.
+O manifesto, lockfile, seleção de runtime, dependências e saídas de build ficam dentro do projeto correspondente. Não existe package.json nem node_modules na raiz. A pasta docs reúne os artefatos de planejamento e ferramentas de validação; infra reúne o setup compartilhado dos bancos. Os segredos locais e caches vivem em uma pasta irmã, fora do repositório. Os dois projetos compartilham apenas contratos HTTP e a infraestrutura local necessária para demonstrá-los.
 
 ## 6. Convenções de código
 

@@ -1,19 +1,19 @@
 # Backlog de implementação
 
-**Status:** todas as tarefas de construção estão pendentes. As specs/documentos desta fase já foram elaborados; isto não marca funcionalidades como prontas. Tamanhos são relativos: **P** até cerca de 2 h; **M** uma sessão de meio dia. Reestimar ao executar; dividir tarefa que exceder uma sessão ou aproximadamente cinco arquivos de responsabilidade.
+**Status em 22/10/2026:** T01, T02, T04 e T05 concluídas com evidências; serviços de negócio e demais entregáveis seguem pendentes. Marcar uma tarefa somente após executar sua verificação. Tamanhos são relativos: **P** até cerca de 2 h; **M** uma sessão de meio dia. Reestimar ao executar; dividir tarefa que exceder uma sessão ou aproximadamente cinco arquivos de responsabilidade.
 
-Cada card inclui aceite e verificação. Referências Qxx apontam à [matriz de qualidade](../specs/SPEC-qualidade.md). Caminhos abaixo são alvos futuros, não arquivos já existentes. Não são estimativas adicionais às 204 h da proposta: os cards decompõem os mesmos pacotes.
+Cada card inclui aceite e verificação. Referências Qxx apontam à [matriz de qualidade](../../specs/SPEC-qualidade.md). Caminhos abaixo são alvos futuros, não arquivos já existentes. Não são estimativas adicionais às 204 h da proposta: os cards decompõem os mesmos pacotes.
 
 ## Fundação
 
-- [x] **T01 - Verificar toolchain e congelar versões** (plataforma, P, bloqueante; sem dependência). Concluído em 22/10/2026: Node `24.22.1`, SDK .NET `10.0.402`/runtime `10.0.13`, Docker Desktop `4.96.1`/Engine `29.9.2`/Compose `5.6.0` ativos; imagens `postgres:17.11` e `mongo:8.0.34-noble` baixadas. Versões de Node/.NET fixadas e patches dos serviços de dados registrados. Patches de dependências e imagens das aplicações serão lockados no bootstrap. Alvos: `.node-version`, `global.json`, referências técnicas.
-- [ ] **T02 - Iniciar estrutura e scripts comuns** (plataforma, M, bloqueante; T01). Aceite: workspace TS/ESM e solução C# compilam. Verificar: build das duas stacks. Alvos: manifests/lockfiles e entrypoints; dividir bootstrap por stack se necessário.
+- [x] **T01 - Verificar toolchain e congelar versões** (plataforma, P, bloqueante; sem dependência). Concluído em 22/10/2026: Node `24.22.1`, SDK .NET `10.0.402`/runtime `10.0.13`, Docker Desktop `4.96.1`/Engine `29.9.2`/Compose `5.6.0` ativos; imagens `postgres:17.11` e `mongo:8.0.34-noble` baixadas. Versões de ferramentas e dependências foram fixadas em cada projeto e registradas em seus lockfiles. Alvos: `pedidos-typescript/.node-version`, `catalogo-dotnet/global.json` e referências técnicas.
+- [x] **T02 - Criar projetos independentes e fundação executável** (plataforma, M, bloqueante; T01). Aceite: projeto TypeScript/ESM e solução C# compilam e têm health checks testados. Verificado em 22/10: build, typecheck, lint e teste TypeScript; restore, build e teste unitário .NET. Alvos: `pedidos-typescript/` e `catalogo-dotnet/`, cada qual com configuração e dependências próprias.
 - [ ] **T03 - Preparar GitFlow e template de PR** (plataforma, P, alta; T02). Aceite: branches iniciais e política documentada, commits reais. Verificar: histórico/configuração. Alvos: `.gitignore`, `.github/PULL_REQUEST_TEMPLATE.md`, guia Git.
-- [ ] **T04 - Provisionar PostgreSQL e papéis locais** (plataforma, M, bloqueante; T02). Aceite: bootstrap, usuário runtime e migration distintos. Verificar: DML permitido e DDL negado ao runtime. Alvos: Compose e init PostgreSQL.
-- [ ] **T05 - Provisionar MongoDB e papéis locais** (plataforma, M, bloqueante; T02). Aceite: API não usa root; usuário de leitura separado de init. Verificar: leitura/escrita por papéis. Alvos: Compose e init MongoDB.
+- [x] **T04 - Provisionar PostgreSQL e papéis locais** (plataforma, M, bloqueante; T02). Concluído: runtime conecta sem ser superuser nem criar objetos no schema; migrator pode criar no schema. Verificado por consulta real aos papéis no PostgreSQL em 22/10. Alvos: `infra/compose.yaml` e `infra/postgres/01-roles.sql`.
+- [x] **T05 - Provisionar MongoDB e papéis locais** (plataforma, M, bloqueante; T02). Concluído: bootstrap define validator/índices, cria papéis de runtime/seed e faz upsert do seed usando a conta seed. Execuções repetidas mantiveram quatro produtos; leitura com usuário runtime confirmou os quatro em 22/10. Alvos: `infra/compose.yaml` e `infra/mongo/bootstrap.js`.
 - [ ] **T06 - Validar configuração de Pedidos e política** (pedidos, M, alta; T02). Aceite: parse estrito e falha cedo nas variáveis obrigatórias. Verificar: Q10. Alvos: config, teste de config, `.env.example`.
 - [ ] **T07 - Validar configuração de Catálogo** (catalogo, P, alta; T02). Aceite: conexão/timeouts válidos e segredo não exposto. Verificar: testes de config. Alvos: Options/validação, config de teste, exemplo ambiente.
-- [ ] **T08 - Criar CI mínimo e checks documentais** (plataforma, M, alta; T02). Aceite: ambas as stacks fazem restore/build/format e contratos parseiam. Verificar: execução real. Alvos: workflow CI e scripts raiz.
+- [ ] **T08 - Criar CI mínimo e checks documentais** (plataforma, M, alta; T02). Aceite: ambas as stacks fazem restore/build/format e contratos parseiam. Verificar: execução real. Alvos: workflow CI em `.github/workflows/` e validador em `docs/validation/`.
 
 ## Catálogo
 
