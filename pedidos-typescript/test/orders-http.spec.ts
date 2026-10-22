@@ -149,6 +149,7 @@ describe('Orders HTTP API', () => {
       1, 2,
     ]);
     expect(orders).toHaveLength(1);
+    vi.mocked(catalog.queryProducts).mockRejectedValue(new Error('Catálogo desligado'));
 
     const found = await request(app.getHttpServer())
       .get(`/api/v1/orders/${created.body.id}`)
@@ -165,6 +166,7 @@ describe('Orders HTTP API', () => {
       itemCount: 2,
       totalCents: 45_000,
     });
+    expect(catalog.queryProducts).toHaveBeenCalledTimes(1);
   });
 
   it('rejects extra client-controlled fields, malformed paging, and duplicate products', async () => {

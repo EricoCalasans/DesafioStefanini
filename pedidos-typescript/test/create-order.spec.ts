@@ -99,6 +99,23 @@ describe('CreateOrderUseCase', () => {
     expect(deps.repository.create).not.toHaveBeenCalled();
   });
 
+  it.each([
+    [503, 'CATALOG_UNAVAILABLE'],
+    [504, 'CATALOG_TIMEOUT'],
+    [502, 'CATALOG_INVALID_RESPONSE'],
+  ] as const)('does not persist when Catalog returns a %s failure', async (status, code) => {
+    const deps = dependencies();
+    vi.mocked(deps.catalog.queryProducts).mockRejectedValueOnce(
+      new ApplicationError(status, code, 'Catálogo indisponível', 'Falha sanitizada.'),
+    );
+
+    await expect(new CreateOrderUseCase(deps).execute(input)).rejects.toMatchObject({
+      status,
+      code,
+    });
+    expect(deps.repository.create).not.toHaveBeenCalled();
+  });
+
   it('rejects missing and inactive products without saving', async () => {
     const missing = dependencies([]);
     vi.mocked(missing.catalog.queryProducts).mockResolvedValue({

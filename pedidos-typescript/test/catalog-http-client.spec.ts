@@ -83,9 +83,70 @@ describe('CatalogHttpClient', () => {
       'fetch',
       vi.fn(async () => new Response('secret upstream detail', { status: 503 })),
     );
+    const error = await client()
+      .queryProducts([firstId], correlationId)
+      .catch((reason: unknown) => reason);
+    expect(error).toMatchObject({ status: 503, code: 'CATALOG_UNAVAILABLE' });
+    expect(error).toMatchObject({ detail: 'O Catálogo não está disponível neste momento.' });
+    expect(error).not.toHaveProperty('detail', expect.stringContaining('secret upstream detail'));
+  });
+
+  it('maps unexpected supplier 4xx responses to a sanitized contract error', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => new Response('private supplier detail', { status: 400 })),
+    );
+
+    const error = await client()
+      .queryProducts([firstId], correlationId)
+      .catch((reason: unknown) => reason);
+    expect(error).toMatchObject({ status: 502, code: 'CATALOG_INVALID_RESPONSE' });
+    expect(error).not.toHaveProperty('detail', expect.stringContaining('private supplier detail'));
+  });
+
+  it('rejects non-JSON and malformed JSON supplier responses with a sanitized message', async () => {
+    const responseFactories = [
+      () =>
+        new Response('private response', {
+          status: 200,
+          headers: { 'content-type': 'text/plain' },
+        }),
+      () =>
+        new Response('{broken', { status: 200, headers: { 'content-type': 'application/json' } }),
+    ];
+
+    for (const createResponse of responseFactories) {
+      vi.stubGlobal(
+        'fetch',
+        vi.fn(async () => createResponse()),
+      );
+      const error = await client()
+        .queryProducts([firstId], correlationId)
+        .catch((reason: unknown) => reason);
+      expect(error).toMatchObject({
+        status: 502,
+        code: 'CATALOG_INVALID_RESPONSE',
+        detail: 'O Catálogo retornou dados que não correspondem ao contrato esperado.',
+      });
+      expect(error).not.toHaveProperty('detail', expect.stringContaining('private response'));
+    }
+  });
+
+  it('rejects supplier products outside the requested ID set', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () =>
+        Response.json({
+          products: [product(secondId, 'MOUSE', 10_000)],
+          missingProductIds: [],
+          observedAt,
+        }),
+      ),
+    );
+
     await expect(client().queryProducts([firstId], correlationId)).rejects.toMatchObject({
-      status: 503,
-      code: 'CATALOG_UNAVAILABLE',
+      status: 502,
+      code: 'CATALOG_INVALID_RESPONSE',
     });
   });
 

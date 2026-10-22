@@ -216,4 +216,27 @@ describe('PostgresOrderRepository against isolated PostgreSQL', () => {
     );
     expect(result.rows[0]?.count).toBe(0);
   });
+
+  it('returns a sanitized error and stores no order when PostgreSQL lock timeout expires', async () => {
+    const orderId = 'dddddddd-dddd-4ddd-8ddd-dddddddddddd';
+    const blocker = await migrationPool.connect();
+    await blocker.query('BEGIN');
+    try {
+      await blocker.query('LOCK TABLE orders IN ACCESS EXCLUSIVE MODE');
+      await expect(createOrder(orderId)).rejects.toMatchObject({
+        status: 503,
+        code: 'PERSISTENCE_UNAVAILABLE',
+        detail: 'Não foi possível acessar os pedidos neste momento.',
+      });
+    } finally {
+      await blocker.query('ROLLBACK');
+      blocker.release();
+    }
+
+    const result = await runtimePool.query<{ count: number }>(
+      'SELECT count(*)::integer AS count FROM orders WHERE id = $1',
+      [orderId],
+    );
+    expect(result.rows[0]?.count).toBe(0);
+  });
 });
