@@ -8,37 +8,27 @@ namespace Catalog.Api.Controllers;
 public sealed class HealthController(ICatalogReadiness readiness) : ControllerBase
 {
     [HttpGet("live")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    public IActionResult Live() => Ok(new
-    {
-        status = "UP",
-        service = "catalog",
-        checks = Array.Empty<object>()
-    });
+    [ProducesResponseType<HealthResponse>(StatusCodes.Status200OK)]
+    public IActionResult Live() => Ok(new HealthResponse("UP", "catalog", []));
 
     [HttpGet("ready")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
+    [ProducesResponseType<HealthResponse>(StatusCodes.Status200OK)]
+    [ProducesResponseType<HealthResponse>(StatusCodes.Status503ServiceUnavailable)]
     public async Task<IActionResult> Ready(CancellationToken cancellationToken)
     {
         try
         {
             await readiness.CheckAsync(cancellationToken);
-            return Ok(new
-            {
-                status = "UP",
-                service = "catalog",
-                checks = new[] { new { name = "mongo", status = "UP" } }
-            });
+            return Ok(new HealthResponse("UP", "catalog", [new HealthCheck("mongo", "UP")]));
         }
         catch (Exception exception) when (exception is not OperationCanceledException)
         {
-            return StatusCode(StatusCodes.Status503ServiceUnavailable, new
-            {
-                status = "DOWN",
-                service = "catalog",
-                checks = new[] { new { name = "mongo", status = "DOWN" } }
-            });
+            return StatusCode(StatusCodes.Status503ServiceUnavailable,
+                new HealthResponse("DOWN", "catalog", [new HealthCheck("mongo", "DOWN")]));
         }
     }
 }
+
+public sealed record HealthResponse(string Status, string Service, IReadOnlyList<HealthCheck> Checks);
+
+public sealed record HealthCheck(string Name, string Status);

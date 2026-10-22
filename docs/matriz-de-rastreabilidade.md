@@ -1,6 +1,6 @@
 # Matriz de rastreabilidade do desafio
 
-**Data:** 21/10/2026, atualizada em 22/10. **Status global:** especificado e revisado; implementação em andamento. T01/T02/T04/T05 têm evidências de bootstrap, enquanto os comportamentos de negócio seguem pendentes.
+**Data:** 21/10/2026, atualizada em 22/10. **Status global:** especificado e revisado; implementação em andamento. Fundação e Catálogo (T01/T02/T04/T05/T07-T14) têm evidências locais; Pedidos e fluxo integrado permanecem pendentes.
 
 53 pontos foram identificados a partir de todas as seções. O número inclui competências contextuais, critérios e repetições relevantes da entrega; **não significa 53 funcionalidades nem 53 obrigações de mesmo peso**. OBR = obrigação explícita; CTX = contexto/critério; DIF = diferencial; ART = artefato incluído por leitura conservadora do objetivo/entrega.
 

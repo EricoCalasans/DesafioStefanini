@@ -31,3 +31,13 @@ Para executar a API localmente, configure CATALOG_MONGODB_URI e CATALOG_MONGODB_
 ## Contratos
 
 A API responde conforme o [OpenAPI do Catálogo](../contracts/catalogo.openapi.yaml). O consumidor de Pedidos usa HTTP; os bancos e modelos internos permanecem separados.
+
+## Rotas implementadas
+
+- `GET /api/v1/products`: lista somente produtos ativos, por ID e com paginação estrita.
+- `GET /api/v1/products/{productId}`: consulta um produto existente, inclusive inativo.
+- `POST /api/v1/products/query`: consulta de 1 a 100 IDs em lote; resposta separa encontrados e ausentes.
+- `GET /health/live` e `GET /health/ready`: disponibilidade do processo e dependência MongoDB.
+- `GET /docs`: Swagger UI em ambiente de desenvolvimento.
+
+Os erros usam `application/problem+json`, com `X-Correlation-Id` propagado ou gerado. O corpo do lote tem limite de 64 KiB; campos JSON desconhecidos e parâmetros de consulta extras são recusados.

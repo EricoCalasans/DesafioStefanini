@@ -67,6 +67,12 @@ Pontos de atenção preservados para implementação e revisão: PostgreSQL e Mo
 
 Durante a resolução de dependências foi detectada incompatibilidade entre TypeScript 6 e `typescript-eslint` 8.48.1 (`peer typescript <6.0.0`). A versão de linguagem não foi rebaixada nem a checagem de pares foi ignorada: lint/formatação usam Biome 2.6.2 e `tsc` permanece responsável pelo typecheck. Essa decisão foi registrada no ADR-004 e nos comandos da spec de Pedidos.
 
+### Atualização da implementação em 22/10/2026
+
+O projeto independente de Catálogo está implementado: domínio valida o produto persistido, a aplicação separa leitura individual/listagem/lote, a infraestrutura consulta o MongoDB e a API expõe os três endpoints do contrato. Requests recusam JSON inválido, campos extras, query parameters desconhecidos e corpos acima de 64 KiB. Erros são `application/problem+json`, correlacionados, e falhas do banco retornam 503 sem expor detalhes. Testes verificam 200/400/404/413/415/422/503, paginação, lote de 100 IDs e separação de produtos ausentes/inativos.
+
+Evidências executadas dentro de `catalogo-dotnet/`: `dotnet build` sem avisos, `dotnet format --verify-no-changes` e 23 testes passaram. Com Compose real ativo, `/health/ready`, listagem paginada, lote misto e Swagger responderam; o seed de quatro produtos foi lido com conta runtime. A implementação de lote faz uma chamada `Filter.In`/`Find`; ainda falta capturar contagem de comandos e explain como experimento reproduzível em T31. O serviço Pedidos e a jornada integrada seguem em implementação.
+
 ## 5. Pendências reais
 
 | Pendência | Efeito | Momento de resolver |
@@ -74,14 +80,14 @@ Durante a resolução de dependências foi detectada incompatibilidade entre Typ
 | Stack, banco local e regras centrais | Aceitos pelo candidato em 22/10/2026; ADR 001/002 atualizados | Decisão fechada; candidato ainda deve conseguir defender as escolhas |
 | Prazo real da candidatura | 23/10/2026 às 18:00 (horário de Brasília), informado pelo candidato em 22/10 | Priorizar imediatamente; 240 h/3 semanas continuam sendo cenário hipotético, não calendário desta entrega |
 | Revisão do contrato e primeira fatia vertical | Revisadas pelo Codex; o candidato delegou as decisões técnicas em 22/10 | Sem bloqueio técnico; candidato deve estudar os trade-offs antes da apresentação |
-| Toolchain e dependências | Node `24.22.1`, SDK `10.0.402`/runtime `10.0.13`, Engine `29.9.2`, Compose `v5.6.0`; imagens fixas e lockfiles npm/NuGet gerados | Builds e testes de health check passaram; integração funcional segue pendente |
+| Toolchain e dependências | Node `24.22.1`, SDK `10.0.402`/runtime `10.0.13`, Engine `29.9.2`, Compose `v5.6.0`; imagens fixas e lockfiles npm/NuGet gerados | Catálogo compila, 22 testes e smoke Mongo reais passaram; Pedidos e integração funcional seguem pendentes |
 | Repositório GitHub e acessos | Entrega acessível | Preparação/fechamento |
 | Link compartilhável e revisão do conteúdo da conversa | Obrigação da submissão | Resolver antes do fechamento |
 | Acesso a SAI APP 3.0 | Somente diferencial específico | Se disponível |
 | Conta/orçamento/rede de cloud | Apenas extensão de deploy real | Antes de provisionar |
 | Testes e artefatos finais | Comprovação da implementação | Durante construção e release |
 
-As decisões 001-004 estão registradas nos ADRs: o candidato aceitou 001/002 e delegou as demais decisões técnicas ao Codex em 22/10; o Codex revisou e aceitou 003/004. O bootstrap dos dois projetos e bancos está em andamento. Permanecem pendentes o núcleo funcional, testes e evidências; acesso ao GitHub para publicação, SAI APP 3.0 e cloud são condicionais. A revisão do contrato e da primeira fatia não bloqueia a branch de feature.
+As decisões 001-004 estão registradas nos ADRs: o candidato aceitou 001/002 e delegou as demais decisões técnicas ao Codex em 22/10; o Codex revisou e aceitou 003/004. Bootstrap e Catálogo estão concluídos localmente. Permanecem pendentes Pedidos, integração, experimento de N+1/explain, testes ponta a ponta e artefatos finais; acesso ao GitHub para publicação, SAI APP 3.0 e cloud são condicionais. A revisão do contrato e da primeira fatia não bloqueia a branch de feature.
 
 ## 6. Como reproduzir a validação documental
 

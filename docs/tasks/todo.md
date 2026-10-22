@@ -1,6 +1,6 @@
 # Backlog de implementação
 
-**Status em 22/10/2026:** T01, T02, T04 e T05 concluídas com evidências; serviços de negócio e demais entregáveis seguem pendentes. Marcar uma tarefa somente após executar sua verificação. Tamanhos são relativos: **P** até cerca de 2 h; **M** uma sessão de meio dia. Reestimar ao executar; dividir tarefa que exceder uma sessão ou aproximadamente cinco arquivos de responsabilidade.
+**Status em 22/10/2026:** T01, T02, T04, T05 e T07-T14 concluídas com evidências locais. Catálogo implementado e exercitado contra MongoDB real; Pedidos, integração e demais entregáveis seguem pendentes. Marcar uma tarefa somente após executar sua verificação. Tamanhos são relativos: **P** até cerca de 2 h; **M** uma sessão de meio dia. Reestimar ao executar; dividir tarefa que exceder uma sessão ou aproximadamente cinco arquivos de responsabilidade.
 
 Cada card inclui aceite e verificação. Referências Qxx apontam à [matriz de qualidade](../../specs/SPEC-qualidade.md). Caminhos abaixo são alvos futuros, não arquivos já existentes. Não são estimativas adicionais às 204 h da proposta: os cards decompõem os mesmos pacotes.
 
@@ -12,17 +12,17 @@ Cada card inclui aceite e verificação. Referências Qxx apontam à [matriz de 
 - [x] **T04 - Provisionar PostgreSQL e papéis locais** (plataforma, M, bloqueante; T02). Concluído: runtime conecta sem ser superuser nem criar objetos no schema; migrator pode criar no schema. Verificado por consulta real aos papéis no PostgreSQL em 22/10. Alvos: `infra/compose.yaml` e `infra/postgres/01-roles.sql`.
 - [x] **T05 - Provisionar MongoDB e papéis locais** (plataforma, M, bloqueante; T02). Concluído: bootstrap define validator/índices, cria papéis de runtime/seed e faz upsert do seed usando a conta seed. Execuções repetidas mantiveram quatro produtos; leitura com usuário runtime confirmou os quatro em 22/10. Alvos: `infra/compose.yaml` e `infra/mongo/bootstrap.js`.
 - [ ] **T06 - Validar configuração de Pedidos e política** (pedidos, M, alta; T02). Aceite: parse estrito e falha cedo nas variáveis obrigatórias. Verificar: Q10. Alvos: config, teste de config, `.env.example`.
-- [ ] **T07 - Validar configuração de Catálogo** (catalogo, P, alta; T02). Aceite: conexão/timeouts válidos e segredo não exposto. Verificar: testes de config. Alvos: Options/validação, config de teste, exemplo ambiente.
+- [x] **T07 - Validar configuração de Catálogo** (catalogo, P, alta; T02). Concluído em 22/10: URI e nome do banco validados no startup; server selection e operações têm limites de 1 s; erros de configuração não ecoam credenciais. Verificar: `InfrastructureConfigurationTests` e readiness real. Alvos: `Catalog.Infrastructure/DependencyInjection.cs`.
 - [ ] **T08 - Criar CI mínimo e checks documentais** (plataforma, M, alta; T02). Aceite: ambas as stacks fazem restore/build/format e contratos parseiam. Verificar: execução real. Alvos: workflow CI em `.github/workflows/` e validador em `docs/validation/`.
 
 ## Catálogo
 
-- [ ] **T09 - Definir produto e limites de consulta** (catalogo, P, alta; T07). Aceite: valores válidos e duplicados classificados. Verificar: unitários CAT03. Alvos: domínio, aplicação e testes.
-- [ ] **T10 - Criar validador, índices e seed repetível** (catalogo, M, alta; T05,T09). Aceite: quatro produtos, índice SKU e `setOnInsert`. Verificar: Q27-Q28. Alvos: init/seed e teste Mongo real.
-- [ ] **T11 - Consultar produto individual real** (catalogo, M, alta; T10). Aceite: GET com 200/400/404 e inativo visível. Verificar: Q23. Alvos: endpoint, caso de uso, adapter e teste.
-- [ ] **T12 - Implementar lote indexado** (catalogo, M, bloqueante; T11). Aceite: produtos/ausentes e uma busca lógica. Verificar: Q24-Q26, contagem e filtro. Alvos: caso de uso, adapter, endpoint e teste.
-- [ ] **T13 - Implementar listagem paginada ativa** (catalogo, M, alta; T11). Aceite: ordem e limites do contrato. Verificar: CAT01 e página vazia. Alvos: caso de uso, adapter, endpoint e teste.
-- [ ] **T14 - Fechar erros/cancelamento do Catálogo** (catalogo, M, alta; T12,T13). Aceite: 413/415/503 e cancelamento sanitizados. Verificar: CAT05 e contrato. Alvos: middleware, validação e testes.
+- [x] **T09 - Definir produto e limites de consulta** (catalogo, P, alta; T07). Concluído em 22/10: domínio valida UUID, texto, BRL, centavos, versão e data UTC; consulta em lote classifica repetidos antes de acessar o repositório. Verificar: 22 testes da solução .NET, incluindo validação HTTP e aplicação.
+- [x] **T10 - Criar validador, índices e seed repetível** (catalogo, M, alta; T05,T09). Concluído: bootstrap define validator, índice único de SKU e índice de listagem; seed `setOnInsert` repetido manteve os quatro produtos e a conta runtime os leu.
+- [x] **T11 - Consultar produto individual real** (catalogo, M, alta; T10). Concluído e exercitado contra MongoDB local: 200 para produto inativo; 400 para ID inválido e 404 testado via API.
+- [x] **T12 - Implementar lote indexado** (catalogo, M, bloqueante; T11). Concluído em 22/10: inclui inativos, separa ausentes, ordena saída, valida 1-100 IDs e repetição; um `Filter.In`/`Find` lógico e um acesso à porta da aplicação. Smoke com Mongo real; medição formal de comandos/explain fica em T31.
+- [x] **T13 - Implementar listagem paginada ativa** (catalogo, M, alta; T11). Concluído: filtro ativo, ordem crescente, limites estritos, contagem e página vazia cobertos pelos testes; smoke real conferiu paginação.
+- [x] **T14 - Fechar erros/cancelamento do Catálogo** (catalogo, M, alta; T12,T13). Concluído: correlação, Problem Details, limite 64 KiB, JSON estrito, 413/415/422/503 e cancelamento do cliente tratados; testes cobrem os status e sanitização.
 
 ## Pedido integrado
 
