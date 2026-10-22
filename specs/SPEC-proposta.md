@@ -1,6 +1,6 @@
 # Spec - `proposta`
 
-**Versão:** 1.0. **Status:** dimensionamento-base proposto; não é proposta comercial real. **Origem:** R10, R18, R40-R41, R46, R48, R51.
+**Versão:** 1.0. **Status:** dimensionamento-base proposto e documento executivo produzido em `docs/proposta/dimensionamento.md` em 22/10/2026; continua hipotético, não é proposta comercial real. **Origem:** R10, R18, R40-R41, R46, R48, R51.
 
 ## 1. Objetivo e restrição do cenário
 
@@ -83,4 +83,4 @@ Documento final terá resumo executivo, escopo, premissas, composição, tabela 
 - PROP04: premissas, dependências, critérios de aceite e risco de atraso são entendíveis por negócio.
 - PROP05: fórmula financeira reproduzível, valores hipotéticos rotulados e sem dupla contingência.
 
-Comando futuro `npm run docs:check` verificará referências; revisão humana e conferência aritmética são obrigatórias para este artefato. Não há código de aplicação a testar neste módulo documental.
+O documento executivo produzido está em `docs/proposta/dimensionamento.md`; a validação documental conferiu 204 h de base, 36 h de reserva, 120 h por pessoa e a aritmética do exemplo de R$49.500. Revisão humana de premissas e preços reais continua necessária antes de qualquer uso comercial. Não há código de aplicação a testar neste módulo documental.

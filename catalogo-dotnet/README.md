@@ -15,6 +15,7 @@ Consultar produtos e preços vigentes no MongoDB, com consulta individual, lista
 - Catalog.Tests.Unit: testes automatizados da API e domínio.
 - Catalog.sln e packages.lock.json: solução e dependências NuGet fixadas.
 - global.json: SDK .NET escolhido para este projeto.
+- Catalog.Api/Catalog.Api.http: exemplos executáveis dos endpoints do Catálogo.
 
 ## Executar e verificar
 

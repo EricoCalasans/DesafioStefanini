@@ -3,7 +3,7 @@ info:
   title: Pedidos - Desafio COE Leader
   version: 1.0.0
   description: >-
-    Contrato proposto, ainda não implementado. BRL em centavos, preço obtido do Catálogo.
+    Contrato implementado localmente em NestJS com PostgreSQL. BRL em centavos, preço obtido do Catálogo.
     Campos desconhecidos e query params extras são rejeitados. Não há idempotência de POST.
     X-Correlation-Id é devolvido nas respostas tratadas pela aplicação.
 servers:

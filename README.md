@@ -8,14 +8,18 @@ Repositório único com duas aplicações independentes para o desafio: API de P
 - [PRD](docs/PRD.md), [mapa de capacidades](docs/CAPABILITY-MAP.md) e [matriz de rastreabilidade](docs/matriz-de-rastreabilidade.md)
 - [Specs completas](specs/README.md) e [contratos OpenAPI](contracts/README.md)
 - [Arquitetura e decisões (ADRs)](docs/arquitetura.md)
+- [Guia de code review (Markdown)](docs/governanca/guia-de-code-review.md) e [PDF de duas páginas](docs/output/pdf/guia-de-code-review.pdf)
+- [Dimensionamento executivo](docs/proposta/dimensionamento.md) e [uso de IA](docs/uso-de-ia.md)
 - [Revisão das specs e validação documental](docs/revisao-das-especificacoes.md)
 - [Checklist de preparação](docs/checklist-pre-desenvolvimento.md)
 - [Plano e backlog](docs/tasks/plan.md) e [tarefas](docs/tasks/todo.md)
+- [Fluxo Git](docs/fluxo-git.md)
 
 ## Estrutura
 
     desafio/
     ├── .git/                    único repositório Git
+    ├── .github/                 CI e template de PR
     ├── pedidos-typescript/      projeto independente de Pedidos
     ├── catalogo-dotnet/         projeto independente de Catálogo
     ├── contracts/               contratos HTTP compartilhados
@@ -42,14 +46,25 @@ As versões e dependências estão fixadas nos projetos. Node fica registrado em
 
 ## Banco de dados local
 
-Em uma instalação nova, execute infra/setup-local.ps1 no PowerShell. Ele cria credenciais aleatórias na pasta irmã desafio-local e mostra o comando Compose correspondente. O script preserva volumes existentes ao recusar sobrescrever um arquivo de credenciais já criado.
+Em uma instalação nova, execute `infra/setup-local.ps1` no PowerShell. Ele cria credenciais aleatórias na pasta irmã `desafio-local` e mostra o comando Compose correspondente. O script preserva volumes existentes ao recusar sobrescrever um arquivo de credenciais já criado.
 
-Com o ambiente preparado, os serviços podem ser iniciados da raiz:
+Com o ambiente preparado, a raiz `desafio` inicia os bancos e serviços, aplica as migrations e espera a API de Pedidos ficar saudável:
 
-    docker compose --env-file ..\desafio-local\.env -f infra\compose.yaml up -d --wait
-    docker compose --env-file ..\desafio-local\.env -f infra\compose.yaml run --rm --no-deps mongo-bootstrap
+    docker compose --env-file ..\desafio-local\.env -f infra\compose.yaml up -d --build --wait
+    node infra/smoke-system.mjs
+
+Pedidos fica em `http://localhost:3000` e Catálogo em `http://localhost:8080`; a documentação Swagger fica em `/docs` nos dois serviços. PostgreSQL e MongoDB publicam portas apenas no loopback. O Compose aplica as migrations de Pedidos antes de iniciar sua API e prepara um banco `orders_test` separado para os testes de integração.
 
 Os bancos publicam portas somente no loopback local. As APIs usam credenciais de execução de menor privilégio; migrações e seed usam credenciais separadas.
+
+## Diagnóstico rápido
+
+- Se `docker compose` informar que falta `.env`, execute `infra/setup-local.ps1`; ele grava credenciais aleatórias em `../desafio-local/.env` e recusa sobrescrever um arquivo existente.
+- Se uma porta estiver ocupada, altere a porta correspondente na pasta local `.env` (`POSTGRES_PORT`, `MONGO_PORT`, `ORDERS_PORT`, `CATALOG_PORT`) e recrie os serviços. As URLs internas entre containers continuam usando as portas do Compose.
+- Se algum serviço não ficar saudável, confira `docker compose --env-file ..\desafio-local\.env -f infra\compose.yaml ps` e consulte `docker compose --env-file ..\desafio-local\.env -f infra\compose.yaml logs --tail 100 orders catalog postgres mongo`.
+- Se a migration falhar, verifique se o PostgreSQL está saudável e se o URL de migração usa `orders_migrator`; o log do job aparece no serviço `orders-migrate`.
+- Se a criação retornar erro do Catálogo, confirme `/health/ready` em `http://localhost:8080`; consultas históricas usam o snapshot PostgreSQL e não dependem do Catálogo.
+- `docker compose down` para os serviços e preserva volumes. Apagar volumes elimina os dados locais e não é um comando de rotina.
 
 ## Executar cada projeto
 
@@ -65,6 +80,14 @@ Pedidos, no PowerShell:
     npm test
     Pop-Location
 
+Pedidos, testes de integração no PowerShell (ambiente `orders_test`):
+
+    .\infra\test-orders.ps1
+
+Para aplicar as migrations manualmente no banco de desenvolvimento, execute na pasta `pedidos-typescript`:
+
+    npm run db:migrate
+
 Catálogo, no PowerShell:
 
     Push-Location catalogo-dotnet
@@ -74,6 +97,10 @@ Catálogo, no PowerShell:
     Pop-Location
 
 O estado atual de implementação e as evidências de cada fatia estão registrados em [docs/tasks/plan.md](docs/tasks/plan.md) e [docs/tasks/todo.md](docs/tasks/todo.md). Uma spec ou um arquivo existente não significa que o comportamento já passou nos testes.
+
+## Estado verificado localmente
+
+Em 22/10/2026, Pedidos passou em 27 testes unitários/HTTP, typecheck, lint e cinco testes de integração com PostgreSQL real; Catálogo passou em 23 testes .NET e verificação de formatação. As duas APIs iniciaram em containers e o smoke ponta a ponta confirmou a criação canônica com subtotal de 50.000, desconto de 5.000 e total de 45.000. A validação documental/OpenAPI também passou. O guia de code review e o dimensionamento estão prontos localmente. A primeira execução da CI hospedada, o experimento formal de N+1/`explain`, o contrato automatizado produtor/consumidor, a revisão dedicada de mensagens com IA e a entrega do link de IA permanecem pendentes e estão destacados no backlog.
 
 ## Entrega e limites
 

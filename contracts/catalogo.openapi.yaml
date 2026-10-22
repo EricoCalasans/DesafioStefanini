@@ -3,7 +3,7 @@ info:
   title: Catálogo - Desafio COE Leader
   version: 1.0.0
   description: >-
-    Contrato proposto, ainda não implementado. BRL em centavos.
+    Contrato implementado localmente em ASP.NET Core com MongoDB. BRL em centavos.
     Entradas desconhecidas, inclusive query params, são rejeitadas.
     X-Correlation-Id é devolvido nas respostas tratadas pela aplicação.
 servers:

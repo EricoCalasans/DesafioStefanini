@@ -1,12 +1,12 @@
 # Spec - `governanca`
 
-**Versão:** 1.0. **Status:** especificado; guia final ainda será produzido. **Origem:** R04-R05, R08-R09, R17, R38-R39, R46, R48, R51.
+**Versão:** 1.0. **Status:** especificado; fonte e PDF final criados e revisados visualmente em 22/10/2026. **Origem:** R04-R05, R08-R09, R17, R38-R39, R46, R48, R51.
 
 ## 1. Objetivo e formato
 
 Entregar um guia autoral curto de Clean Code e code review para squads multi-stack. Público: desenvolvedores TypeScript, C# e Java, tech leads e responsáveis pelo merge. Deve ser útil em trabalho cotidiano, compreensível fora desta aplicação e apoiado por exemplos do desafio.
 
-Entregáveis futuros: `docs/governanca/guia-code-review.md` editável e `docs/governanca/guia-code-review.pdf`, **1 a 2 páginas físicas**, preferencialmente duas páginas A4. Esta spec pode exceder esse tamanho; não será apresentada como o guia final.
+Entregáveis: `docs/governanca/guia-de-code-review.md` editável e `docs/output/pdf/guia-de-code-review.pdf`, **1 a 2 páginas físicas**, duas páginas A4. Esta spec pode exceder esse tamanho; não será apresentada como o guia final.
 
 ## 2. Conteúdo das duas páginas
 
@@ -53,16 +53,11 @@ Métricas sugeridas: tempo até primeira revisão, retrabalho por classe de defe
 
 ## 7. Produção e validação
 
-Redigir fonte, gerar PDF com ferramenta adequada e renderizar todas as páginas. Conferir número de páginas, legibilidade, exemplos e critérios bloqueantes. Revisar aderência a TS/C#/Java e ausência de promessa de processo já aplicado sem histórico.
+Fonte redigida, PDF gerado e as duas páginas renderizadas para inspeção visual. Foram conferidos número de páginas, legibilidade, exemplos TS/C#/Java e critérios bloqueantes. O guia descreve práticas e não promete processos já executados sem histórico.
 
-Comandos futuros do projeto para padronizar o fluxo:
+Comandos propostos para padronizar o fluxo (não há scripts `docs:check` ou `docs:governance:pdf` configurados):
 
-```powershell
-npm run docs:check
-npm run docs:governance:pdf
-```
-
-O script de PDF será implementado com instruções e dependências explícitas. Nesta etapa não foi gerado PDF nem alegada validação visual do guia final.
+O PDF existente foi gerado com ReportLab no ambiente de documentos disponível e renderizado via Poppler. O fonte Markdown permanece como versão editável; o gerador específico não é dependência do projeto de API.
 
 ## 8. Aceite
 

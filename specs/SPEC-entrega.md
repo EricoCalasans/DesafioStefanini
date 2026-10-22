@@ -1,6 +1,6 @@
 # Spec - `entrega`
 
-**Versão:** 1.0. **Status:** pacote de entrega especificado, ainda não publicado. **Origem:** R14, R17-R19, R44-R53.
+**Versão:** 1.0. **Status:** núcleo implementado e documentado localmente; pacote ainda não publicado e checklist de submissão incompleto. **Origem:** R14, R17-R19, R44-R53.
 
 ## 1. Objetivo e inventário final
 
@@ -23,7 +23,7 @@ Disponibilizar um repositório GitHub que permita conferir cada requisito e repr
 
 ## 2. README final
 
-O README atual é índice de planejamento. Na implementação, manter esse índice e acrescentar o guia operacional:
+O [README da raiz](../README.md) é o guia operacional e índice de navegação desta versão. Ele contém:
 
 1. Problema, diagrama, stack e razões.
 2. Requisitos de sistema e versões fixadas, incluindo Docker/Node/.NET conforme o modo de execução.
@@ -40,7 +40,7 @@ Não deixar comandos que dependem de conhecimento tácito, segredos do desenvolv
 
 ## 3. Exemplo reproduzível em PowerShell
 
-Contrato de demonstração a implementar e validar, executado depois de subir o ambiente e seed:
+Contrato de demonstração já executado contra os serviços reais no smoke de sistema. O exemplo PowerShell equivalente pode ser executado depois de subir o ambiente e seed:
 
 ```powershell
 $products = Invoke-RestMethod -Uri 'http://localhost:8080/api/v1/products'
@@ -56,7 +56,7 @@ Invoke-RestMethod -Uri "http://localhost:3000/api/v1/orders/$($order.id)"
 Invoke-RestMethod -Uri 'http://localhost:3000/api/v1/orders?page=1&pageSize=20'
 ```
 
-Com a configuração canônica: subtotal 50.000, desconto 5.000, total 45.000. Incluir também arquivo `.http` com as mesmas chamadas e erros esperados. Esses exemplos ainda não foram executados contra uma aplicação.
+Com a configuração canônica: subtotal 50.000, desconto 5.000, total 45.000. Os exemplos `.http` estão dentro de cada projeto. O smoke de sistema executou o mesmo payload canônico e consultas reais; não afirma que cada chamada PowerShell acima foi executada literalmente.
 
 ## 4. Demonstração sugerida de 5-7 minutos
 
@@ -85,18 +85,25 @@ Não é obrigação produzir três formatos. Um roteiro basta no planejamento; s
 
 Link pendente de IA, código ausente de um serviço ou integração quebrada impedem declarar submissão completa. Um checklist marcado sem evidência não é aceite.
 
-## 6. Comandos futuros de fechamento
+## 6. Comandos disponíveis de verificação
 
 ```powershell
-npm run docs:check
-npm run contracts:validate
-npm run lint
+Push-Location pedidos-typescript
+npm ci
 npm run build
-npm run test:unit
-npm run test:integration
-npm run test:contracts
-npm run test:system
-npm run smoke
+npm run typecheck
+npm run lint
+npm test
+Pop-Location
+.\infra\test-orders.ps1
+node infra/smoke-system.mjs
+Push-Location catalogo-dotnet
+dotnet restore Catalog.sln --locked-mode
+dotnet build Catalog.sln --configuration Release --no-restore
+dotnet test Catalog.sln --configuration Release --no-build
+dotnet format Catalog.sln --verify-no-changes --no-restore
+Pop-Location
+python docs/validation/validar-especificacoes.py
 ```
 
 Repetir apenas o necessário após mudanças; usar o CI como evidência principal do commit. A conferência de acesso ao GitHub/link de IA e a revisão visual do guia não são substituídas por esses scripts.

@@ -1,6 +1,6 @@
 # Spec - `ia-e-sdd`
 
-**Versão:** 1.0. **Status:** especificado; uso na análise registrado, demais etapas futuras. **Origem:** R11-R14, R19, R35-R36, R47, R50, R52.
+**Versão:** 1.0. **Status:** uso real em especificação/código/testes documentado em `docs/uso-de-ia.md` e `docs/ia/registro-especificacao.md`; revisão dedicada das mensagens e link compartilhável ainda pendentes. **Origem:** R11-R14, R19, R35-R36, R47, R50, R52.
 
 ## 1. Objetivo e separação de requisitos
 

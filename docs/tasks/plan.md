@@ -1,6 +1,6 @@
 # Plano de construção
 
-**Status:** execução autorizada pelo candidato em 22/10/2026; revisão cruzada das specs concluída e bootstrap em andamento. **Referências:** [mapa](../CAPABILITY-MAP.md), [PRD](../PRD.md), [backlog](todo.md), [proposta hipotética](../../specs/SPEC-proposta.md).
+**Status:** núcleo das duas APIs implementado e validado localmente em 22/10/2026; revisão cruzada das specs concluída. Fechamento de evidências, artefatos de liderança e itens do backlog ainda em andamento. **Referências:** [mapa](../CAPABILITY-MAP.md), [PRD](../PRD.md), [backlog](todo.md), [proposta hipotética](../../specs/SPEC-proposta.md).
 
 **Prazo de entrega informado pelo candidato:** 23/10/2026 às 18:00 (horário de Brasília). As 240 horas e três semanas da [proposta](../../specs/SPEC-proposta.md) são um cenário técnico-comercial hipotético, não uma previsão para esta candidatura. O escopo integral não cabe no prazo real; priorizar o núcleo demonstrável, preservar requisitos obrigatórios e reportar cortes e verificações pendentes com transparência.
 
@@ -11,16 +11,18 @@
 | Etapa | Trabalho | Marco para avançar |
 |---|---|---|
 | 0 - Especificação | Análise, PRD, contratos, matriz e revisão | **Concluída:** documentação validada; execução autorizada pelo candidato |
-| 1 - Fundação | Toolchain, estrutura, GitFlow, Compose, roles, build e CI mínimo | Em andamento; ambas as aplicações compilam, bancos isolados e configuração validada |
-| 2 - Catálogo | MongoDB, validador/índices, seed e endpoints | Lote real com uma busca, contratos e erros verificados |
-| 3 - Primeiro fluxo de pedido | Domínio, desconto, porta de catálogo, SQL e POST | Pedido canônico real, valores corretos e rollback comprovado |
-| 4 - Leitura e robustez | GETs/paginação, snapshots, falhas e logs | Leituras independentes do fornecedor; erros definidos |
-| 5 - Qualidade e automação | Integração/sistema/contrato, cobertura, eficiência e gate | CI obrigatório completo no mesmo SHA; falha impede deploy |
-| 6 - Liderança e IA | Guia curto, proposta, revisão por IA e registros | Conteúdo factual, 1-2 páginas e horas reconciliadas |
-| 7 - Fechamento | README limpo, tag/evidências, conversa e roteiro | Checklist de entrega verificável |
+| 1 - Fundação | Toolchain, estrutura, GitFlow, Compose, roles, build e CI mínimo | Fundação local concluída; primeira execução da CI hospedada ainda pendente |
+| 2 - Catálogo | MongoDB, validador/índices, seed e endpoints | API real, lote, paginação, erros e Swagger exercitados; falta medir comandos/explain |
+| 3 - Primeiro fluxo de pedido | Domínio, desconto, porta de catálogo, SQL e POST | Pedido canônico real passou com valores corretos; rollback provado em PostgreSQL |
+| 4 - Leitura e robustez | GETs/paginação, snapshots, falhas e logs | GETs e paginação passaram; matriz completa de falhas e mudança histórica seguem no backlog |
+| 5 - Qualidade e automação | Integração/sistema/contrato, cobertura, eficiência e gate | Testes locais e smoke real passaram; contrato formal, explain e execução da CI hospedada pendentes |
+| 6 - Liderança e IA | Guia curto, proposta, revisão por IA e registros | Guia e proposta entregues localmente; registro real atualizado; revisão dedicada de mensagens ainda pendente |
+| 7 - Fechamento | README limpo, tag/evidências, conversa e roteiro | README e instruções locais disponíveis; link de conversa e pacote final pendentes |
 | 8 - Extensões condicionais | Cloud real e/ou vídeo/slides | Núcleo aceito, recursos e tempo disponíveis |
 
 Testes e documentação acontecem junto com cada incremento. A etapa 5 consolida o fluxo e o gate; não adia todo teste para o fim. IA/SDD e governança acompanham o trabalho, e não são uma narrativa criada apenas na etapa 6.
+
+Em 22/10, as duas APIs, a integração entre serviços e os bancos foram executados em Compose; Pedidos passou em 27 testes unitários/HTTP e quatro testes PostgreSQL, Catálogo em 23 testes .NET, e o smoke ponta a ponta passou. Não foi executada ainda uma pipeline GitHub Actions neste repositório nem foi feito deploy externo. O backlog separa essas pendências das verificações que já têm resultado local.
 
 ## 2. Dependências e possibilidade de trabalho simultâneo
 

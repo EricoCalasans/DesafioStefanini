@@ -1,6 +1,6 @@
 # Revisão das especificações
 
-**Data:** 21/10/2026, atualizada em 22/10/2026. **Revisor:** assistente Codex, na mesma atividade de elaboração. **Status:** revisão documental concluída após correções; o candidato delegou ao Codex as decisões técnicas em 22/10. Não houve revisor externo nem aceite da banca. Foram executados builds e testes de liveness, mas ainda não há validação funcional completa dos serviços.
+**Data:** 21/10/2026, atualizada em 22/10/2026. **Revisor:** assistente Codex, na mesma atividade de elaboração. **Status:** revisão das specs e revisão local da implementação concluídas após correções; o candidato delegou ao Codex as decisões técnicas em 22/10. Não houve revisor externo nem aceite da banca. O estado e os limites das evidências aparecem na seção 7.
 
 ## 1. Escopo da revisão
 
@@ -80,14 +80,14 @@ Evidências executadas dentro de `catalogo-dotnet/`: `dotnet build` sem avisos, 
 | Stack, banco local e regras centrais | Aceitos pelo candidato em 22/10/2026; ADR 001/002 atualizados | Decisão fechada; candidato ainda deve conseguir defender as escolhas |
 | Prazo real da candidatura | 23/10/2026 às 18:00 (horário de Brasília), informado pelo candidato em 22/10 | Priorizar imediatamente; 240 h/3 semanas continuam sendo cenário hipotético, não calendário desta entrega |
 | Revisão do contrato e primeira fatia vertical | Revisadas pelo Codex; o candidato delegou as decisões técnicas em 22/10 | Sem bloqueio técnico; candidato deve estudar os trade-offs antes da apresentação |
-| Toolchain e dependências | Node `24.22.1`, SDK `10.0.402`/runtime `10.0.13`, Engine `29.9.2`, Compose `v5.6.0`; imagens fixas e lockfiles npm/NuGet gerados | Catálogo compila, 22 testes e smoke Mongo reais passaram; Pedidos e integração funcional seguem pendentes |
+| Toolchain e dependências | Node `24.22.1`, SDK `10.0.402`/runtime `10.0.13`, Engine `29.9.2`, Compose `v5.6.0`; imagens fixas e lockfiles npm/NuGet gerados | Pedidos: 27 testes unitários/HTTP e 4 PostgreSQL; Catálogo: 23 testes; smoke real das duas APIs passou |
 | Repositório GitHub e acessos | Entrega acessível | Preparação/fechamento |
 | Link compartilhável e revisão do conteúdo da conversa | Obrigação da submissão | Resolver antes do fechamento |
 | Acesso a SAI APP 3.0 | Somente diferencial específico | Se disponível |
 | Conta/orçamento/rede de cloud | Apenas extensão de deploy real | Antes de provisionar |
-| Testes e artefatos finais | Comprovação da implementação | Durante construção e release |
+| Testes e artefatos finais | Comprovação da implementação | Núcleo funcional local validado; falta release/checklist final |
 
-As decisões 001-004 estão registradas nos ADRs: o candidato aceitou 001/002 e delegou as demais decisões técnicas ao Codex em 22/10; o Codex revisou e aceitou 003/004. Bootstrap e Catálogo estão concluídos localmente. Permanecem pendentes Pedidos, integração, experimento de N+1/explain, testes ponta a ponta e artefatos finais; acesso ao GitHub para publicação, SAI APP 3.0 e cloud são condicionais. A revisão do contrato e da primeira fatia não bloqueia a branch de feature.
+As decisões 001-004 estão registradas nos ADRs: o candidato aceitou 001/002 e delegou as demais decisões técnicas ao Codex em 22/10; o Codex revisou e aceitou 003/004. O núcleo funcional local está concluído. Permanecem pendentes contrato formal produtor/consumidor, experimento N+1/explain, execução de CI hospedada, comparação dedicada de preço/regra, artefatos finais e link de conversa; GitHub, SAI APP 3.0, cloud e vídeo dependem de acesso ou escolha de entrega.
 
 ## 6. Como reproduzir a validação documental
 
@@ -103,4 +103,14 @@ Os pacotes de validação não são dependências das APIs. Na raiz, com Python 
     & $python -m pip install -r docs\validation\requirements-documentacao.txt
     & $python docs\validation\validar-especificacoes.py
 
-O ambiente e os caches ficam fora do repositório; o relatório revalidado é escrito em docs/evidencias/revisao-documental.json. A validação não executa serviços. Quando o mapa, a matriz ou o backlog mudar, conferir as contagens esperadas no validador; nunca reduzi-las para esconder artefatos faltantes.
+O ambiente e os caches ficam fora do repositório; o relatório revalidado é escrito em docs/evidencias/revisao-documental.json. Essa validação documental não executa serviços. Quando o mapa, a matriz ou o backlog mudar, conferir as contagens esperadas no validador; nunca reduzi-las para esconder artefatos faltantes.
+
+## 7. Revisão de implementação e validação em 22/10/2026
+
+Foi feita uma revisão cruzada de contrato, implementação, configuração e evidências locais. Os projetos permanecem isolados em `pedidos-typescript/` e `catalogo-dotnet/`; `node_modules`, `dist`, `bin/`, `obj/` e resultados de testes são ignorados no próprio repositório e não aparecem na raiz. A raiz contém somente os projetos, infraestrutura, contratos, specs, documentação, `.github/`, configuração Git e README.
+
+Verificações repetidas nesta revisão: Pedidos `npm test` (27 testes), `npm run typecheck`, `npm run lint`; Catálogo `dotnet test Catalog.sln --configuration Release --no-restore` (23 testes) e `dotnet format Catalog.sln --verify-no-changes --no-restore`; cinco testes de integração com PostgreSQL real; validador documental (contratos OpenAPI 3.1, referências Markdown e exemplos); containers saudáveis e `node infra/smoke-system.mjs`. Todas passaram. O smoke confirmou criação com os valores canônicos, leitura do snapshot, paginação, texto literal com formato de SQL, rejeição de entrada inválida, saúde e rotas OpenAPI.
+
+A revisão adversarial não encontrou defeito bloqueante no fluxo exercitado. As invariantes do agregado são conferidas antes de gravar e ao reconstituir; cabeçalho e itens usam a mesma transação; SQL é parametrizado; leitura histórica usa PostgreSQL; a aplicação não concede permissões de migração ao runtime. No Catálogo, o lote usa uma busca Mongo `$in`. Os resultados demonstram comportamento funcional local, não provam latência, ausência de N+1 por medição de comandos, ou execução em CI remota.
+
+Pendências de aceite: contrato formal entre schemas canônicos e aplicações; medição reproduzível de comandos/`explain` do Catálogo e carga; execução real do workflow no GitHub; revisão dedicada de mensagens com IA; link compartilhável e pacote final da candidatura. O guia de code review (fonte/PDF de duas páginas) e o dimensionamento executivo foram criados e conferidos. As pendências estão marcadas nos cards correspondentes em [tasks/todo.md](tasks/todo.md). Nenhuma foi rotulada como concluída apenas por existir documentação ou código.

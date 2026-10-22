@@ -1,12 +1,12 @@
 # Matriz de rastreabilidade do desafio
 
-**Data:** 21/10/2026, atualizada em 22/10. **Status global:** especificado e revisado; implementação em andamento. Fundação e Catálogo (T01/T02/T04/T05/T07-T14) têm evidências locais; Pedidos e fluxo integrado permanecem pendentes.
+**Data:** 21/10/2026, atualizada em 22/10. **Status global:** especificado, revisado e com núcleo funcional local. As duas APIs, persistência, integração e smoke real têm evidências; automação hospedada, medição formal de eficiência e artefatos finais continuam pendentes, conforme o estado ao fim deste documento.
 
 53 pontos foram identificados a partir de todas as seções. O número inclui competências contextuais, critérios e repetições relevantes da entrega; **não significa 53 funcionalidades nem 53 obrigações de mesmo peso**. OBR = obrigação explícita; CTX = contexto/critério; DIF = diferencial; ART = artefato incluído por leitura conservadora do objetivo/entrega.
 
 Página é a posição física no PDF. Cenários Qxx estão em [qualidade](../specs/SPEC-qualidade.md). Siglas de aceite, como ORD01 e GOV01, estão nas specs indicadas. A coluna de evidência descreve o que **ainda deverá ser produzido**, salvo as specs existentes.
 
-| ID | Fonte / página | Natureza e ponto coberto | Spec / documento | Aceite ou evidência futura |
+| ID | Fonte / página | Natureza e ponto coberto | Spec / documento | Aceite ou evidência associada |
 |---|---|---|---|---|
 | R01 | §1, p3 | CTX multi-stack e front-end | [Arquitetura](arquitetura.md), [governança](../specs/SPEC-governanca.md) | Duas stacks e guia; ausência de obrigação de UI explicitada |
 | R02 | §1, p3 | CTX REST/microsserviços | [Integração](../specs/SPEC-integracao.md) | INT01; dois processos e HTTP real |
@@ -80,4 +80,18 @@ Página é a posição física no PDF. Cenários Qxx estão em [qualidade](../sp
 
 ## Como atualizar durante a implementação
 
-Acrescentar colunas de commit/PR, evidência e resultado real ao executar. Não substituir a coluna de requisito original por uma funcionalidade parecida, nem transformar meta em resultado. Se houver corte de diferencial, registrar explicitamente. A revisão documental atual cobre os destinos, não comprova a entrega futura.
+Acrescentar colunas de commit/PR, evidência e resultado real ao executar. Não substituir a coluna de requisito original por uma funcionalidade parecida, nem transformar meta em resultado. Se houver corte de diferencial, registrar explicitamente.
+
+## Estado de implementação em 22/10/2026
+
+| Faixa de requisitos | Estado verificável nesta versão |
+|---|---|
+| R15-R16, R20-R29 | Pedidos está implementado em NestJS/PostgreSQL. Criação canônica, cálculo, snapshots, validação, persistência atômica, leituras e paginação passaram em testes unitários/HTTP, integração PostgreSQL e smoke real. |
+| R31-R34 | Catálogo está implementado em ASP.NET Core/MongoDB, com busca individual, listagem e `$in` em lote; API e seed foram exercitados. Falta evidência formal de contagem de comandos e `explain` para concluir a alegação de desempenho. |
+| GitFlow / commits | Política GitFlow, template e histórico local com commits por unidade existem. Não houve PR/merge nem execução em plataforma remota. |
+| R37, R42-R44 | Checks e documentação de execução existem; build, lint, format, testes, validação OpenAPI/documental e smoke local passaram. Pipeline hospedada não foi executada. |
+| R11-R14, R35-R36, R47, R50, R52 | Os documentos de uso/registro real de IA cobrem especificação, implementação, depuração e testes. Falta a revisão dedicada de mensagens e o link compartilhável obrigatório. |
+| R17, R38-R39, R40-R41, R48, R51 | Guia multi-stack de code review (fonte e PDF de 2 páginas) e dimensionamento executivo foram produzidos localmente; seguem pendentes revisão independente e pacote final de submissão. |
+| R07, R12, R45, R49, R53 | Publicação GitHub, CI/CD externa, SAI APP 3.0 e vídeo/slides não foram realizados; os elementos condicionais ou dependentes de acesso ficam explícitos no backlog. |
+
+O backlog distingue implementação local de aceite de entrega. Um arquivo de contrato/spec ou uma configuração de pipeline não é apresentado como execução remota, publicação ou aprovação da banca.
