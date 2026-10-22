@@ -1,6 +1,6 @@
 # Matriz de rastreabilidade do desafio
 
-**Data:** 21/10/2026, atualizada em 22/10. **Status global:** especificado, revisado e com núcleo funcional local. As duas APIs, persistência, integração e smoke real têm evidências; automação hospedada, medição formal de eficiência e artefatos finais continuam pendentes, conforme o estado ao fim deste documento.
+**Data:** 21/10/2026, atualizada em 22/10. **Status global:** especificado, revisado e com núcleo funcional local. As duas APIs, persistência, integração, contrato runtime, smoke real e medição de comandos/índices do lote têm evidências; automação hospedada, benchmark e artefatos finais continuam pendentes, conforme o estado ao fim deste documento.
 
 53 pontos foram identificados a partir de todas as seções. O número inclui competências contextuais, critérios e repetições relevantes da entrega; **não significa 53 funcionalidades nem 53 obrigações de mesmo peso**. OBR = obrigação explícita; CTX = contexto/critério; DIF = diferencial; ART = artefato incluído por leitura conservadora do objetivo/entrega.
 
@@ -87,7 +87,7 @@ Acrescentar colunas de commit/PR, evidência e resultado real ao executar. Não 
 | Faixa de requisitos | Estado verificável nesta versão |
 |---|---|
 | R15-R16, R20-R29 | Pedidos está implementado em NestJS/PostgreSQL. Criação canônica, cálculo, snapshots, validação, persistência atômica, leituras e paginação passaram em testes unitários/HTTP, integração PostgreSQL e smoke real. |
-| R31-R34 | Catálogo está implementado em ASP.NET Core/MongoDB, com busca individual, listagem e `$in` em lote; API e seed foram exercitados. Falta evidência formal de contagem de comandos e `explain` para concluir a alegação de desempenho. |
+| R31-R34 | Catálogo está implementado em ASP.NET Core/MongoDB; busca individual, listagem e `$in` em lote foram exercitados. Profiler registrou um `find` para 1/10/100 IDs; `explain` confirmou `_id_` e `ix_products_active_id`. O dataset pequeno não é benchmark de capacidade. |
 | GitFlow / commits | Política GitFlow, template e histórico local com commits por unidade existem. Não houve PR/merge nem execução em plataforma remota. |
 | R37, R42-R44 | Checks e documentação de execução existem; build, lint, format, testes, validação documental, contrato runtime produtor/consumidor e smoke local passaram. Pipeline hospedada não foi executada. |
 | R11-R14, R35-R36, R47, R50, R52 | Os documentos de uso/registro real de IA cobrem especificação, implementação, depuração e testes. Falta a revisão dedicada de mensagens e o link compartilhável obrigatório. |

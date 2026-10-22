@@ -1,6 +1,6 @@
 # Spec - `catalogo`
 
-**Versão:** 1.0. **Status:** implementado e validado localmente em 22/10/2026; a medição de comandos Mongo para o aceite formal de N+1 permanece no backlog de qualidade. **Origem:** R03, R15, R16, R31-R34, R42-R44. **Contrato do fornecedor:** [OpenAPI](../contracts/catalogo.openapi.yaml).
+**Versão:** 1.0. **Status:** implementado e validado localmente em 22/10/2026, incluindo contagem de comandos e `explain` em MongoDB real. **Origem:** R03, R15, R16, R31-R34, R42-R44. **Contrato do fornecedor:** [OpenAPI](../contracts/catalogo.openapi.yaml).
 
 ## 1. Objetivo e fronteira
 
@@ -95,7 +95,7 @@ Executados dentro do projeto independente de Catálogo:
     dotnet run --project Catalog.Api
     Pop-Location
 
-O serviço `mongo-bootstrap` em `infra/compose.yaml` é inicialização compartilhada, não endpoint público. Endpoints, validação, erros, correlação e logs sanitizados estão implementados. Foram executados build, formatação, 23 testes automatizados e smoke contra MongoDB real. O critério de ausência de N+1 ainda exige evidência de contagem de comandos/explain no item T31; a implementação de lote usa um `Filter.In` e uma chamada `Find` por requisição.
+O serviço `mongo-bootstrap` em `infra/compose.yaml` é inicialização compartilhada, não endpoint público. Endpoints, validação, erros, correlação e logs sanitizados estão implementados. Foram executados build, formatação, 23 testes automatizados, smoke contra MongoDB real e experimento reproduzível de contagem/explain. Para lotes de 1, 10 e 100 IDs, o servidor observou um comando `find` por requisição; os planos usaram `_id_` para o lote e `ix_products_active_id` para a página. Resultados e limites estão em [evidência do experimento](../docs/evidencias/catalogo-lote-explain.md). O dataset sintético não demonstra SLA nem capacidade produtiva.
 
 ## 8. Critérios de sucesso e testes
 

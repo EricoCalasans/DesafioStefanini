@@ -12,10 +12,10 @@
 |---|---|---|
 | 0 - Especificação | Análise, PRD, contratos, matriz e revisão | **Concluída:** documentação validada; execução autorizada pelo candidato |
 | 1 - Fundação | Toolchain, estrutura, GitFlow, Compose, roles, build e CI mínimo | Fundação local concluída; primeira execução da CI hospedada ainda pendente |
-| 2 - Catálogo | MongoDB, validador/índices, seed e endpoints | API real, lote, paginação, erros e Swagger exercitados; falta medir comandos/explain |
+| 2 - Catálogo | MongoDB, validador/índices, seed e endpoints | API real, lote, paginação, erros, Swagger, contagem de comandos e explain exercitados |
 | 3 - Primeiro fluxo de pedido | Domínio, desconto, porta de catálogo, SQL e POST | Pedido canônico real passou com valores corretos; rollback provado em PostgreSQL |
 | 4 - Leitura e robustez | GETs/paginação, snapshots, falhas e logs | GETs e paginação passaram; matriz completa de falhas e mudança histórica seguem no backlog |
-| 5 - Qualidade e automação | Integração/sistema/contrato, cobertura, eficiência e gate | Testes locais, contrato runtime contra OpenAPI e smoke real passaram; explain e execução da CI hospedada pendentes |
+| 5 - Qualidade e automação | Integração/sistema/contrato, cobertura, eficiência e gate | Testes locais, contrato runtime, smoke e evidência de N+1 passaram; benchmark e execução da CI hospedada pendentes |
 | 6 - Liderança e IA | Guia curto, proposta, revisão por IA e registros | Guia e proposta entregues localmente; registro real atualizado; revisão dedicada de mensagens ainda pendente |
 | 7 - Fechamento | README limpo, tag/evidências, conversa e roteiro | README e instruções locais disponíveis; link de conversa e pacote final pendentes |
 | 8 - Extensões condicionais | Cloud real e/ou vídeo/slides | Núcleo aceito, recursos e tempo disponíveis |

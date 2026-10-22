@@ -98,6 +98,7 @@ Pop-Location
 .\infra\test-orders.ps1
 node infra/smoke-system.mjs
 python docs/validation/validar-contratos-runtime.py
+.\docs\validation\medir-lote-catalogo.ps1
 Push-Location catalogo-dotnet
 dotnet restore Catalog.sln --locked-mode
 dotnet build Catalog.sln --configuration Release --no-restore

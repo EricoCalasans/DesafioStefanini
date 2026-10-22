@@ -26,7 +26,7 @@
     {
       "check": "Links locais Markdown",
       "result": "pass",
-      "detail": "178 links locais com destino existente"
+      "detail": "183 links locais com destino existente"
     },
     {
       "check": "IDs e contagem de artefatos",

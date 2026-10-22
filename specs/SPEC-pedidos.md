@@ -2,7 +2,7 @@
 
 **Versão:** 1.0. **Status:** implementado e validado localmente em 22/10/2026. **Origem:** R15-R16, R20-R30, R42-R44. **Contrato:** [OpenAPI](../contracts/pedidos.openapi.yaml).
 
-**Evidência atual:** 27 testes unitários/HTTP passaram; cinco testes de integração passaram contra PostgreSQL real, incluindo papéis restritos, rollback e preservação de snapshots após mudança de preço/regra; o smoke ponta a ponta passou com Pedidos, Catálogo, PostgreSQL e MongoDB em containers. O cenário canônico retornou subtotal de 50.000, desconto de 5.000 e total de 45.000. A validação documental/OpenAPI também passou. Permanecem no backlog o contrato automatizado entre produtor/consumidor, o experimento de N+1/explain, a primeira execução da CI hospedada e os artefatos finais da candidatura; consulte o [backlog](../docs/tasks/todo.md) para o estado exato.
+**Evidência atual:** 27 testes unitários/HTTP passaram; cinco testes de integração passaram contra PostgreSQL real, incluindo papéis restritos, rollback e preservação de snapshots após mudança de preço/regra; o smoke ponta a ponta passou com Pedidos, Catálogo, PostgreSQL e MongoDB em containers. O cenário canônico retornou subtotal de 50.000, desconto de 5.000 e total de 45.000. As respostas reais também passaram contra os schemas OpenAPI canônicos. A contagem/explain Mongo e os acessos SQL de contagem fixa estão documentados em [evidência de eficiência](../docs/evidencias/catalogo-lote-explain.md). Permanecem no backlog a primeira execução da CI hospedada, benchmark de carga e artefatos finais da candidatura; consulte o [backlog](../docs/tasks/todo.md) para o estado exato.
 
 ## 1. Objetivo, stack e dependências
 

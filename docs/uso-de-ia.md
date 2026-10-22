@@ -26,7 +26,7 @@ O repositório e as evidências ficam organizados em [docs](.), [specs](../specs
 - **Preparação:** pedido para verificar versões/configuração antes do código. Resultado: Node 24, .NET 10, Docker Compose, PostgreSQL 17 e MongoDB 8 fixados e conferidos.
 - **Implementação:** pedido para comparar specs com o PRD, implementar o sistema completo, separar cada linguagem em projeto próprio, preservar um único Git, manter a raiz enxuta, completar `.gitignore`, criar commits claros e testar tudo. Resultado e verificações estão na revisão e backlog.
 - **Correção orientada a testes:** incompatibilidade entre versões de TypeScript e `typescript-eslint` foi tratada usando Biome para lint/format e `tsc` para tipos. Problemas de parsing/validação do Catálogo foram reproduzidos e corrigidos, conforme o registro real.
-- **Revisão final:** testes locais e revisão de persistência, limites, fronteiras e exemplos foram repetidos; as pendências de CI hospedada, N+1 medido e artefatos de candidatura permanecem explícitas.
+- **Revisão final:** testes locais e revisão de persistência, limites, fronteiras e exemplos foram repetidos; a contagem/explain de Mongo confirmou lote sem N+1; CI hospedada, benchmark de carga e artefatos de candidatura permanecem explícitos.
 
 As mensagens acima são descrições de interações que aconteceram nesta conversa, não prompts futuros apresentados como reais. A especificação e o registro de IA informam os resultados e limites com mais detalhe.
 
@@ -34,7 +34,7 @@ As mensagens acima são descrições de interações que aconteceram nesta conve
 
 O candidato delegou as decisões técnicas ao assistente com base no PRD; a decisão foi registrada nos ADRs. O assistente verificou os resultados localmente. Não houve revisor independente, aceite da banca, execução GitHub Actions ou deploy remoto.
 
-Em 22/10/2026 passaram: 27 testes unitários/HTTP de Pedidos, 5 testes PostgreSQL reais, 23 testes .NET, `npm run typecheck`, `npm run lint`, `dotnet format --verify-no-changes`, validação documental/OpenAPI e smoke ponta a ponta em containers. Consulte o [relatório de revisão](revisao-das-especificacoes.md) e o [backlog com evidências](tasks/todo.md). Esses resultados não afirmam medição formal de carga ou de ausência de N+1.
+Em 22/10/2026 passaram: 27 testes unitários/HTTP de Pedidos, 5 testes PostgreSQL reais, 23 testes .NET, `npm run typecheck`, `npm run lint`, `dotnet format --verify-no-changes`, validação documental/OpenAPI, teste runtime contra contratos e smoke ponta a ponta em containers. O experimento Mongo mediu um `find` por lote de 1/10/100 IDs e confirmou os índices esperados. Consulte o [relatório de revisão](revisao-das-especificacoes.md), [evidência de eficiência](evidencias/catalogo-lote-explain.md) e [backlog](tasks/todo.md). Não foi feito benchmark de carga.
 
 ## Link compartilhável obrigatório
 

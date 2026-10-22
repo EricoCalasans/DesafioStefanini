@@ -101,9 +101,11 @@ O estado atual de implementação e as evidências de cada fatia estão registra
 
 O teste de contrato runtime usa `PyYAML` e `jsonschema`, conforme `docs/validation/requirements-documentacao.txt`, e verifica respostas das duas APIs contra os schemas OpenAPI. A CI instala essas ferramentas antes dos testes; localmente, use um ambiente Python isolado fora do repositório.
 
+Para repetir a contagem de comandos e os planos do MongoDB em ambiente local, execute `.\docs\validation\medir-lote-catalogo.ps1`. O roteiro habilita temporariamente o profiler no banco `catalog` e o restaura ao nível anterior; requer acesso Docker e a URI administrativa gerada pelo setup.
+
 ## Estado verificado localmente
 
-Em 22/10/2026, Pedidos passou em 27 testes unitários/HTTP, typecheck, lint e cinco testes de integração com PostgreSQL real; Catálogo passou em 23 testes .NET e verificação de formatação. As duas APIs iniciaram em containers; smoke e contrato runtime contra OpenAPI confirmaram a criação canônica com subtotal de 50.000, desconto de 5.000 e total de 45.000, além de leituras, erros e paginação. A validação documental também passou. O guia de code review e o dimensionamento estão prontos localmente. A primeira execução da CI hospedada, o experimento formal de N+1/`explain`, a revisão dedicada de mensagens com IA e a entrega do link de IA permanecem pendentes e estão destacados no backlog.
+Em 22/10/2026, Pedidos passou em 27 testes unitários/HTTP, typecheck, lint e cinco testes de integração com PostgreSQL real; Catálogo passou em 23 testes .NET e verificação de formatação. As duas APIs iniciaram em containers; smoke e contrato runtime contra OpenAPI confirmaram a criação canônica com subtotal de 50.000, desconto de 5.000 e total de 45.000, além de leituras, erros e paginação. O experimento Mongo confirmou um `find` para 1, 10 e 100 IDs e os índices esperados; a validação documental também passou. O guia de code review e o dimensionamento estão prontos localmente. A primeira execução da CI hospedada, benchmark de laboratório, revisão dedicada de mensagens com IA e entrega do link de IA permanecem pendentes e estão destacados no backlog.
 
 ## Entrega e limites
 
