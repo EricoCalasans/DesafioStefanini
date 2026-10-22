@@ -89,7 +89,7 @@ Começar quando **as decisões essenciais (seção 1), as ferramentas que compil
 | Specs e contratos | Criados e revisados documentalmente | Candidato confirmar escolhas antes do código |
 | Node | `v24.22.1`; arquivo `.node-version` criado | Validar em terminal novo ao iniciar o projeto |
 | .NET | SDK `10.0.402`; `dotnet --list-sdks` e `dotnet --version` confirmados; `global.json` criado | Instalar runtime e pacotes da aplicação no bootstrap |
-| Docker | Desktop `4.96.1` por usuário/WSL 2 em E:; Engine `29.9.2`; Compose `5.6.0`; daemon e `--wait` aprovados | O PATH do usuário contém `E:\Apps\DockerDesktop\resources\bin`; o processo atual do Codex ainda herdou o PATH antigo. Reabrir o terminal se `docker` não for reconhecido; `docker ps -a` confirmou que ainda não há contêineres |
+| Docker | Desktop `4.96.1` por usuário/WSL 2 em E:; Engine `29.9.2`; Compose `5.6.0`; daemon e `--wait` aprovados | O PATH do usuário contém `E:\Apps\DockerDesktop\resources\bin`; o processo atual do Codex ainda herdou o PATH antigo. Reiniciar o Codex para testar o comando sem caminho absoluto; `docker ps -a` confirmou que ainda não há contêineres |
 | Git | 2.44.0; `main` e `develop`; commit documental `e9a3660` | Criar branch de feature após fechar decisões essenciais |
 | Recursos locais | C: `0,87 GB` livres; E: `192,16 GB`; portas 3000, 8080, 5432 e 27017 livres após iniciar Docker | Manter dados/imagens em E:, acompanhar C: e revalidar portas antes de subir serviços |
 | Bancos online | Não escolhidos; nenhuma conta necessária à base local | Confirmar ambiente Docker local ou solicitar alternativa remota |
