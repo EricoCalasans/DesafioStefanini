@@ -27,7 +27,9 @@ Este repositório está na etapa de **análise e especificação**. Os documento
 | Execução e qualidade | Docker Compose, Vitest, xUnit, GitHub Actions | Ambiente reproduzível, testes e gate antes de deploy |
 | Liderança | Markdown, ADRs e futuro PDF do guia | Governança multi-stack, dimensionamento e evidências de IA |
 
-A versão corretiva exata de cada ferramenta será fixada durante o bootstrap. [Referências oficiais e compatibilidade](docs/referencias-tecnicas.md) registram a base consultada e os cuidados de ambiente. O Node local observado é 24.13.0; a geração de projetos no NestJS 12 exige atualização dentro da linha 24. Nenhum SDK .NET foi listado, e Docker não foi encontrado no PATH nesta sessão.
+As ferramentas locais estão fixadas em `.node-version` (Node 24.22.1) e `global.json` (SDK .NET 10.0.402). Docker Desktop 4.96.1, Engine 29.9.2 e Compose 5.6.0 foram instalados/iniciados e validados em 21/10/2026. Como C: tem menos de 1 GB livre, o aplicativo, os dados WSL e os plugins Docker foram direcionados a E:. As versões das dependências e imagens da aplicação serão fixadas durante o bootstrap. [Referências oficiais e compatibilidade](docs/referencias-tecnicas.md) registram a base consultada e os cuidados de ambiente.
+
+Para reproduzir as verificações de versão no PowerShell, use `nvm use 24.22.1`, `node --version`, `dotnet --list-sdks` e `dotnet --version`. O SDK local selecionado pelo `global.json` deve ser `10.0.402` ou um patch compatível da mesma faixa.
 
 ## Specs
 
@@ -46,6 +48,17 @@ A versão corretiva exata de cada ferramenta será fixada durante o bootstrap. [
 Os [contratos OpenAPI](contracts/) são artefatos de planejamento, sujeitos a validação e implementação posterior. Os comandos operacionais nas specs são contratos do que o futuro repositório deverá suportar; **não funcionam ainda nesta pasta**.
 
 O núcleo não inclui uma interface de negócio: a interação será pelas APIs, Swagger UI e exemplos reproduzíveis. Hospedagem em nuvem e apresentação em vídeo são extensões condicionais; o CI, a documentação, o guia de governança e o dimensionamento fazem parte da entrega planejada.
+
+## Fluxo GitFlow inicial
+
+O repositório começa com `main` e `develop`. `main` representa uma versão estável para entrega; `develop` recebe as funcionalidades concluídas. Só abra a primeira feature depois de confirmar stack, regras e contratos no checklist.
+
+```powershell
+git switch develop
+git switch -c feature/<id>-descricao
+```
+
+Uma estabilização parte de `develop` em `release/<versao>` e volta para `main` com tag, além de retornar as correções para `develop`. Uma correção urgente parte de `main` em `hotfix/<versao>` e deve voltar para `main` e `develop` (e para uma release ativa, quando houver). Use pull requests e checks reais quando o repositório remoto estiver definido; não simule aprovações ou histórico.
 
 ## Como interpretar o status
 

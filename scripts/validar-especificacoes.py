@@ -77,7 +77,7 @@ def ids():
     assert len(specs) == 9, len(specs)
     quality = re.findall(r'^\| (Q\d\d) \|', (ROOT/'specs/SPEC-qualidade.md').read_text(encoding='utf-8'), re.M)
     assert Counter(quality) == Counter(f'Q{i:02d}' for i in range(1,51)), quality
-    tasks = re.findall(r'^- \[ \] \*\*(T\d\d)', (ROOT/'tasks/todo.md').read_text(encoding='utf-8'), re.M)
+    tasks = re.findall(r'^- \[[ x]\] \*\*(T\d\d)', (ROOT/'tasks/todo.md').read_text(encoding='utf-8'), re.M)
     assert Counter(tasks) == Counter(f'T{i:02d}' for i in range(1,46)), tasks
     return 'R01-R53, Q01-Q50 e T01-T45 sem lacunas ou duplicações; 9 specs'
 

@@ -6,7 +6,7 @@ Cada card inclui aceite e verificação. Referências Qxx apontam à [matriz de 
 
 ## Fundação
 
-- [ ] **T01 - Verificar toolchain e congelar versões** (plataforma, P, bloqueante; sem dependência). Aceite: Node compatível, SDK .NET e Docker funcionais; patches registrados. Verificar: versões e builds mínimos. Alvos: `.node-version`, `global.json`, referências técnicas.
+- [x] **T01 - Verificar toolchain e congelar versões** (plataforma, P, bloqueante; sem dependência). Concluído em 21/10/2026: Node `24.22.1`, SDK .NET `10.0.402`, Docker Desktop `4.96.1`/Engine `29.9.2`/Compose `5.6.0` validados; versões Node/.NET fixadas e ambiente registrado. Verificar novamente ao abrir um terminal novo. Alvos: `.node-version`, `global.json`, referências técnicas.
 - [ ] **T02 - Iniciar estrutura e scripts comuns** (plataforma, M, bloqueante; T01). Aceite: workspace TS/ESM e solução C# compilam. Verificar: build das duas stacks. Alvos: manifests/lockfiles e entrypoints; dividir bootstrap por stack se necessário.
 - [ ] **T03 - Preparar GitFlow e template de PR** (plataforma, P, alta; T02). Aceite: branches iniciais e política documentada, commits reais. Verificar: histórico/configuração. Alvos: `.gitignore`, `.github/PULL_REQUEST_TEMPLATE.md`, guia Git.
 - [ ] **T04 - Provisionar PostgreSQL e papéis locais** (plataforma, M, bloqueante; T02). Aceite: bootstrap, usuário runtime e migration distintos. Verificar: DML permitido e DDL negado ao runtime. Alvos: Compose e init PostgreSQL.

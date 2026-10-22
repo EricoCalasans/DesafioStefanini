@@ -2,7 +2,7 @@
 
 **Status:** plano proposto após especificação, sem implementação iniciada. **Referências:** [mapa](../CAPABILITY-MAP.md), [PRD](../docs/PRD.md), [backlog](todo.md), [proposta hipotética](../specs/SPEC-proposta.md).
 
-**Gate inicial:** fechar os itens essenciais de [checklist pré-desenvolvimento](../docs/checklist-pre-desenvolvimento.md) antes do primeiro incremento. Em particular: confirmar stacks/regras, atualizar Node, instalar/verificar SDK .NET, subir Docker e conferir a raiz Git. A etapa 1 começa depois desse gate.
+**Gate inicial:** fechar os itens essenciais de [checklist pré-desenvolvimento](../docs/checklist-pre-desenvolvimento.md) antes do primeiro incremento. Toolchain local, Docker, raiz Git e branches iniciais já foram preparados. Ainda é preciso confirmar stacks/regras, revisar a fatia e o contrato, e o candidato validar que entende as escolhas antes de criar a primeira branch de feature. A etapa 1 começa depois desse gate.
 
 ## 1. Sequência e marcos verificáveis
 
