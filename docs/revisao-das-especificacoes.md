@@ -64,7 +64,7 @@ As funcionalidades do núcleo estão especificadas com objetivo, stack, estrutur
 | Stack, banco local e regras centrais | Aceitos pelo candidato em 22/10/2026; ADR 001/002 atualizados | Decisão fechada; candidato ainda deve conseguir defender as escolhas |
 | Prazo real da candidatura | 23/10/2026 às 18:00 (horário de Brasília), informado pelo candidato em 22/10 | Priorizar imediatamente; 240 h/3 semanas continuam sendo cenário hipotético, não calendário desta entrega |
 | Revisão do contrato e primeira fatia vertical | Ainda aguardando validação do candidato | Antes da primeira branch de feature |
-| Toolchain local: Node, SDK .NET e Docker | Node `24.22.1` e SDK `10.0.402` confirmados; em 22/10, CLI `29.9.2` e Compose `v5.6.0` estão no PATH, mas Docker Desktop não foi encontrado em execução e `docker info` não respondeu em 30 s | Iniciar Docker Desktop e reconfirmar Engine/Compose antes do bootstrap |
+| Toolchain local: Node, SDK .NET e Docker | Node `24.22.1`, SDK `10.0.402`/runtime `10.0.13`, Engine `29.9.2` e Compose `v5.6.0` confirmados em 22/10; imagens de banco baixadas | Escolher/lockar patches exatos das dependências de aplicação e imagens de runtime/build durante o bootstrap; revalidar portas |
 | Patches/driver C# exatos e lockfiles | Compatibilidade real do conjunto | Bootstrap, com build/teste |
 | Repositório GitHub e acessos | Entrega acessível | Preparação/fechamento |
 | Link compartilhável e revisão do conteúdo da conversa | Obrigação da submissão | Resolver antes do fechamento |

@@ -18,12 +18,12 @@
 
 | Componente | Baseline proposto | Como fixar |
 |---|---|---|
-| Node | 24 LTS; >=24.15 para scaffolding Nest 12 | `.node-version` e imagem com patch/digest |
+| Node | 24 LTS; `24.22.1` instalado e >=24.15 para scaffolding Nest 12 | `.node-version` e imagem com patch/digest |
 | TypeScript / NestJS | 6.x / 12.x, ESM | versões exatas em `package-lock.json` e dependências alinhadas |
 | `pg` | 8.x, confirmar compatibilidade no bootstrap | `package-lock.json`, integração real |
 | .NET / ASP.NET Core / C# | 10 / 10 / 14 | `global.json`, target `net10.0`, runtime/digest |
 | MongoDB C# Driver | 3.x, minor a selecionar por compatibilidade | NuGet lock e teste real com MongoDB 8.0 |
-| PostgreSQL / MongoDB | 17 / 8.0 | tags corretivas e digests, sem `latest` |
+| PostgreSQL / MongoDB | `postgres:17.11` / `mongo:8.0.34-noble` | Tags/digests abaixo, sem `latest` |
 | Testes | Vitest para TS; xUnit para C# | versões estáveis compatíveis, fixadas em lockfiles |
 | OpenAPI | 3.1.0 | campo `openapi` dos contratos e validador compatível |
 | Docker Compose | CLI plugin; local `v5.6.0`, `--wait` e `--wait-timeout` disponíveis | `docker compose version`; fixar versão compatível e registrar no README operacional |
@@ -35,8 +35,10 @@ Não existem lockfiles de aplicação nesta etapa. Especificar um patch sem inst
 
 - Node `v24.22.1` instalado/ativado por nvm e fixado em `.node-version` em 21/10/2026; atende o mínimo consultado para scaffolding Nest 12.
 - SDK .NET `10.0.402` instalado e confirmado com `dotnet --list-sdks` e `dotnet --version`; a versão está fixada em `global.json`.
+- Runtime ASP.NET Core/.NET `10.0.13` instalado com o SDK .NET 10.
 - Java 21 existe, mas não faz parte da proposta selecionada.
-- Docker Desktop `4.96.1` instalado por usuário em `E:\Apps\DockerDesktop`, backend WSL 2; Engine `29.9.2`, Compose `v5.6.0`; Engine e suporte a `--wait` passaram em 21/10/2026. O PATH salvo do usuário contém `E:\Apps\DockerDesktop\resources\bin`, mas o processo Codex atual foi iniciado antes da atualização e precisou executar o CLI pelo caminho absoluto.
-- C: tinha `0,87 GB` livres e E: `192,16 GB` na conferência; aplicativo e disco WSL estão em E:. O caminho padrão de plugins `.docker\cli-plugins` é uma junção para `E:\DockerConfig\cli-plugins` para evitar cópia dos binários em C:.
+- Docker Desktop `4.96.1` instalado por usuário em `E:\Apps\DockerDesktop`, backend WSL 2; Engine `29.9.2` e Compose `v5.6.0` iniciados e confirmados em 22/10/2026; suporte a `--wait` validado em 21/10.
+- Imagens locais `linux/amd64`: `postgres:17.11` (`sha256:b8faeff7712663c2773a190181e1246e37e364b887611c04658c28b44e2408fe`) e `mongo:8.0.34-noble` (`sha256:c2d54fddfb3738fb27fe117f51692e3f44e640a3e7aeb8da3937ee9cd33a650b`). Apenas baixadas; nenhum contêiner foi criado.
+- Em 22/10, C: tinha `50,44 GB` livres e E: `210,23 GB`; aplicativo e disco WSL estão em E:. O caminho padrão de plugins `.docker\cli-plugins` é uma junção para `E:\DockerConfig\cli-plugins` para evitar cópia dos binários em C:.
 - WSL `3.0.3.0`, kernel `6.18.54.1`; a distribuição `docker-desktop` está em execução na versão 2. Não foi instalada uma distribuição Linux de uso geral.
 - PDF lido com Python e Poppler fornecidos pelo runtime do Codex, sem dependências de aplicação instaladas.

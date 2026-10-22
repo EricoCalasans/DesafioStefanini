@@ -22,7 +22,8 @@
 - [x] Conferir Git com `git --version`: Git 2.44.0 instalado; repositório inicializado e histórico documental criado.
 - [x] Medir espaço em disco: C: tinha aproximadamente `0,87 GB` livres e E: `192,16 GB` na última conferência. Docker Desktop, dados WSL e plugins foram direcionados a E:; manter imagens/cache/dados ali e acompanhar o espaço baixo em C:.
 - [x] Confirmar em 21/10 que Docker Desktop/WSL2 iniciou sem erro: o WSL `3.0.3.0` iniciou a distribuição `docker-desktop` em versão 2 e `docker info` confirmou o Engine.
-- [ ] Reconfirmar o daemon antes do primeiro bootstrap. Em 22/10, o `PATH` deste processo encontrou Docker CLI `29.9.2` e `docker compose version` retornou `v5.6.0`, mas o processo Docker Desktop não foi encontrado; `docker info` não respondeu em 30 segundos.
+- [x] Reconfirmar o daemon antes do primeiro bootstrap. Em 22/10, Docker Desktop/WSL2 foram iniciados; `docker version`, `docker info` e Compose `v5.6.0` responderam, Engine `29.9.2` ativo e `docker ps -a` vazio.
+- [x] Baixar as imagens-base locais escolhidas para os bancos: `postgres:17.11` e `mongo:8.0.34-noble`. Tags e digests observados estão em [referências técnicas](referencias-tecnicas.md); nenhum contêiner foi criado.
 - [x] Verificar se as portas 3000, 8080, 5432 e 27017 estão livres: nenhuma estava em escuta na última conferência. Repetir antes do primeiro `compose up`.
 - [x] Não instalar Java para esta proposta; Java não faz parte da stack escolhida.
 
@@ -75,7 +76,8 @@ Se a revisão do candidato mudar alguma escolha aceita, atualizar ADR/spec/contr
 ## 6. Fechar a preparação de qualidade
 
 - [x] Fixar as ferramentas locais em `.node-version` (`24.22.1`) e `global.json` (`10.0.402`).
-- [ ] Fixar versões exatas de dependências e imagens suportadas; criar lockfiles durante o bootstrap e não usar tags `latest` na release.
+- [x] Fixar as tags corretivas das imagens-base dos bancos e baixá-las para o ambiente local; digests registrados em [referências técnicas](referencias-tecnicas.md).
+- [ ] Fixar versões exatas das dependências das aplicações e das imagens de runtime/build; criar lockfiles durante o bootstrap e não usar tags `latest` na release.
 - [ ] Preparar build/lint/format das duas stacks no CI inicial; ampliar os checks com os testes conforme cada fatia é entregue.
 - [ ] Confirmar que primeiro teste integrado usará PostgreSQL e MongoDB reais em ambiente descartável.
 - [x] Definir o registro de prompts, decisões e validação da IA em `docs/ia/registro-especificacao.md`; registrar somente interações e evidências reais.
@@ -92,10 +94,10 @@ Começar quando **as decisões essenciais (seção 1), as ferramentas que compil
 |---|---|---|
 | Specs e contratos | Criados e revisados documentalmente; escolhas da seção 1 aceitas em 22/10 | Candidato revisar campos, erros e primeira fatia vertical |
 | Node | `v24.22.1`; arquivo `.node-version` criado | Validar em terminal novo ao iniciar o projeto |
-| .NET | SDK `10.0.402`; `dotnet --list-sdks` e `dotnet --version` confirmados; `global.json` criado | Instalar runtime e pacotes da aplicação no bootstrap |
-| Docker | Desktop `4.96.1`, Engine `29.9.2` e Compose `5.6.0` instalados/validados em 21/10; em 22/10 CLI e Compose foram encontrados pelo processo atual | O processo Docker Desktop não foi encontrado e `docker info` ficou sem resposta por 30 s. Iniciar Docker Desktop e reconfirmar Engine, `docker ps -a` e Compose antes do bootstrap; a última conferência sem contêineres do projeto foi em 21/10 |
+| .NET | SDK `10.0.402` e runtime ASP.NET Core `10.0.13`; `global.json` criado | Restaurar e testar pacotes da aplicação no bootstrap |
+| Docker | Desktop `4.96.1`, Engine `29.9.2` e Compose `5.6.0` ativos/validados em 22/10; imagens `postgres:17.11` e `mongo:8.0.34-noble` baixadas; nenhum contêiner do projeto | Revalidar portas e saúde antes de `compose up`; criar Compose, volumes e papéis durante a fundação |
 | Git | 2.44.0; `main` e `develop`; histórico documental e de preparação registrados | Criar branch de feature após revisar contrato e primeira fatia |
-| Recursos locais | C: `0,87 GB` livres; E: `192,16 GB`; portas 3000, 8080, 5432 e 27017 livres após iniciar Docker | Manter dados/imagens em E:, acompanhar C: e revalidar portas antes de subir serviços |
+| Recursos locais | C: `50,44 GB` livres; E: `210,23 GB` em 22/10; portas 3000, 8080, 5432 e 27017 estavam livres na última medição | Manter dados/imagens em E:, acompanhar C: e revalidar portas antes de subir serviços |
 | Banco/ambiente | Docker local com PostgreSQL e MongoDB confirmado em 22/10; sem banco online | Preparar Compose, volumes e papéis durante a fundação |
 | Prazo da candidatura | 23/10/2026 às 18:00, horário de Brasília | Priorizar entrega; três semanas seguem apenas na proposta hipotética |
 | Aplicações e testes de sistema | Ainda não iniciados | Começar após fechar o critério acima |
