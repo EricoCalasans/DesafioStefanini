@@ -1,10 +1,10 @@
 # Registro de decisões arquiteturais
 
-Cada decisão está **proposta**, registrada em 21/10/2026. Sua aceitação acontecerá na revisão do candidato antes ou durante o bootstrap; nenhuma mudança de ambiente foi aplicada por estas notas.
+O status de cada decisão é indicado no respectivo ADR. O candidato aceitou ADR 001 e ADR 002 em 22/10/2026; os demais seguem propostos até revisão explícita.
 
-| ADR | Tema |
-|---|---|
-| [001](001-stacks-e-fronteiras.md) | Duas stacks, dois serviços e dois bancos |
-| [002](002-dinheiro-e-desconto.md) | Centavos, pontos-base e política fotografada |
-| [003](003-integracao-e-consistencia.md) | Consulta em lote, HTTP e consistência |
-| [004](004-qualidade-e-entrega.md) | Testes reais, GitFlow, IA e gate de entrega |
+| ADR | Tema | Status |
+|---|---|---|
+| [001](001-stacks-e-fronteiras.md) | Duas stacks, dois serviços e dois bancos | Aceito em 22/10/2026 |
+| [002](002-dinheiro-e-desconto.md) | Centavos, pontos-base e política fotografada | Aceito em 22/10/2026 |
+| [003](003-integracao-e-consistencia.md) | Consulta em lote, HTTP e consistência | Proposto |
+| [004](004-qualidade-e-entrega.md) | Testes reais, GitFlow, IA e gate de entrega | Proposto |

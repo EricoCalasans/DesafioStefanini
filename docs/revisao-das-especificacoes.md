@@ -61,9 +61,10 @@ As funcionalidades do núcleo estão especificadas com objetivo, stack, estrutur
 
 | Pendência | Efeito | Momento de resolver |
 |---|---|---|
-| Candidato rever stack e regras propostas | Alinhamento com conhecimento e defesa da solução | Antes do bootstrap |
-| Prazo real da candidatura | Priorizar execução e extras | Antes de comprometer calendário |
-| Node compatível, SDK .NET e Docker funcionais | Pré-requisito de construção | Bootstrap |
+| Stack, banco local e regras centrais | Aceitos pelo candidato em 22/10/2026; ADR 001/002 atualizados | Decisão fechada; candidato ainda deve conseguir defender as escolhas |
+| Prazo real da candidatura | 23/10/2026 às 18:00 (horário de Brasília), informado pelo candidato em 22/10 | Priorizar imediatamente; 240 h/3 semanas continuam sendo cenário hipotético, não calendário desta entrega |
+| Revisão do contrato e primeira fatia vertical | Ainda aguardando validação do candidato | Antes da primeira branch de feature |
+| Toolchain local: Node, SDK .NET e Docker | Node `24.22.1`, SDK `10.0.402`, Engine/Compose validados; PATH do Docker no processo Codex precisa ser atualizado | Reiniciar Codex antes do bootstrap e conferir os comandos |
 | Patches/driver C# exatos e lockfiles | Compatibilidade real do conjunto | Bootstrap, com build/teste |
 | Repositório GitHub e acessos | Entrega acessível | Preparação/fechamento |
 | Link compartilhável e revisão do conteúdo da conversa | Obrigação da submissão | Resolver antes do fechamento |
@@ -71,7 +72,7 @@ As funcionalidades do núcleo estão especificadas com objetivo, stack, estrutur
 | Conta/orçamento/rede de cloud | Apenas extensão de deploy real | Antes de provisionar |
 | Testes e artefatos finais | Comprovação da implementação | Durante construção e release |
 
-Nenhuma dessas pendências foi apresentada como concluída. A documentação está pronta para orientar a próxima etapa de desenvolvimento; o candidato deve revisar as decisões propostas antes de construir.
+As decisões aceitas estão registradas nos ADRs 001 e 002; os itens ainda pendentes são revisões, acessos, implementação e evidências. A documentação orienta a próxima etapa, mas a revisão do contrato e da primeira fatia ainda deve ocorrer antes da branch de feature.
 
 ## 6. Como reproduzir a validação documental
 

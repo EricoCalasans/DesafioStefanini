@@ -1,10 +1,12 @@
 # ADR 002 - Dinheiro e desconto
 
-**Status:** proposto. **Data:** 21/10/2026.
+**Status:** aceito pelo candidato em 22/10/2026. **Data de registro:** 21/10/2026; **aceite:** 22/10/2026.
 
 **Contexto:** o documento pede subtotal, desconto e total, com regra configurável, sem definir fórmula, precisão, moeda ou aplicação retroativa.
 
 **Decisão:** BRL; inteiros em centavos no contrato; `bigint` no cálculo TS, `long` em C# e `BIGINT` no PostgreSQL. Desconto percentual em pontos-base, arredondado meio para cima uma vez sobre o subtotal. Política carregada/validada no startup e copiada integralmente no pedido.
+
+**Valores de demonstração aceitos:** política `volume-v1` habilitada, limiar inclusivo de `50.000` centavos (R$ 500,00) e taxa de `1.000` pontos-base (10%). São parâmetros ilustrativos do desafio, não valores exigidos pelo documento de origem.
 
 **Alternativas:** decimal com escala fixa é viável, mas traz conversões e serialização adicionais; `number`/`double` para dinheiro aumenta risco; percentuais fixos no código violam o desafio; um serviço administrativo de regras aumenta escopo sem obrigação.
 

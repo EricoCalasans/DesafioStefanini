@@ -3,6 +3,7 @@ import json
 import re
 import sys
 from collections import Counter
+from datetime import date
 from importlib.metadata import version
 from pathlib import Path
 from urllib.parse import unquote
@@ -158,7 +159,7 @@ check('Aritmética da proposta',proposal_math)
 report={
     'kind':'documentation-review',
     'scope':'Specs, contratos e exemplos; nenhuma aplicação executada',
-    'date':'2026-10-21',
+    'date':date.today().isoformat(),
     'tools':{name:version(name) for name in ['openapi-spec-validator','PyYAML','jsonschema']},
     'checks':checks,
     'result':'pass' if not errors else 'fail',

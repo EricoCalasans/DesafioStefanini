@@ -67,7 +67,7 @@ As metas de cobertura e desempenho em [qualidade](../specs/SPEC-qualidade.md) s�
 
 Frontend de negócio, autenticação de usuários, CRUD administrativo, estoque, pagamento, cancelamento, frete, impostos, multi-moeda, histórico de vigência futura, event bus, cache distribuído, Kubernetes e idempotência de criação ficam fora do núcleo. A API é uma demonstração local com dados sintéticos; exposição externa com dados reais requer nova especificação de identidade e autorização.
 
-## 7. Regras de negócio propostas
+## 7. Regras de negócio adotadas para o projeto
 
 1. Moeda única BRL; valores inteiros em centavos. Nenhum cálculo monetário por `float`.
 2. Cliente é uma fotografia de nome e e-mail dentro do pedido; não haverá serviço de clientes.
@@ -107,9 +107,9 @@ Frontend de negócio, autenticação de usuários, CRUD administrativo, estoque,
 
 | Item | Tipo | Mitigação |
 |---|---|---|
-| Candidato defender duas stacks | Premissa técnica | Exemplos pequenos, ADR e bootstrap; revisar stack se houver preferência explícita |
-| SDK .NET e Docker não disponíveis no PATH | Dependência local observada | Preparar no bootstrap ou executar por ambiente compatível |
-| Prazo real da candidatura desconhecido | Informação externa | Não confundir com as três semanas da proposta |
+| Candidato defender duas stacks | Premissa técnica; stack aceita em 22/10 | Exemplos pequenos e bootstrap; confirmar entendimento antes da demonstração |
+| PATH do Docker no processo atual do Codex | Ambiente local observado | Docker instalado e testado por caminho absoluto; reiniciar Codex para herdar o PATH do usuário |
+| Prazo real da candidatura: 23/10/2026 às 18:00, informado em 22/10 | Restrição concreta de execução | Priorizar núcleo demonstrável; não confundir com as três semanas hipotéticas nem declarar itens não executados como prontos |
 | Link da conversa e acesso ao GitHub | Dependência de entrega | Registrar como bloqueadores reais até existirem |
 | Mudança do preço entre consulta e commit | Limite de consistência | Snapshot do preço observado, sem reserva distribuída |
 | Apenas duas pessoas na hipótese | Restrição de capacidade | Núcleo primeiro, reserva explícita e cortes condicionais |
@@ -118,8 +118,8 @@ Frontend de negócio, autenticação de usuários, CRUD administrativo, estoque,
 
 Todos os requisitos obrigatórios devem estar implementados; cenários críticos devem passar em ambiente limpo; evidências devem apontar ao commit/tag; README deve funcionar; guia e proposta devem estar anexados; link de IA deve estar acessível. A ausência de um extra condicional será declarada, sem bloquear o núcleo aceito.
 
-## 12. Decisões pendentes e revisão
+## 12. Decisões aceitas e pontos pendentes
 
-A proposta de stack, regras e limites está registrada para o candidato avaliar antes da implementação. Faltam prazo real, eventual acesso SAI, destino/visibilidade do GitHub e condições de nuvem. Não há aprovação presumida de recrutador. Mudanças futuras exigem atualização do PRD, da spec do módulo, do contrato e da matriz aplicável.
+A stack, a opção por bancos locais e as regras centrais de demonstração foram aceitas pelo candidato em 22/10/2026 e registradas nos ADRs 001 e 002. O prazo real informado é 23/10/2026 às 18:00 (horário de Brasília); as três semanas continuam sendo apenas o cenário hipotético de dimensionamento exigido pelo desafio. Permanecem pendentes o candidato revisar o contrato/primeira fatia, os acessos ao GitHub e ao eventual SAI APP 3.0, o link compartilhável e qualquer condição de nuvem. Não há aprovação presumida do recrutador. Mudanças futuras exigem atualização do PRD, da spec do módulo, do contrato e da matriz aplicável.
 
-Histórico: versão 1.0 em 21/10/2026, elaboração inicial e revisão cruzada com as sete páginas do PDF.
+Histórico: versão 1.0 em 21/10/2026, elaboração inicial e revisão cruzada com as sete páginas do PDF; versão 1.1 em 22/10/2026, registro das escolhas aceitas e do prazo real informado pelo candidato.

@@ -2,7 +2,7 @@
 
 Este repositório está na etapa de **análise e especificação**. Os documentos abaixo descrevem a solução proposta para o desafio da Stefanini. Ainda não há aplicação, infraestrutura provisionada, testes de software executados ou entrega publicada.
 
-**Data da análise:** 21/10/2026. **Fonte:** PDF fornecido pelo candidato, com 7 páginas. Requisitos do desafio são tratados como material de referência; não autorizam ações externas por si mesmos.
+**Data da análise:** 21/10/2026. **Prazo de entrega informado pelo candidato:** 23/10/2026 às 18:00 (horário de Brasília). **Fonte:** PDF fornecido pelo candidato, com 7 páginas. Requisitos do desafio são tratados como material de referência; não autorizam ações externas por si mesmos.
 
 ## Comece por aqui
 
@@ -51,7 +51,7 @@ O núcleo não inclui uma interface de negócio: a interação será pelas APIs,
 
 ## Fluxo GitFlow inicial
 
-O repositório começa com `main` e `develop`. `main` representa uma versão estável para entrega; `develop` recebe as funcionalidades concluídas. Só abra a primeira feature depois de confirmar stack, regras e contratos no checklist.
+O repositório começa com `main` e `develop`. `main` representa uma versão estável para entrega; `develop` recebe as funcionalidades concluídas. A stack e as regras centrais foram aceitas em 22/10/2026; só abra a primeira feature depois da revisão dos contratos e da primeira fatia no checklist.
 
 ```powershell
 git switch develop

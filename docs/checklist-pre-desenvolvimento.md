@@ -1,15 +1,17 @@
 # Checklist antes de começar o código
 
-**Objetivo:** deixar as decisões e o ambiente prontos para construir o sistema com segurança e reproduzir os mesmos passos depois. **Status em 21/10/2026:** preparação local iniciada; as caixas refletem o que foi realmente concluído. As decisões marcadas para confirmação continuam pendentes do candidato.
+**Objetivo:** deixar as decisões e o ambiente prontos para construir o sistema com segurança e reproduzir os mesmos passos depois. **Status em 22/10/2026:** preparação local iniciada; as caixas refletem o que foi realmente concluído ou explicitamente confirmado. As revisões de contrato e as tarefas futuras permanecem pendentes.
 
 ## 1. Confirmar escolhas que afetam o início
 
-- [ ] Confirmar que o ambiente primário será **local, com Docker Compose**, usando PostgreSQL para Pedidos e MongoDB para Catálogo. É a recomendação atual para este desafio.
-- [ ] Confirmar que a proposta multi-stack será mantida: **TypeScript/NestJS em Pedidos e C#/ASP.NET Core em Catálogo**. Trocar uma stack agora evita retrabalho em specs, comandos e testes.
-- [ ] Confirmar que as regras propostas fazem sentido para a demonstração: BRL, valores em centavos, desconto inicial configurado em variáveis de ambiente, limiar inclusivo e preço recebido do Catálogo.
-- [ ] Confirmar os valores da demonstração no `.env.example`: regra `volume-v1`, habilitada, limiar de 50.000 centavos e taxa de 1.000 pontos-base (10%). Estes são exemplos escolhidos para tornar o fluxo demonstrável, não valores prescritos pela vaga.
-- [ ] Verificar o prazo real de entrega da candidatura. As três semanas nas specs são apenas o cenário hipotético do dimensionamento comercial.
-- [ ] Manter deploy em nuvem como extensão; não é necessário criar contas gratuitas para começar os bancos localmente.
+- [x] Confirmado em 22/10/2026: ambiente primário **local, com Docker Compose**, usando PostgreSQL para Pedidos e MongoDB para Catálogo; sem dependência de banco online.
+- [x] Confirmada em 22/10/2026 a proposta multi-stack: **TypeScript/NestJS em Pedidos e C#/ASP.NET Core em Catálogo**.
+- [x] Confirmadas para a demonstração BRL, valores monetários em centavos, desconto configurável por ambiente, limiar inclusivo e preço autoritativo vindo do Catálogo.
+- [x] Confirmados para o futuro `.env.example` como valores demonstrativos: regra `volume-v1` habilitada, limiar de 50.000 centavos (R$ 500,00) e taxa de 1.000 pontos-base (10%). São escolhas do projeto, não valores prescritos pela vaga; o arquivo ainda será criado no bootstrap.
+- [x] Prazo real informado em 22/10/2026: entrega em **23/10/2026 às 18:00 (horário de Brasília, America/Sao_Paulo)**. As três semanas nas specs continuam sendo somente o cenário hipotético do dimensionamento comercial.
+- [x] Confirmado: deploy em nuvem é extensão; não criar contas gratuitas para começar os bancos localmente.
+
+**Ponto crítico de prazo:** o cenário comercial de 240 horas não cabe integralmente até a data de entrega informada. O trabalho precisa priorizar o núcleo demonstrável e evidenciar com honestidade qualquer item não concluído; não reduzir silenciosamente requisitos obrigatórios nem declarar testes/entregas que não foram executados.
 
 ## 2. Preparar e conferir as ferramentas
 
@@ -56,7 +58,7 @@ O repositório já foi inicializado na raiz. O PDF original e `tmp/` foram verif
 - [ ] Candidato revisar/confirmar campos, validações, códigos de erro e exemplos dos contratos REST.
 - [ ] Entender o critério mais importante do Catálogo: buscar vários produtos com **uma consulta lógica em lote**, sem fazer uma chamada ao banco por item.
 - [ ] Confirmar a primeira fatia vertical: semear produtos no MongoDB, consultar catálogo por HTTP e demonstrar um pedido usando os preços retornados.
-- [ ] Resolver a revisão do candidato sobre a stack e as regras propostas antes de escrever código. Atualizar ADR/spec/contrato se alguma decisão mudar.
+Se a revisão do candidato mudar alguma escolha aceita, atualizar ADR/spec/contrato antes de escrever código.
 
 ## 5. Definir o ambiente local de dados
 
@@ -86,13 +88,14 @@ Começar quando **as decisões essenciais (seção 1), as ferramentas que compil
 
 | Item | Situação na última conferência | Próxima ação |
 |---|---|---|
-| Specs e contratos | Criados e revisados documentalmente | Candidato confirmar escolhas antes do código |
+| Specs e contratos | Criados e revisados documentalmente; escolhas da seção 1 aceitas em 22/10 | Candidato revisar campos, erros e primeira fatia vertical |
 | Node | `v24.22.1`; arquivo `.node-version` criado | Validar em terminal novo ao iniciar o projeto |
 | .NET | SDK `10.0.402`; `dotnet --list-sdks` e `dotnet --version` confirmados; `global.json` criado | Instalar runtime e pacotes da aplicação no bootstrap |
 | Docker | Desktop `4.96.1` por usuário/WSL 2 em E:; Engine `29.9.2`; Compose `5.6.0`; daemon e `--wait` aprovados | O PATH do usuário contém `E:\Apps\DockerDesktop\resources\bin`; o processo atual do Codex ainda herdou o PATH antigo. Reiniciar o Codex para testar o comando sem caminho absoluto; `docker ps -a` confirmou que ainda não há contêineres |
-| Git | 2.44.0; `main` e `develop`; commit documental `e9a3660` | Criar branch de feature após fechar decisões essenciais |
+| Git | 2.44.0; `main` e `develop`; histórico documental e de preparação registrados | Criar branch de feature após revisar contrato e primeira fatia |
 | Recursos locais | C: `0,87 GB` livres; E: `192,16 GB`; portas 3000, 8080, 5432 e 27017 livres após iniciar Docker | Manter dados/imagens em E:, acompanhar C: e revalidar portas antes de subir serviços |
-| Bancos online | Não escolhidos; nenhuma conta necessária à base local | Confirmar ambiente Docker local ou solicitar alternativa remota |
+| Banco/ambiente | Docker local com PostgreSQL e MongoDB confirmado em 22/10; sem banco online | Preparar Compose, volumes e papéis durante a fundação |
+| Prazo da candidatura | 23/10/2026 às 18:00, horário de Brasília | Priorizar entrega; três semanas seguem apenas na proposta hipotética |
 | Aplicações e testes de sistema | Ainda não iniciados | Começar após fechar o critério acima |
 
 O instalador colocou os plugins do Docker em `E:\DockerConfig\cli-plugins`; o caminho padrão de plugins em `.docker` é uma junção do Windows para esse diretório, porque C: não tem espaço para as cópias. Essa junção foi necessária para concluir o instalador e deixa `docker compose` disponível pelo caminho padrão.

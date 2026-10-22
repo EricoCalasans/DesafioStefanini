@@ -2,7 +2,9 @@
 
 **Status:** plano proposto após especificação, sem implementação iniciada. **Referências:** [mapa](../CAPABILITY-MAP.md), [PRD](../docs/PRD.md), [backlog](todo.md), [proposta hipotética](../specs/SPEC-proposta.md).
 
-**Gate inicial:** fechar os itens essenciais de [checklist pré-desenvolvimento](../docs/checklist-pre-desenvolvimento.md) antes do primeiro incremento. Toolchain local, Docker, raiz Git e branches iniciais já foram preparados. Ainda é preciso confirmar stacks/regras, revisar a fatia e o contrato, e o candidato validar que entende as escolhas antes de criar a primeira branch de feature. A etapa 1 começa depois desse gate.
+**Prazo de entrega informado pelo candidato:** 23/10/2026 às 18:00 (horário de Brasília). As 240 horas e três semanas da [proposta](../specs/SPEC-proposta.md) são um cenário técnico-comercial hipotético, não uma previsão para esta candidatura. O escopo integral não cabe no prazo real; priorizar o núcleo demonstrável, preservar requisitos obrigatórios e reportar cortes e verificações pendentes com transparência.
+
+**Gate inicial:** fechar os itens essenciais de [checklist pré-desenvolvimento](../docs/checklist-pre-desenvolvimento.md) antes do primeiro incremento. Toolchain local, Docker, raiz Git, branches iniciais, stack e regras centrais já foram preparados ou aceitos em 22/10. Falta o candidato revisar campos, erros e exemplos do contrato, confirmar a primeira fatia vertical e garantir que consegue explicar as escolhas. Depois disso, criar a primeira branch de feature e executar a etapa 1.
 
 ## 1. Sequência e marcos verificáveis
 
@@ -36,7 +38,7 @@ Cada fatia fecha comportamento, persistência/adaptador pertinente, teste e docu
 
 Resolver ambiente e compatibilidade cedo; não esperar o dia da demonstração para descobrir SDK ausente. Estabilizar contrato antes de interfaces de conveniência. Nenhum corte pode remover IA obrigatória/link, SQL/NoSQL, desconto configurável, segurança SQL, teste de criação ou consulta eficiente. Cloud, vídeo/slides e conveniências saem primeiro.
 
-Se o candidato preferir outra stack, atualizar ADR001, referências, specs, comandos, estrutura e proposta antes de gerar código. O prazo real será informação externa; as três semanas do documento comercial não são data de vencimento da candidatura.
+ADR001 e ADR002 foram aceitos em 22/10/2026; não trocar stack ou regras sem decisão explícita do candidato e atualização dos documentos. O prazo real é 23/10/2026 às 18:00; as três semanas do documento comercial permanecem apenas como cenário solicitado pelo desafio. Se não houver tempo para todos os itens, declarar o que ficou incompleto em vez de mascarar cobertura ou execução.
 
 ## 5. Evidência por incremento
 
