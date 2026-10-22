@@ -52,6 +52,7 @@ Com o ambiente preparado, a raiz `desafio` inicia os bancos e serviços, aplica 
 
     docker compose --env-file ..\desafio-local\.env -f infra\compose.yaml up -d --build --wait
     node infra/smoke-system.mjs
+python docs/validation/validar-contratos-runtime.py
 
 Pedidos fica em `http://localhost:3000` e Catálogo em `http://localhost:8080`; a documentação Swagger fica em `/docs` nos dois serviços. PostgreSQL e MongoDB publicam portas apenas no loopback. O Compose aplica as migrations de Pedidos antes de iniciar sua API e prepara um banco `orders_test` separado para os testes de integração.
 
@@ -98,9 +99,11 @@ Catálogo, no PowerShell:
 
 O estado atual de implementação e as evidências de cada fatia estão registrados em [docs/tasks/plan.md](docs/tasks/plan.md) e [docs/tasks/todo.md](docs/tasks/todo.md). Uma spec ou um arquivo existente não significa que o comportamento já passou nos testes.
 
+O teste de contrato runtime usa `PyYAML` e `jsonschema`, conforme `docs/validation/requirements-documentacao.txt`, e verifica respostas das duas APIs contra os schemas OpenAPI. A CI instala essas ferramentas antes dos testes; localmente, use um ambiente Python isolado fora do repositório.
+
 ## Estado verificado localmente
 
-Em 22/10/2026, Pedidos passou em 27 testes unitários/HTTP, typecheck, lint e cinco testes de integração com PostgreSQL real; Catálogo passou em 23 testes .NET e verificação de formatação. As duas APIs iniciaram em containers e o smoke ponta a ponta confirmou a criação canônica com subtotal de 50.000, desconto de 5.000 e total de 45.000. A validação documental/OpenAPI também passou. O guia de code review e o dimensionamento estão prontos localmente. A primeira execução da CI hospedada, o experimento formal de N+1/`explain`, o contrato automatizado produtor/consumidor, a revisão dedicada de mensagens com IA e a entrega do link de IA permanecem pendentes e estão destacados no backlog.
+Em 22/10/2026, Pedidos passou em 27 testes unitários/HTTP, typecheck, lint e cinco testes de integração com PostgreSQL real; Catálogo passou em 23 testes .NET e verificação de formatação. As duas APIs iniciaram em containers; smoke e contrato runtime contra OpenAPI confirmaram a criação canônica com subtotal de 50.000, desconto de 5.000 e total de 45.000, além de leituras, erros e paginação. A validação documental também passou. O guia de code review e o dimensionamento estão prontos localmente. A primeira execução da CI hospedada, o experimento formal de N+1/`explain`, a revisão dedicada de mensagens com IA e a entrega do link de IA permanecem pendentes e estão destacados no backlog.
 
 ## Entrega e limites
 

@@ -95,6 +95,9 @@ jobs:
       - name: Run end-to-end smoke against both APIs
         run: node infra/smoke-system.mjs
 
+      - name: Validate live responses against OpenAPI contracts
+        run: python docs/validation/validar-contratos-runtime.py
+
       - name: Stop ephemeral services
         if: always()
         run: docker compose --env-file "$CHALLENGE_ENV_FILE" -f infra/compose.yaml down --volumes --remove-orphans

@@ -10,7 +10,7 @@ Disponibilizar um repositório GitHub que permita conferir cada requisito e repr
 |---|---|---|
 | Código dos serviços | Pedidos e Catálogo com bancos independentes | Código versionado, builds e testes |
 | README operacional | Pré-requisitos, setup, variáveis, execução, seed, testes, uso e limites | Reprodução em ambiente limpo |
-| Contratos e Swagger UI | OpenAPI coerente com endpoints | Validação e testes produtor/consumidor |
+| Contratos e Swagger UI | OpenAPI coerente com endpoints | OpenAPI validado e respostas reais verificadas contra schemas canônicos; Swagger UI e smoke disponíveis |
 | Compose/Dockerfiles | Ambiente e init/migrations | Health + smoke em execução limpa |
 | CI/CD | Testes obrigatórios antes de deploy | Checks e falha de gate demonstrada |
 | Specs/ADRs | Requisitos, justificativas e alterações | Histórico anterior aos incrementos |
@@ -97,6 +97,7 @@ npm test
 Pop-Location
 .\infra\test-orders.ps1
 node infra/smoke-system.mjs
+python docs/validation/validar-contratos-runtime.py
 Push-Location catalogo-dotnet
 dotnet restore Catalog.sln --locked-mode
 dotnet build Catalog.sln --configuration Release --no-restore

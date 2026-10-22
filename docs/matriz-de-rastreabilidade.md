@@ -89,7 +89,7 @@ Acrescentar colunas de commit/PR, evidência e resultado real ao executar. Não 
 | R15-R16, R20-R29 | Pedidos está implementado em NestJS/PostgreSQL. Criação canônica, cálculo, snapshots, validação, persistência atômica, leituras e paginação passaram em testes unitários/HTTP, integração PostgreSQL e smoke real. |
 | R31-R34 | Catálogo está implementado em ASP.NET Core/MongoDB, com busca individual, listagem e `$in` em lote; API e seed foram exercitados. Falta evidência formal de contagem de comandos e `explain` para concluir a alegação de desempenho. |
 | GitFlow / commits | Política GitFlow, template e histórico local com commits por unidade existem. Não houve PR/merge nem execução em plataforma remota. |
-| R37, R42-R44 | Checks e documentação de execução existem; build, lint, format, testes, validação OpenAPI/documental e smoke local passaram. Pipeline hospedada não foi executada. |
+| R37, R42-R44 | Checks e documentação de execução existem; build, lint, format, testes, validação documental, contrato runtime produtor/consumidor e smoke local passaram. Pipeline hospedada não foi executada. |
 | R11-R14, R35-R36, R47, R50, R52 | Os documentos de uso/registro real de IA cobrem especificação, implementação, depuração e testes. Falta a revisão dedicada de mensagens e o link compartilhável obrigatório. |
 | R17, R38-R39, R40-R41, R48, R51 | Guia multi-stack de code review (fonte e PDF de 2 páginas) e dimensionamento executivo foram produzidos localmente; seguem pendentes revisão independente e pacote final de submissão. |
 | R07, R12, R45, R49, R53 | Publicação GitHub, CI/CD externa, SAI APP 3.0 e vídeo/slides não foram realizados; os elementos condicionais ou dependentes de acesso ficam explícitos no backlog. |
