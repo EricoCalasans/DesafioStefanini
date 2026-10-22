@@ -86,7 +86,7 @@ Para Q40, o teste não deve alegar que toda falha de rede implica rollback: veri
 
 Meta interna inicial: com serviços aquecidos, 10 usuários concorrentes e 1.000 criações válidas de 10 itens, p95 de criação ≤1.000 ms e nenhuma falha inesperada. Isso é um alvo de laboratório, não SLA ou requisito da banca. Registrar CPU/RAM, versões, dataset, concorrência, duração, aquecimento e resultados brutos. Não publicar a meta como atingida sem medição.
 
-Rodar experimento separado de lote com 1, 10 e 100 IDs. Quantidade de consultas de produto deve ficar constante; obter `explain` para demonstrar índice. Não exigir tempo idêntico para todos os lotes, nem confundir uma busca lógica com todas as mensagens do protocolo/cursor. Em Pedidos, inserção de itens em lote e leitura sem consultas por linha.
+Rodar experimento separado de lote com 1, 10 e 100 IDs. Quantidade de consultas de produto deve ficar constante; obter `explain` para demonstrar índice. Não exigir tempo idêntico para todos os lotes, nem confundir uma busca lógica com todas as mensagens do protocolo/cursor. Em Pedidos, inserção de itens em lote e leitura sem consultas por linha. Um roteiro local de leitura (`node infra/benchmark-system.mjs`) mede páginas de Pedidos/Catálogo e lotes do Catálogo com contagem, concorrência e aquecimento configuráveis; os resultados estão em [benchmark de laboratório](../docs/evidencias/benchmark-laboratorio.md). A amostra curta e o dataset pequeno não provam SLO/capacidade nem medem escrita.
 
 Os testes de desempenho ficam fora do gate rápido se ambiente de CI for instável; os testes determinísticos de contagem/N+1 ficam no gate obrigatório. Uma falha funcional ou de limite nunca é aceita como simples variação de performance.
 

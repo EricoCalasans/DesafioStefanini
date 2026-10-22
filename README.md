@@ -103,9 +103,13 @@ O teste de contrato runtime usa `PyYAML` e `jsonschema`, conforme `docs/validati
 
 Para repetir a contagem de comandos e os planos do MongoDB em ambiente local, execute `.\docs\validation\medir-lote-catalogo.ps1`. O roteiro habilita temporariamente o profiler no banco `catalog` e o restaura ao nível anterior; requer acesso Docker e a URI administrativa gerada pelo setup.
 
+Para repetir o benchmark local somente de leitura, mantenha as duas APIs e bancos saudáveis e execute `node infra/benchmark-system.mjs --requests=100 --concurrency=8 --warmups=2`. Os números observados, limites e ressalvas estão em [evidência do benchmark](docs/evidencias/benchmark-laboratorio.md); não representam SLA nem criação sob carga.
+
+A reprodução em volumes vazios e o ajuste de retry autenticado no bootstrap Mongo estão em [evidência de setup limpo](docs/evidencias/setup-limpo.md). A revisão dos cenários Q29-Q40 está em [evidência de falhas](docs/evidencias/revisao-falhas-pedidos.md); a revisão assistida de mensagens está em [registro IA](docs/ia/revisao-validacoes-mensagens.md).
+
 ## Estado verificado localmente
 
-Em 22/10/2026, Pedidos passou em 27 testes unitários/HTTP, typecheck, lint e cinco testes de integração com PostgreSQL real; Catálogo passou em 23 testes .NET e verificação de formatação. As duas APIs iniciaram em containers; smoke e contrato runtime contra OpenAPI confirmaram a criação canônica com subtotal de 50.000, desconto de 5.000 e total de 45.000, além de leituras, erros e paginação. O experimento Mongo confirmou um `find` para 1, 10 e 100 IDs e os índices esperados; a validação documental também passou. O guia de code review e o dimensionamento estão prontos localmente. A primeira execução da CI hospedada, benchmark de laboratório, revisão dedicada de mensagens com IA e entrega do link de IA permanecem pendentes e estão destacados no backlog.
+Em 22/10/2026, Pedidos passou em 33 testes unitários/HTTP, typecheck, lint e seis testes de integração com PostgreSQL real; Catálogo passou em 23 testes .NET e verificação de formatação. Smoke e contratos runtime passaram em composição nova, com volumes vazios, e na composição local. O caso canônico retornou subtotal de 50.000, desconto de 5.000 e total de 45.000. Contagem/explain Mongo, benchmark de leitura limitado, falhas Q29-Q40 e validação documental têm evidências. O link da conversa, primeira execução da CI hospedada e pacote final da candidatura continuam pendentes; veja o [backlog](docs/tasks/todo.md).
 
 ## Entrega e limites
 

@@ -1,6 +1,6 @@
 # Matriz de rastreabilidade do desafio
 
-**Data:** 21/10/2026, atualizada em 22/10. **Status global:** especificado, revisado e com núcleo funcional local. As duas APIs, persistência, integração, contrato runtime, smoke real e medição de comandos/índices do lote têm evidências; automação hospedada, benchmark e artefatos finais continuam pendentes, conforme o estado ao fim deste documento.
+**Data:** 21/10/2026, atualizada em 22/10. **Status global:** especificado, revisado e com núcleo funcional local. As duas APIs, persistência, integração, contrato runtime, smoke real, setup em volumes vazios, benchmark local limitado e medição de comandos/índices do lote têm evidências; CI hospedada, link compartilhável e pacote final continuam pendentes, conforme o estado ao fim deste documento.
 
 53 pontos foram identificados a partir de todas as seções. O número inclui competências contextuais, critérios e repetições relevantes da entrega; **não significa 53 funcionalidades nem 53 obrigações de mesmo peso**. OBR = obrigação explícita; CTX = contexto/critério; DIF = diferencial; ART = artefato incluído por leitura conservadora do objetivo/entrega.
 

@@ -72,7 +72,7 @@ Não é obrigação produzir três formatos. Um roteiro basta no planejamento; s
 
 - [ ] Repositório acessível ao avaliador e ambos os serviços presentes.
 - [ ] Tag/commit corresponde à versão demonstrada e verificada.
-- [ ] Setup e exemplos reproduzidos num ambiente limpo.
+- [x] Setup e exemplos reproduzidos em composição temporária com volumes vazios; smoke, contratos runtime e integração PostgreSQL passaram. Consulte `docs/evidencias/setup-limpo.md`.
 - [ ] Testes obrigatórios, contratos, build e lint/format passam no SHA de entrega.
 - [ ] Regra configurável demonstrada; pedidos antigos preservados.
 - [ ] Consulta em lote, índice, SQL parametrizado e rollback têm evidência.

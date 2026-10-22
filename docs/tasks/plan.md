@@ -14,15 +14,15 @@
 | 1 - Fundação | Toolchain, estrutura, GitFlow, Compose, roles, build e CI mínimo | Fundação local concluída; primeira execução da CI hospedada ainda pendente |
 | 2 - Catálogo | MongoDB, validador/índices, seed e endpoints | API real, lote, paginação, erros, Swagger, contagem de comandos e explain exercitados |
 | 3 - Primeiro fluxo de pedido | Domínio, desconto, porta de catálogo, SQL e POST | Pedido canônico real passou com valores corretos; rollback provado em PostgreSQL |
-| 4 - Leitura e robustez | GETs/paginação, snapshots, falhas e logs | GETs e paginação passaram; matriz completa de falhas e mudança histórica seguem no backlog |
-| 5 - Qualidade e automação | Integração/sistema/contrato, cobertura, eficiência e gate | Testes locais, contrato runtime, smoke e evidência de N+1 passaram; benchmark e execução da CI hospedada pendentes |
-| 6 - Liderança e IA | Guia curto, proposta, revisão por IA e registros | Guia e proposta entregues localmente; registro real atualizado; revisão dedicada de mensagens ainda pendente |
-| 7 - Fechamento | README limpo, tag/evidências, conversa e roteiro | README e instruções locais disponíveis; link de conversa e pacote final pendentes |
+| 4 - Leitura e robustez | GETs/paginação, snapshots, falhas e logs | GETs, paginação, snapshots, falha de inserção e timeout SQL passaram; COMMIT desconectado segue documentado como resultado ambíguo |
+| 5 - Qualidade e automação | Integração/sistema/contrato, cobertura, eficiência e gate | Testes locais, contrato runtime, smoke, N+1 e benchmark local restrito passaram; primeira execução da CI hospedada pendente |
+| 6 - Liderança e IA | Guia curto, proposta, revisão por IA e registros | Guia, proposta e revisão dedicada de validações/mensagens estão documentados e testados localmente |
+| 7 - Fechamento | README limpo, tag/evidências, conversa e roteiro | README e reprodução em volumes vazios passaram; link de conversa, execução hospedada e pacote final pendentes |
 | 8 - Extensões condicionais | Cloud real e/ou vídeo/slides | Núcleo aceito, recursos e tempo disponíveis |
 
 Testes e documentação acontecem junto com cada incremento. A etapa 5 consolida o fluxo e o gate; não adia todo teste para o fim. IA/SDD e governança acompanham o trabalho, e não são uma narrativa criada apenas na etapa 6.
 
-Em 22/10, as duas APIs, a integração entre serviços e os bancos foram executados em Compose; Pedidos passou em 27 testes unitários/HTTP e quatro testes PostgreSQL, Catálogo em 23 testes .NET, e o smoke ponta a ponta passou. Não foi executada ainda uma pipeline GitHub Actions neste repositório nem foi feito deploy externo. O backlog separa essas pendências das verificações que já têm resultado local.
+Em 22/10, as duas APIs, a integração entre serviços e os bancos foram executados em Compose normal e em composição isolada com volumes vazios; Pedidos passou em 33 testes unitários/HTTP e seis testes PostgreSQL, Catálogo em 23 testes .NET, e smoke/contratos runtime passaram. Um benchmark local de leitura foi medido, sem afirmar SLA. Não foi executada ainda uma pipeline GitHub Actions hospedada nem foi feito deploy externo. O backlog separa essas pendências das verificações que já têm resultado local.
 
 ## 2. Dependências e possibilidade de trabalho simultâneo
 
