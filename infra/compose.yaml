@@ -43,16 +43,13 @@ services:
       mongo:
         condition: service_healthy
     environment:
+      MONGO_ADMIN_URI: ${MONGO_ADMIN_URI:?Run infra/setup-local.ps1 first}
       CATALOG_RUNTIME_PASSWORD: ${CATALOG_RUNTIME_PASSWORD:?Run infra/setup-local.ps1 first}
       CATALOG_SEED_PASSWORD: ${CATALOG_SEED_PASSWORD:?Run infra/setup-local.ps1 first}
-    entrypoint: ["mongosh"]
-    command:
-      - "${MONGO_ADMIN_URI:?Run infra/setup-local.ps1 first}"
-      - "--quiet"
-      - "--file"
-      - "/scripts/bootstrap.js"
+    entrypoint: ["/bin/sh", "/scripts/initialize.sh"]
     volumes:
       - ./mongo/bootstrap.js:/scripts/bootstrap.js:ro
+      - ./mongo/initialize.sh:/scripts/initialize.sh:ro
     restart: "no"
 
   catalog:
