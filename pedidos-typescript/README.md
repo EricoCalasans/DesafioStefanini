@@ -13,6 +13,7 @@ Validar o pedido e os produtos consultando o contrato HTTP do Catálogo, calcula
 - package.json e package-lock.json: scripts e dependências npm com versões fixas.
 - .node-version: versão local do Node.
 - node_modules: dependências instaladas para este projeto, ignoradas pelo Git.
+- Orders.http: exemplos executáveis dos endpoints desta API.
 
 ## Executar e verificar
 
@@ -25,7 +26,7 @@ Execute os comandos neste diretório:
     npm run lint
     npm test
 
-Os testes de integração precisam do PostgreSQL configurado em ambiente local isolado. O Compose e a geração de credenciais compartilhados ficam em [infra](../infra/README.md). Não use credenciais de produção ou dados pessoais.
+Os testes de integração usam exclusivamente um banco PostgreSQL local chamado `orders_test`; o runner recusa nomes de banco diferentes. Na raiz do repositório, execute `infra/test-orders.ps1` para carregar os URLs locais fora do Git, aplicar migrations e rodar os testes reais de transação. O Compose e a geração de credenciais ficam em [infra](../infra/README.md).
 
 ## Contratos
 
