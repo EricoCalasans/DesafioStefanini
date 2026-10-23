@@ -54,6 +54,8 @@ Com o ambiente preparado, a raiz `desafio` inicia os bancos e serviços, aplica 
     node infra/smoke-system.mjs
 python docs/validation/validar-contratos-runtime.py
 
+Para popular o Catálogo com produtos sintéticos de demonstração, execute `.\infra\seed-demo.ps1` na raiz. O script é idempotente: inclui os produtos ausentes e preserva os dados existentes.
+
 Pedidos fica em `http://localhost:3000` e Catálogo em `http://localhost:8080`; a documentação Swagger fica em `/docs` nos dois serviços. PostgreSQL e MongoDB publicam portas apenas no loopback. O Compose aplica as migrations de Pedidos antes de iniciar sua API e prepara um banco `orders_test` separado para os testes de integração.
 
 Os bancos publicam portas somente no loopback local. As APIs usam credenciais de execução de menor privilégio; migrações e seed usam credenciais separadas.

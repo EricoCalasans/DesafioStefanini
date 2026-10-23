@@ -15,7 +15,9 @@ services:
       - postgres-data:/var/lib/postgresql/data
       - ./postgres/01-roles.sql:/docker-entrypoint-initdb.d/01-roles.sql:ro
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres_admin -d orders"]
+      # The official image starts a temporary socket-only server during initdb.
+      # Probe TCP so dependent services wait for the initialized server and roles.
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U postgres_admin -d orders"]
       interval: 5s
       timeout: 3s
       retries: 20
