@@ -6,7 +6,8 @@ $envFile = Join-Path $localDataDirectory '.env'
 $composeFile = Join-Path $repoRoot 'infra/compose.yaml'
 
 if (Test-Path -LiteralPath $envFile) {
-    throw "Local credentials already exist at $envFile. Keep them to preserve access to existing database volumes."
+    Write-Output "Local credentials already exist at $envFile; keeping them to preserve access to existing database volumes."
+    return
 }
 
 New-Item -ItemType Directory -Path $localDataDirectory -Force | Out-Null

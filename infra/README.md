@@ -13,7 +13,7 @@ Esta pasta contém somente os recursos usados pelos dois projetos durante desenv
 
 ## Preparar e iniciar
 
-Execute infra/setup-local.ps1 no PowerShell para gerar segredos na pasta irmã chamada desafio-local. O script interrompe se o arquivo de credenciais já existir, para preservar a senha correspondente aos volumes persistidos.
+Execute `infra/setup-local.ps1` no PowerShell para gerar segredos na pasta irmã `<nome-do-repositório>-local` (por exemplo, `desafio-local`). Se o arquivo de credenciais já existir, o script o mantém intacto para preservar o acesso aos volumes persistidos. Você pode executá-lo novamente sem substituir as senhas.
 
 Da raiz do repositório, inicie os bancos e APIs; o Compose executa o bootstrap do Catálogo e as migrations de Pedidos:
 

@@ -42,24 +42,26 @@ docker compose version
 
 O primeiro comando deve mostrar as versões de Client e Server. Se não conseguir conectar ao Server, aguarde a inicialização do Docker Desktop e tente novamente. O segundo deve identificar o Docker Compose v2. A primeira execução também baixa as imagens-base necessárias e pode levar alguns minutos.
 
-### 1. Criar credenciais locais
+### 1. Preparar credenciais locais
 
-O script gera senhas aleatórias fora do repositório, em uma pasta irmã cujo nome termina em `-local`. Ele não substitui credenciais existentes, para preservar o acesso aos volumes locais.
+Você não precisa criar senhas nem preencher o `.env` manualmente. Execute este bloco uma vez na raiz do repositório:
 
 ```powershell
 $repoRoot = (Resolve-Path .).Path
 $localDirectory = Join-Path (Split-Path -Parent $repoRoot) "$(Split-Path -Leaf $repoRoot)-local"
 $envFile = Join-Path $localDirectory '.env'
 $composeFile = Join-Path $repoRoot 'infra/compose.yaml'
-
-if (-not (Test-Path -LiteralPath $envFile)) {
-  .\infra\setup-local.ps1
-}
+.\infra\setup-local.ps1
 ```
 
-`infra/.env.example` documenta as chaves de configuração, mas seus valores estão vazios. Use `infra/setup-local.ps1` para gerar uma configuração válida. Não publique nem copie o `.env` para o GitHub.
+Na primeira execução, `infra/setup-local.ps1` cria senhas aleatórias e configura as conexões dos serviços. O arquivo fica fora do Git, na pasta irmã `<nome-do-repositório>-local`; neste projeto, normalmente `..\desafio-local\.env`. O script pode ser executado novamente: se o arquivo já existir, ele o mantém intacto e não troca as senhas. Assim, você pode repetir o bloco sem perder o acesso aos bancos já criados.
 
-As variáveis ficam agrupadas assim; os detalhes de validação e os limites de cada configuração estão no [spec de plataforma](specs/SPEC-plataforma.md):
+Mantenha essa pasta enquanto usar os bancos locais. As senhas do arquivo correspondem às contas persistidas nos volumes do PostgreSQL e do MongoDB. Não apague, edite nem publique o `.env`; para iniciar o sistema, basta seguir o próximo passo, sem abrir ou copiar as senhas. `infra/.env.example` lista os nomes das configurações, mas não contém credenciais utilizáveis.
+
+<details>
+<summary>Detalhes das configurações geradas</summary>
+
+As variáveis e os limites de configuração estão descritos no [spec de plataforma](specs/SPEC-plataforma.md):
 
 | Grupo | Variáveis | Finalidade |
 |---|---|---|
@@ -69,7 +71,9 @@ As variáveis ficam agrupadas assim; os detalhes de validação e os limites de 
 | Conexões | `ORDERS_DATABASE_URL`, `ORDERS_MIGRATION_DATABASE_URL`, `ORDERS_TEST_DATABASE_URL`, `ORDERS_TEST_MIGRATION_DATABASE_URL`, `CATALOG_MONGODB_URI`, `MONGO_ADMIN_URI` | Conectar aos bancos com a conta e o escopo correspondentes |
 | Catálogo e regra | `CATALOG_MONGODB_DATABASE`, `CATALOG_URL`, `DISCOUNT_ENABLED`, `DISCOUNT_RULE_ID`, `DISCOUNT_MIN_SUBTOTAL_CENTS`, `DISCOUNT_RATE_BPS` | Selecionar banco/serviço e configurar a regra de desconto |
 
-O script gera os segredos e as URLs de conexão do Compose. Não troque o hostname `postgres`, `mongo` ou `catalog` por `localhost` dentro dos containers; esses endereços são DNS da rede Docker. A seção de execução no host explica que os hosts precisam ser adaptados aos ports publicados.
+O script gera os segredos e as URLs de conexão do Compose. Não troque os hostnames `postgres`, `mongo` ou `catalog` por `localhost` dentro dos containers; esses endereços são DNS da rede Docker. A seção de execução no host explica quais URLs adaptar para usar as portas publicadas.
+
+</details>
 
 ### 2. Subir os serviços e conferir o fluxo
 
