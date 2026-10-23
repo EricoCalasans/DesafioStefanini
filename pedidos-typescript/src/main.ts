@@ -101,7 +101,7 @@ async function bootstrap(): Promise<void> {
   app.use(correlationMiddleware);
   app.use(requestLoggingMiddleware);
   app.use((req: Request, res: Response, next: NextFunction) => {
-    if (req.method === 'POST' && req.path === '/api/v1/orders') {
+    if (req.method === 'POST' && /^\/api\/v1\/orders\/?$/i.test(req.path)) {
       const mediaType = req.header('content-type')?.split(';', 2)[0]?.trim().toLowerCase();
       if (mediaType !== 'application/json') {
         problem(

@@ -207,8 +207,7 @@ describe('PostgresOrderRepository against isolated PostgreSQL', () => {
       FOR EACH ROW EXECUTE FUNCTION ${FUNCTION_NAME}()`);
 
     await expect(createOrder('cccccccc-cccc-4ccc-8ccc-cccccccccccc')).rejects.toMatchObject({
-      status: 503,
-      code: 'PERSISTENCE_UNAVAILABLE',
+      code: 'P0001',
     });
     const result = await runtimePool.query<{ count: number }>(
       'SELECT count(*)::integer AS count FROM orders WHERE id = $1',

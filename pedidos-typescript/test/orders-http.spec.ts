@@ -210,4 +210,45 @@ describe('Orders HTTP API', () => {
       .expect(404);
     expect(missing.body.code).toBe('ORDER_NOT_FOUND');
   });
+
+  it('rejects UUIDs and paging with trailing line breaks before calling dependencies', async () => {
+    const { app, orders, catalog } = await createApplication();
+    for (const suffix of ['\n', '\r\n']) {
+      await request(app.getHttpServer())
+        .post('/api/v1/orders')
+        .send({
+          customer: { name: 'QA', email: 'qa@example.com' },
+          items: [{ productId: firstId + suffix, quantity: 1 }],
+        })
+        .expect(400);
+      await request(app.getHttpServer())
+        .get(`/api/v1/orders/${firstId}${encodeURIComponent(suffix)}`)
+        .expect(400);
+      await request(app.getHttpServer())
+        .get(`/api/v1/orders?page=1${encodeURIComponent(suffix)}`)
+        .expect(400);
+    }
+    expect(orders).toHaveLength(0);
+    expect(catalog.queryProducts).not.toHaveBeenCalled();
+  });
+
+  it.each([undefined, 'invalid-correlation', 'AAAAAAAA-AAAA-4AAA-8AAA-AAAAAAAAAAAA'])(
+    'propagates the normalized correlation ID when the incoming header is %s',
+    async (incoming) => {
+      const { app, catalog } = await createApplication();
+      const pending = request(app.getHttpServer()).post('/api/v1/orders');
+      if (incoming) pending.set('X-Correlation-Id', incoming);
+      const result = await pending
+        .send({
+          customer: { name: 'QA', email: 'qa@example.com' },
+          items: [{ productId: firstId, quantity: 1 }],
+        })
+        .expect(201);
+
+      expect(catalog.queryProducts).toHaveBeenCalledWith(
+        [firstId],
+        result.headers['x-correlation-id'],
+      );
+    },
+  );
 });

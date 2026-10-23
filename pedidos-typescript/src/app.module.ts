@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { Inject, Injectable, Module, type OnApplicationShutdown } from '@nestjs/common';
+import { Inject, Injectable, Logger, Module, type OnApplicationShutdown } from '@nestjs/common';
 import type { Pool as PgPool } from 'pg';
 import { Pool } from 'pg';
 import { CatalogHttpClient } from './adapters/catalog-http.client.js';
@@ -34,14 +34,21 @@ class PostgresPoolLifecycle implements OnApplicationShutdown {
     { provide: ORDERS_CONFIGURATION, useFactory: () => loadOrdersConfiguration(process.env) },
     {
       provide: POOL,
-      useFactory: (configuration: OrdersConfiguration) =>
-        new Pool({
+      useFactory: (configuration: OrdersConfiguration) => {
+        const pool = new Pool({
           connectionString: configuration.databaseUrl,
           max: 10,
           connectionTimeoutMillis: 1_000,
           idleTimeoutMillis: 10_000,
           options: '-c statement_timeout=2000 -c lock_timeout=1000',
-        }),
+        });
+        pool.on('error', () => {
+          new Logger('PostgresPool').error(
+            'Idle PostgreSQL connection lost; pool remains available.',
+          );
+        });
+        return pool;
+      },
       inject: [ORDERS_CONFIGURATION],
     },
     PostgresPoolLifecycle,

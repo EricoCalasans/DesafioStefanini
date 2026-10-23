@@ -19,6 +19,59 @@ class PersistenceUnavailable extends ApplicationError {
   }
 }
 
+const TRANSIENT_DRIVER_CODES = new Set([
+  'ECONNABORTED',
+  'ECONNREFUSED',
+  'ECONNRESET',
+  'EHOSTUNREACH',
+  'ENETUNREACH',
+  'ENOTFOUND',
+  'EPIPE',
+  'ETIMEDOUT',
+  'ERR_SOCKET_CLOSED',
+]);
+
+function databaseErrorCode(error: unknown): string | undefined {
+  if (typeof error !== 'object' || error === null || !('code' in error)) return undefined;
+  return typeof error.code === 'string' ? error.code : undefined;
+}
+
+function isPersistenceUnavailable(error: unknown): boolean {
+  const code = databaseErrorCode(error);
+  if (!code) {
+    return (
+      error instanceof Error &&
+      ['timeout expired', 'Connection terminated unexpectedly'].includes(error.message)
+    );
+  }
+  return (
+    TRANSIENT_DRIVER_CODES.has(code) ||
+    code.startsWith('08') ||
+    code.startsWith('53') ||
+    code.startsWith('57') ||
+    code.startsWith('58') ||
+    code === '55P03'
+  );
+}
+
+function isConnectionLoss(error: unknown): boolean {
+  const code = databaseErrorCode(error);
+  return error instanceof Error && error.message === 'Connection terminated unexpectedly'
+    ? true
+    : Boolean(
+        code &&
+          (TRANSIENT_DRIVER_CODES.has(code) ||
+            code.startsWith('08') ||
+            code === '57P01' ||
+            code === '57P02'),
+      );
+}
+
+function databaseCodeForLog(error: unknown): string {
+  const code = databaseErrorCode(error);
+  return code && /^[A-Z0-9_]{1,16}$/.test(code) ? code : 'unknown';
+}
+
 function asBigInt(value: string | number | bigint): bigint {
   return BigInt(value);
 }
@@ -66,9 +119,17 @@ export class PostgresOrderRepository implements OrderRepository {
   async create(order: Order, correlationId: string): Promise<Order> {
     this.assertOrderIntegrity(order);
     let client: PoolClient | undefined;
+    let connectionErrorListener: ((error: Error) => void) | undefined;
     let transactionStarted = false;
+    let commitRequested = false;
     try {
       client = await this.pool.connect();
+      connectionErrorListener = (error) => {
+        this.logger.error(
+          `PostgreSQL connection lost errorType=${error.name} databaseCode=${databaseCodeForLog(error)} traceId=${correlationId}`,
+        );
+      };
+      client.once('error', connectionErrorListener);
       await client.query('BEGIN');
       transactionStarted = true;
       await client.query(
@@ -123,11 +184,14 @@ export class PostgresOrderRepository implements OrderRepository {
       if (itemResult.rowCount !== order.items.length) {
         throw new Error('PostgreSQL did not insert every order item.');
       }
+      commitRequested = true;
       await client.query('COMMIT');
+      commitRequested = false;
       transactionStarted = false;
       return order;
     } catch (error) {
-      if (transactionStarted && client) {
+      const commitOutcomeAmbiguous = commitRequested && isConnectionLoss(error);
+      if (transactionStarted && client && !commitOutcomeAmbiguous) {
         try {
           await client.query('ROLLBACK');
         } catch {
@@ -135,10 +199,14 @@ export class PostgresOrderRepository implements OrderRepository {
         }
       }
       this.logger.error(
-        `Order persistence failed errorType=${error instanceof Error ? error.name : typeof error} traceId=${correlationId}`,
+        `${commitOutcomeAmbiguous ? 'Order commit outcome ambiguous retry=false' : 'Order persistence failed'} errorType=${error instanceof Error ? error.name : typeof error} databaseCode=${databaseCodeForLog(error)} traceId=${correlationId}`,
       );
-      throw new PersistenceUnavailable();
+      if (isPersistenceUnavailable(error)) throw new PersistenceUnavailable();
+      throw error;
     } finally {
+      if (client && connectionErrorListener) {
+        client.removeListener('error', connectionErrorListener);
+      }
       client?.release();
     }
   }
@@ -156,15 +224,17 @@ export class PostgresOrderRepository implements OrderRepository {
       return this.mapOrder(result.rows);
     } catch (error) {
       this.logger.error(
-        `Order read failed errorType=${error instanceof Error ? error.name : typeof error}`,
+        `Order read failed errorType=${error instanceof Error ? error.name : typeof error} databaseCode=${databaseCodeForLog(error)}`,
       );
-      throw new PersistenceUnavailable();
+      if (isPersistenceUnavailable(error)) throw new PersistenceUnavailable();
+      throw error;
     }
   }
 
   async list(page: number, pageSize: number): Promise<OrderPage> {
-    const client = await this.pool.connect().catch(() => {
-      throw new PersistenceUnavailable();
+    const client = await this.pool.connect().catch((error: unknown) => {
+      if (isPersistenceUnavailable(error)) throw new PersistenceUnavailable();
+      throw error;
     });
     try {
       await client.query('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY');
@@ -208,9 +278,10 @@ export class PostgresOrderRepository implements OrderRepository {
         /* connection may already be lost */
       }
       this.logger.error(
-        `Order list failed errorType=${error instanceof Error ? error.name : typeof error}`,
+        `Order list failed errorType=${error instanceof Error ? error.name : typeof error} databaseCode=${databaseCodeForLog(error)}`,
       );
-      throw new PersistenceUnavailable();
+      if (isPersistenceUnavailable(error)) throw new PersistenceUnavailable();
+      throw error;
     } finally {
       client.release();
     }

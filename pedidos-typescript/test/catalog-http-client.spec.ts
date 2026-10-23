@@ -24,9 +24,81 @@ function client(): CatalogHttpClient {
   return new CatalogHttpClient({ catalogUrl: 'http://catalog.test' } as never);
 }
 
+function validPayload() {
+  return {
+    products: [product(firstId, 'KEYBOARD', 20_000)],
+    missingProductIds: [] as string[],
+    observedAt,
+  };
+}
+
 afterEach(() => vi.unstubAllGlobals());
 
 describe('CatalogHttpClient', () => {
+  it.each<[string, (payload: ReturnType<typeof validPayload>) => unknown]>([
+    ['currency', (p) => ({ ...p, products: [{ ...p.products[0], currency: 'USD' }] })],
+    ['numeric string', (p) => ({ ...p, products: [{ ...p.products[0], priceCents: '20000' }] })],
+    ['fractional price', (p) => ({ ...p, products: [{ ...p.products[0], priceCents: 1.5 }] })],
+    [
+      'price over limit',
+      (p) => ({ ...p, products: [{ ...p.products[0], priceCents: 100_000_001 }] }),
+    ],
+    ['active type', (p) => ({ ...p, products: [{ ...p.products[0], active: 'true' }] })],
+    ['version zero', (p) => ({ ...p, products: [{ ...p.products[0], priceVersion: 0 }] })],
+    [
+      'version overflow',
+      (p) => ({ ...p, products: [{ ...p.products[0], priceVersion: 2_147_483_648 }] }),
+    ],
+    ['text control', (p) => ({ ...p, products: [{ ...p.products[0], name: 'QA\u0000X' }] })],
+    ['SKU over limit', (p) => ({ ...p, products: [{ ...p.products[0], sku: '😀'.repeat(41) }] })],
+    [
+      'impossible date',
+      (p) => ({ ...p, products: [{ ...p.products[0], updatedAt: '2026-02-30T00:00:00Z' }] }),
+    ],
+    ['non-leap date', (p) => ({ ...p, observedAt: '2025-02-29T00:00:00Z' })],
+    ['non-UTC date', (p) => ({ ...p, observedAt: '2026-10-22T09:00:00-03:00' })],
+    ['extra product field', (p) => ({ ...p, products: [{ ...p.products[0], admin: true }] })],
+    ['duplicate product', (p) => ({ ...p, products: [p.products[0], p.products[0]] })],
+    ['found and missing', (p) => ({ ...p, missingProductIds: [firstId] })],
+    ['duplicate missing', (p) => ({ ...p, products: [], missingProductIds: [firstId, firstId] })],
+    ['extra batch field', (p) => ({ ...p, privateField: true })],
+    ['array root', () => []],
+  ])('rejects supplier contract violation: %s', async (_label, mutate) => {
+    const fetchMock = vi.fn(async () => Response.json(mutate(validPayload())));
+    vi.stubGlobal('fetch', fetchMock);
+    await expect(client().queryProducts([firstId], correlationId)).rejects.toMatchObject({
+      status: 502,
+      code: 'CATALOG_INVALID_RESPONSE',
+    });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('rejects malformed UTF-8 and maps network connection failure without exposing details', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(
+        async () =>
+          new Response(new Uint8Array([0xff]), {
+            headers: { 'content-type': 'application/json' },
+          }),
+      ),
+    );
+    await expect(client().queryProducts([firstId], correlationId)).rejects.toMatchObject({
+      status: 502,
+    });
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => {
+        throw new Error('private connection detail');
+      }),
+    );
+    await expect(client().queryProducts([firstId], correlationId)).rejects.toMatchObject({
+      status: 503,
+      code: 'CATALOG_UNAVAILABLE',
+      detail: 'Não foi possível consultar o Catálogo.',
+    });
+  });
+
   it('sends one correlated batch and validates the complete response', async () => {
     const fetchMock = vi.fn(async () =>
       Response.json({

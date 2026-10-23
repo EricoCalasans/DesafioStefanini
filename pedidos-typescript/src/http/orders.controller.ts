@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Headers, Inject, Param, Post, Query, Res } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Param, Post, Query, Req, Res } from '@nestjs/common';
 import {
   ApiBadGatewayResponse,
   ApiBadRequestResponse,
@@ -22,6 +22,7 @@ import type { CreateOrderUseCase } from '../application/create-order.js';
 import { ApplicationError } from '../application/errors.js';
 import type { OrderRepository } from '../application/ports.js';
 import { CREATE_ORDER_USE_CASE, ORDER_REPOSITORY } from '../application/ports.js';
+import type { CorrelatedRequest } from './correlation.middleware.js';
 import { presentOrder, presentOrderPage } from './order.presenter.js';
 import { CreateOrderDto } from './orders.dto.js';
 import {
@@ -72,13 +73,13 @@ export class OrdersController {
   @ApiInternalServerErrorResponse({ type: ProblemDetailsResponseDto })
   async create(
     @Body() body: CreateOrderDto,
-    @Headers('x-correlation-id') correlationId: string,
+    @Req() request: CorrelatedRequest,
     @Res({ passthrough: true }) response: Response,
   ) {
     const order = await this.createOrder.execute({
       customer: { name: body.customer.name, email: body.customer.email },
       items: body.items.map((item) => ({ productId: item.productId, quantity: item.quantity })),
-      correlationId,
+      correlationId: request.correlationId,
     });
     response.status(201).setHeader('Location', `/api/v1/orders/${order.id}`);
     return presentOrder(order);

@@ -67,6 +67,23 @@ const input = {
 };
 
 describe('CreateOrderUseCase', () => {
+  it.each([502, 503, 504])(
+    'does not persist when the supplier fails with HTTP %s',
+    async (status) => {
+      const deps = dependencies();
+      const failure = new ApplicationError(
+        status,
+        'CATALOG_TEST_FAILURE',
+        'QA',
+        'Synthetic failure.',
+      );
+      vi.mocked(deps.catalog.queryProducts).mockRejectedValue(failure);
+      await expect(new CreateOrderUseCase(deps).execute(input)).rejects.toBe(failure);
+      expect(deps.repository.create).not.toHaveBeenCalled();
+      expect(deps.saved).toHaveLength(0);
+    },
+  );
+
   it('fetches the catalog once, snapshots prices, calculates discount, then persists', async () => {
     const deps = dependencies();
     const result = await new CreateOrderUseCase(deps).execute(input);
