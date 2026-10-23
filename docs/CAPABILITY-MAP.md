@@ -1,8 +1,8 @@
 # Mapa de capacidades
 
-**Status:** execução autorizada; implementação incremental em andamento. **Data:** 22/10/2026.
+**Status:** implementado e revisado; evidências locais e CI hospedada registradas. A branch principal do repositório é `main`. **Data:** 22/10/2026.
 
-O candidato autorizou a implementação seguindo as specs. O mapa organiza os documentos e liga os requisitos a dois serviços executáveis: `catalogo` e `pedidos`.
+O mapa organiza os documentos e liga os requisitos a dois serviços executáveis: `catalogo` e `pedidos`. O [backlog](tasks/todo.md) e a [matriz de rastreabilidade](matriz-de-rastreabilidade.md) distinguem execução local, CI, artefatos publicados e limitações externas.
 
 | ID estável | Responsabilidade | Dependências de contrato / produto | Spec |
 |---|---|---|---|

@@ -1,6 +1,6 @@
 # Revisão das especificações
 
-**Data:** 21/10/2026, atualizada em 22/10/2026. **Revisor:** assistente Codex, na mesma atividade de elaboração. **Status:** revisão das specs e revisão local da implementação concluídas após correções; o candidato delegou ao Codex as decisões técnicas em 22/10. Não houve revisor externo nem aceite da banca. O estado e os limites das evidências aparecem na seção 7.
+**Data:** 21/10/2026, atualizada em 23/10/2026. **Revisor:** assistente Codex, na mesma atividade de elaboração. **Status:** revisão das specs, README e revisão local da implementação concluídas após correções; o candidato delegou ao Codex as decisões técnicas em 22/10. Não houve revisor externo nem aceite da banca. O estado e os limites das evidências aparecem na seção 7.
 
 ## 1. Escopo da revisão
 
@@ -73,7 +73,9 @@ O projeto independente de Catálogo está implementado: domínio valida o produt
 
 Evidências executadas dentro de `catalogo-dotnet/`: `dotnet build` sem avisos, `dotnet format --verify-no-changes` e 23 testes passaram. Com Compose real ativo, `/health/ready`, listagem paginada, lote misto e Swagger responderam; o seed de quatro produtos foi lido com conta runtime. A implementação usa uma chamada `Filter.In`/`Find`; a contagem 1/10/100 e o explain reproduzíveis foram concluídos e estão em `docs/evidencias/catalogo-lote-explain.md`. O serviço Pedidos e a jornada integrada foram implementados depois e têm sua evidência na seção 7.
 
-## 5. Pendências reais
+## 5. Pendências ao fechar a fase de especificação — fotografia de 22/10/2026
+
+Esta tabela é um registro histórico da conclusão das specs, anterior à implementação final e à publicação no GitHub. Os itens que mudaram depois estão reconciliados na seção 8 e no [checklist de submissão](entrega/checklist-submissao.md).
 
 | Pendência | Efeito | Momento de resolver |
 |---|---|---|
@@ -87,7 +89,7 @@ Evidências executadas dentro de `catalogo-dotnet/`: `dotnet build` sem avisos, 
 | Conta/orçamento/rede de cloud | Apenas extensão de deploy real | Antes de provisionar |
 | Testes e artefatos finais | Comprovação da implementação | Núcleo funcional local validado; falta release/checklist final |
 
-As decisões 001-004 estão registradas nos ADRs: o candidato aceitou 001/002 e delegou as demais decisões técnicas ao Codex em 22/10; o Codex revisou e aceitou 003/004. O núcleo funcional local está concluído. Permanecem pendentes a primeira execução de CI hospedada, link compartilhável e pacote final; GitHub, SAI APP 3.0, cloud e vídeo dependem de acesso ou escolha de entrega.
+As decisões 001-004 estão registradas nos ADRs: o candidato aceitou 001/002 e delegou as demais decisões técnicas ao Codex em 22/10; o Codex revisou e aceitou 003/004. O núcleo funcional local está concluído. Naquela fotografia, CI hospedada, link compartilhável e pacote final ainda estavam pendentes; esse estado foi atualizado após a execução do workflow e a criação do link.
 
 ## 6. Como reproduzir a validação documental
 
@@ -113,4 +115,12 @@ Verificações repetidas nesta revisão: Pedidos `npm test` (33 testes), `npm ru
 
 A revisão adversarial não encontrou defeito bloqueante nos fluxos exercitados. As invariantes do agregado são conferidas antes de gravar e ao reconstituir; cabeçalho e itens usam a mesma transação; SQL é parametrizado; leitura histórica usa PostgreSQL; a aplicação não concede permissões de migração ao runtime. No Catálogo, o profiler registrou um `find` real para cada lote de 1, 10 e 100 IDs; `explain` confirmou os índices `_id_` e `ix_products_active_id`. A contagem de SQL é fixa por operação e foi inspecionada no adapter, com testes PostgreSQL reais. O benchmark local teve 100 amostras por cenário e não demonstra latência/capacidade produtiva. O COMMIT interrompido continua documentado como resultado ambíguo; não foi simulada queda TCP.
 
-Pendências de aceite: primeira execução do workflow no GitHub, link compartilhável e pacote final da candidatura. O contrato runtime produtor/consumidor passou com respostas reais validadas contra os schemas canônicos; contagem/explain, benchmark local, setup limpo e revisão Q29-Q40 estão em [evidências](evidencias/catalogo-lote-explain.md). A revisão de mensagens com IA está em `ia/revisao-validacoes-mensagens.md`; o guia de code review (fonte/PDF de duas páginas) e o dimensionamento executivo foram criados e conferidos. As pendências estão marcadas nos cards correspondentes em [tasks/todo.md](tasks/todo.md). Nenhuma foi rotulada como concluída apenas por existir documentação ou código.
+O workflow já foi executado no GitHub e o README final foi revisado contra os manifests reais. O CI do SHA de submissão ainda precisa ser conferido após publicar as alterações documentais. A pipeline não faz deploy e não há branch protection/required checks configurados; esse limite consta no [spec de plataforma](../specs/SPEC-plataforma.md). O contrato runtime produtor/consumidor passou com respostas reais validadas contra os schemas canônicos; contagem/explain, benchmark local, setup limpo e revisão Q29-Q40 estão em [evidências](evidencias/catalogo-lote-explain.md). A revisão de mensagens com IA está em `ia/revisao-validacoes-mensagens.md`; o guia de code review (fonte/PDF de duas páginas), o dimensionamento executivo e os slides foram criados e conferidos. O link público da conversa foi aberto sem autenticação e consta no [checklist de submissão](entrega/checklist-submissao.md). Nenhuma foi rotulada como concluída apenas por existir documentação ou código.
+
+## 8. Revisão final do README e revalidação em 23/10/2026
+
+O README começa pelas escolhas de TypeScript/NestJS + PostgreSQL para Pedidos e C#/ASP.NET Core + MongoDB para Catálogo, explica a motivação multi-stack e o custo operacional, e depois orienta setup, Compose por serviço, execução direta em hot reload, configuração, migrations, seed de 24 produtos, seis rotas de negócio, Swagger, testes, smoke, contratos, CI, avaliação e limites. Os comandos foram comparados com `infra/compose.yaml`, `infra/.env.example`, scripts de setup/seed/teste, os projetos e o workflow real. O spec de plataforma deixou de descrever variáveis e jobs planejados que não existem.
+
+Na revalidação local passaram Pedidos: 65 testes unitários/HTTP, typecheck e lint; Catálogo: `dotnet format` e 28 testes; PostgreSQL: seis testes de integração; integração/sistema: smoke e nove verificações de contrato runtime; documentação: três contratos OpenAPI, 438 links Markdown locais, R01-R53/Q01-Q50/T01-T45 e exemplos/aritmética. O teste de integração inicialmente detectou divergência de checksum causada por CRLF na migration SQL do checkout Windows; `.gitattributes` agora fixa LF para TS/JS/MJS/SQL e a execução repetida passou com checksum já aplicado.
+
+O link compartilhável abriu numa consulta sem sessão autenticada. Runs hospedados anteriores passaram em `90bd904`; os actions do workflow foram atualizados para versões oficiais com runtime Node 24. Ainda é necessário aguardar CI para o SHA final depois do push. Não há PR real, branch protection/required checks, imagens em registry ou deploy cloud; esses itens seguem declarados como ausentes/condicionais, não como sucesso implícito.

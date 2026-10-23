@@ -1,7 +1,7 @@
 {
   "kind": "documentation-review",
   "scope": "Specs, contratos e exemplos; nenhuma aplicação executada",
-  "date": "2026-10-22",
+  "date": "2026-10-23",
   "tools": {
     "openapi-spec-validator": "0.9.0",
     "PyYAML": "6.0.3",
@@ -26,7 +26,7 @@
     {
       "check": "Links locais Markdown",
       "result": "pass",
-      "detail": "371 links locais com destino existente"
+      "detail": "444 links locais com destino existente"
     },
     {
       "check": "IDs e contagem de artefatos",

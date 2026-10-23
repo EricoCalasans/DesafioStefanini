@@ -2,7 +2,7 @@
 
 **Executado em:** 22/10/2026
 
-**Ambiente:** MongoDB `8.0.34-noble` em Docker Compose; quatro produtos sintéticos; API Catálogo real no loopback.
+**Ambiente da medição:** MongoDB `8.0.34-noble` em Docker Compose; quatro produtos sintéticos na fixture usada no experimento; API Catálogo real no loopback. O seed atual do projeto contém 24 produtos (23 ativos e um inativo).
 
 **Roteiro reproduzível:** `docs/validation/medir-lote-catalogo.ps1`.
 

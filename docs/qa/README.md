@@ -2,6 +2,8 @@
 
 Estado: **concluída com limitações externas documentadas**. Os 47 casos têm tentativa e evidência ou justificativa; o resultado final é 45 `PASSOU`, 0 `FALHOU`, 1 `BLOQUEADO` e 1 `NÃO EXECUTADO`. Veja [resultados por caso](resultados.md), [histórico completo](execucao.json), [correções](correcoes.md) e [relatório final](relatorio-2026-10-22.md).
 
+**Nota temporal:** esta campanha registra a fotografia do checkout e do ambiente de QA no momento em que foi executada em 22/10/2026, antes da publicação GitHub e dos ajustes de entrega desta revisão. O GAT06 e os arquivos individuais abaixo continuam sendo evidência histórica e não foram reescritos. Depois da campanha, o repositório foi publicado e o workflow GitHub Actions executou; confira o estado do commit atual em [GitHub Actions](https://github.com/EricoCalasans/DesafioStefanini/actions) e os limites atuais em [SPEC-plataforma](../../specs/SPEC-plataforma.md). Não há branch protection/required checks configurados nem deploy cloud.
+
 ## Reconhecimento e escopo
 
 - Base inicial: `90a6850`, branch `feature/t02-bootstrap`, Git limpo. Não há `AGENTS.md` aplicável encontrado na árvore ou ancestrais. Convenções: `docs/fluxo-git.md`, ADRs e comandos reais de cada projeto.
@@ -9,7 +11,7 @@ Estado: **concluída com limitações externas documentadas**. Os 47 casos têm 
 - Implementado: consulta de produtos ativos/detalhe/lote, criação/cálculo/persistência/listagem/detalhe de pedidos, snapshots, migrações, init/seed e health/logs.
 - Fronteiras atuais: `security: []` nos contratos; sem login, usuários, papéis HTTP, propriedade ou tenants. Há papéis restritos nos bancos. Não há estoque, pagamento, cancelamento, edição/exclusão de pedido, exclusão lógica, agendamento nem vigência futura. Produto inativo sai da lista e aparece no detalhe/lote. Esses recursos ausentes não serão inventados como casos de produto.
 - Responsividade, foco, carregamento visual e acessibilidade de produto não se aplicam: somente APIs e Swagger de desenvolvimento. Datas de contrato são UTC; não há regra comercial por dia/fuso ou horário de verão.
-- `docs/evidencias/*` e estados antigos de specs/backlog são históricos, exceto `docs/evidencias/revisao-documental.json`, atualizado pelo gate GAT04 desta campanha. `SPEC-integracao`, `SPEC-plataforma` e `SPEC-qualidade` ainda contêm caminhos, variáveis e comandos futuros: a campanha usa os manifests reais (`CATALOG_URL`, `ORDERS_*`, `CATALOG_MONGODB_*`, scripts de `infra/`). Metas de cobertura/carga e CI/CD descritas como futuras não serão apresentadas como existentes.
+- `docs/evidencias/*` e os resultados individuais abaixo são registros datados. A execução usou os manifests então vigentes (`CATALOG_URL`, `ORDERS_*`, `CATALOG_MONGODB_*`, scripts de `infra/`); o spec atual de plataforma foi reconciliado depois com os nomes e comandos reais. Metas de cobertura/carga e deploy/CD que não existem continuam não sendo apresentados como realizados.
 
 ## Ambiente e ordem
 
@@ -45,4 +47,4 @@ O executor mantém tentativas anteriores e ignora casos já aprovados ao retomar
 
 `PASSOU`: comportamento esperado observado com evidência. `FALHOU`: divergência reproduzível e campanha interrompida. `BLOQUEADO`: dependência concreta indisponível; motivo obrigatório, sem equivaler a aprovação. `NÃO EXECUTADO`: ainda não executado ou limitação justificada. Erro de validação esperado conta como PASSOU. Resultado final e histórico não se confundem: uma falha corrigida continua nas tentativas.
 
-Aceite: todos os casos com resultado/evidência ou limitação concreta; regressões, lint, tipos e build pertinentes aprovados; zero falha pendente. GAT06 depende de CI/remoto/QA hospedado que não está configurado; GAT07 não mediu carga nem cobertura porque esses gates não existem no projeto. Assim, a campanha local está concluída, sem aprovação de publicação externa. Não há obrigação de commit automático na política do projeto; alterações ficam revisáveis no checkout, sem push ou merge.
+Aceite da campanha histórica: todos os casos tinham resultado/evidência ou limitação concreta; GAT07 não mediu carga de escrita nem cobertura, porque esses gates não existem no projeto. GAT06 ficou bloqueado naquele checkout, que não tinha remoto; a publicação e a CI ocorreram posteriormente. A campanha não é reclassificada retroativamente como teste do SHA final e não representa aprovação externa.

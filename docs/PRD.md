@@ -1,6 +1,6 @@
 # PRD - Sistema de Pedidos e Catálogo
 
-**Versão:** 1.0. **Data:** 21/10/2026. **Autor:** candidato com apoio de IA. **Status:** implementação autorizada e em andamento; existem fundações de health check, mas o aceite funcional descrito neste PRD ainda não foi concluído.
+**Versão:** 1.1. **Data:** 21/10/2026, atualizado em 23/10/2026. **Autor:** candidato com apoio de IA. **Status:** núcleo funcional implementado; testes locais, integração, setup limpo e CI hospedada executados. O checklist de submissão registra os poucos itens restantes e limites externos.
 
 ## 1. Visão e problema
 
@@ -120,6 +120,6 @@ Todos os requisitos obrigatórios devem estar implementados; cenários críticos
 
 ## 12. Decisões aceitas e pontos pendentes
 
-A stack, os bancos locais e as regras centrais foram aceitos pelo candidato em 22/10/2026; as decisões técnicas restantes foram delegadas ao Codex com base no PRD e estão registradas nos ADRs 003 e 004. O prazo real informado é 23/10/2026 às 18:00 (horário de Brasília); as três semanas continuam sendo apenas o cenário hipotético de dimensionamento exigido pelo desafio. Não há revisão técnica pendente do candidato para iniciar. Permanecem para a etapa de entrega o acesso a um repositório GitHub, o link compartilhável da conversa e, se disponíveis, SAI APP 3.0 ou recursos de cloud. O candidato deverá compreender e conseguir explicar as decisões na apresentação. Não há aprovação presumida do recrutador. Mudanças futuras exigem atualização do PRD, da spec do módulo, do contrato e da matriz aplicável.
+A stack, os bancos locais e as regras centrais foram aceitos pelo candidato em 22/10/2026; as decisões técnicas restantes foram delegadas ao Codex com base no PRD e estão registradas nos ADRs 003 e 004. O prazo informado para a candidatura foi 23/10/2026 às 18:00 (horário de Brasília); as três semanas continuam sendo apenas o cenário hipotético de dimensionamento exigido pelo desafio. O sistema está publicado no [repositório GitHub](https://github.com/EricoCalasans/DesafioStefanini), com execução de CI; o estado do link compartilhável da conversa, a correspondência do commit final e os itens condicionais estão no [checklist de submissão](entrega/checklist-submissao.md). O candidato deverá compreender e conseguir explicar as decisões na apresentação. Não há aprovação presumida do recrutador. Mudanças futuras exigem atualização do PRD, da spec do módulo, do contrato e da matriz aplicável.
 
 Histórico: versão 1.0 em 21/10/2026, elaboração inicial e revisão cruzada com as sete páginas do PDF; versão 1.1 em 22/10/2026, registro das escolhas aceitas e do prazo real informado pelo candidato.

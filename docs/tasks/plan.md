@@ -1,6 +1,6 @@
 # Plano de construção
 
-**Status:** núcleo das duas APIs implementado e validado localmente em 22/10/2026; revisão cruzada das specs concluída. Fechamento de evidências, artefatos de liderança e itens do backlog ainda em andamento. **Referências:** [mapa](../CAPABILITY-MAP.md), [PRD](../PRD.md), [backlog](todo.md), [proposta hipotética](../../specs/SPEC-proposta.md).
+**Status em 23/10/2026:** núcleo das duas APIs, documentação de entrega, artefatos de liderança, link compartilhável e CI hospedada concluídos. Falta conferir CI no SHA final e resolver/explicitar os itens condicionais. **Referências:** [mapa](../CAPABILITY-MAP.md), [PRD](../PRD.md), [backlog](todo.md), [proposta hipotética](../../specs/SPEC-proposta.md).
 
 **Prazo de entrega informado pelo candidato:** 23/10/2026 às 18:00 (horário de Brasília). As 240 horas e três semanas da [proposta](../../specs/SPEC-proposta.md) são um cenário técnico-comercial hipotético, não uma previsão para esta candidatura. O escopo integral não cabe no prazo real; priorizar o núcleo demonstrável, preservar requisitos obrigatórios e reportar cortes e verificações pendentes com transparência.
 
@@ -11,18 +11,18 @@
 | Etapa | Trabalho | Marco para avançar |
 |---|---|---|
 | 0 - Especificação | Análise, PRD, contratos, matriz e revisão | **Concluída:** documentação validada; execução autorizada pelo candidato |
-| 1 - Fundação | Toolchain, estrutura, GitFlow, Compose, roles, build e CI mínimo | Fundação local concluída; primeira execução da CI hospedada ainda pendente |
+| 1 - Fundação | Toolchain, estrutura, GitFlow, Compose, roles, build e CI mínimo | Fundação concluída; checks locais e CI hospedada executados; enforcement de branch protection não configurado |
 | 2 - Catálogo | MongoDB, validador/índices, seed e endpoints | API real, lote, paginação, erros, Swagger, contagem de comandos e explain exercitados |
 | 3 - Primeiro fluxo de pedido | Domínio, desconto, porta de catálogo, SQL e POST | Pedido canônico real passou com valores corretos; rollback provado em PostgreSQL |
 | 4 - Leitura e robustez | GETs/paginação, snapshots, falhas e logs | GETs, paginação, snapshots, falha de inserção e timeout SQL passaram; COMMIT desconectado segue documentado como resultado ambíguo |
-| 5 - Qualidade e automação | Integração/sistema/contrato, cobertura, eficiência e gate | Testes locais, contrato runtime, smoke, N+1 e benchmark local restrito passaram; primeira execução da CI hospedada pendente |
+| 5 - Qualidade e automação | Integração/sistema/contrato, cobertura, eficiência e gate | Testes locais e CI hospedada, contrato runtime, smoke, N+1 e benchmark local restrito passaram; gate obrigatório no GitHub/deploy continua parcial |
 | 6 - Liderança e IA | Guia curto, proposta, revisão por IA e registros | Guia, proposta e revisão dedicada de validações/mensagens estão documentados e testados localmente |
-| 7 - Fechamento | README limpo, tag/evidências, conversa e roteiro | README e reprodução em volumes vazios passaram; link de conversa, execução hospedada e pacote final pendentes |
+| 7 - Fechamento | README limpo, tag/evidências, conversa e roteiro | README e reprodução em volumes vazios passaram; deck e checklist estão prontos; conferir compartilhamento, tag/commit de submissão e CI desse SHA |
 | 8 - Extensões condicionais | Cloud real e/ou vídeo/slides | Núcleo aceito, recursos e tempo disponíveis |
 
 Testes e documentação acontecem junto com cada incremento. A etapa 5 consolida o fluxo e o gate; não adia todo teste para o fim. IA/SDD e governança acompanham o trabalho, e não são uma narrativa criada apenas na etapa 6.
 
-Em 22/10, as duas APIs, a integração entre serviços e os bancos foram executados em Compose normal e em composição isolada com volumes vazios; Pedidos passou em 33 testes unitários/HTTP e seis testes PostgreSQL, Catálogo em 23 testes .NET, e smoke/contratos runtime passaram. Um benchmark local de leitura foi medido, sem afirmar SLA. Não foi executada ainda uma pipeline GitHub Actions hospedada nem foi feito deploy externo. O backlog separa essas pendências das verificações que já têm resultado local.
+Em 22/10, as duas APIs, a integração entre serviços e os bancos foram executados em Compose normal e em composição isolada com volumes vazios; a última execução local passou 65 testes unitários/HTTP e seis testes PostgreSQL de Pedidos, 28 testes .NET do Catálogo, além de typecheck/lint/format e smoke/contratos runtime. Um benchmark local de leitura foi medido, sem afirmar SLA. GitHub Actions já executou no SHA `90bd904`; a pipeline não faz deploy externo. O backlog separa enforcement de branch, link compartilhável e commit final das verificações que já têm resultado.
 
 ## 2. Dependências e possibilidade de trabalho simultâneo
 

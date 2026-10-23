@@ -20,7 +20,7 @@
 |---|---|---|
 | Node | 24 LTS; `24.22.1` instalado e >=24.15 para scaffolding Nest 12 | `pedidos-typescript/.node-version`; container de runtime será fixado no build |
 | TypeScript / NestJS | 6.0.3 / 12.2.0, ESM | versões exatas em `pedidos-typescript/package-lock.json` |
-| `pg` | 8.23.1 | `pedidos-typescript/package-lock.json`; integração real pendente |
+| `pg` | 8.23.1 | `pedidos-typescript/package-lock.json`; integração executada contra PostgreSQL real em `orders_test` |
 | .NET / ASP.NET Core / C# | 10 / 10 / 14 | `catalogo-dotnet/global.json`, target `net10.0`, runtime/digest |
 | MongoDB C# Driver | 3.13.0 | NuGet lockfiles; validar com integração real ao MongoDB 8.0 |
 | PostgreSQL / MongoDB | `postgres:17.11` / `mongo:8.0.34-noble` | Tags/digests abaixo, sem `latest` |

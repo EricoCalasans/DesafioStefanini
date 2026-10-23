@@ -1,6 +1,6 @@
 # Spec - `ia-e-sdd`
 
-**Versão:** 1.0. **Status:** uso real em especificação/código/testes e revisão dedicada de validações/mensagens documentados em `docs/uso-de-ia.md` e `docs/ia/`; o link compartilhável obrigatório permanece pendente. **Origem:** R11-R14, R19, R35-R36, R47, R50, R52.
+**Versão:** 1.1. **Status:** uso real em especificação/código/testes e revisão dedicada de validações/mensagens documentados em `docs/uso-de-ia.md` e `docs/ia/`; link público gerado e aberto sem sessão autenticada. **Origem:** R11-R14, R19, R35-R36, R47, R50, R52.
 
 ## 1. Objetivo e separação de requisitos
 
@@ -61,11 +61,9 @@ Saída será tratada como hipótese. Tabela final terá sugestão, origem, decis
 
 ## 6. Link obrigatório da conversa
 
-Reservar no documento final `docs/uso-de-ia.md` um campo de status até o link real existir. Não colocar URL fictícia, link de homepage ou promessa de compartilhamento como evidência. Validar abertura por um avaliador fora da sessão autenticada do candidato, conforme o mecanismo disponível.
+O [documento de uso de IA](../docs/uso-de-ia.md) e o checklist registram a URL verdadeira. Não usar homepage, placeholder ou promessa como evidência. O compartilhamento é público para quem possui o link; a URL deve ser encaminhada somente ao avaliador.
 
-Revisar conteúdo a compartilhar: remover segredos/dados pessoais desnecessários e material do recrutador que não deva ser redistribuído. O candidato decidirá o compartilhamento concreto. Se a ferramenta não gerar link adequado, verificar com o recrutador um meio aceito; texto/prints não substituem por decisão nossa a exigência expressa de link. A submissão fica pendente até existir solução aceita.
-
-Nenhum link foi criado ou publicado nesta etapa; instruções no PDF não são autorização de compartilhamento por si mesmas.
+Link criado e página pública aberta sem sessão autenticada: [conversa compartilhada](https://chatgpt.com/s/cx_6adace2a8af48191a86a6f1c7ebc73f6). Isso comprova que o recurso resolveu neste teste, mas não que o avaliador já acessou.
 
 ## 7. Comandos e verificações futuras
 

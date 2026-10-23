@@ -1,6 +1,6 @@
 # Análise ponto a ponto do desafio
 
-**Versão:** 1.0. **Data:** 21/10/2026. **Status:** análise concluída; solução proposta ainda não implementada.
+**Versão:** 1.1. **Data:** 21/10/2026, revisão em 22/10/2026. **Status:** análise ponto a ponto concluída; requisitos foram mapeados para o sistema implementado e para as evidências atuais. Consulte a [matriz atualizada](matriz-de-rastreabilidade.md), o [README operacional](../README.md) e o [checklist de submissão](entrega/checklist-submissao.md) para o estado de entrega.
 
 ## 1. Fonte, método e limites
 
@@ -149,7 +149,7 @@ O PDF não exige domínio público, login, front-end, Kubernetes, mensageria, ch
 
 | Prioridade | Risco | Resposta das specs |
 |---|---|---|
-| Crítica | Entregar sem link de IA | Checklist de submissão com bloqueador explícito e status pendente até link real |
+| Crítica | Entregar sem link de IA | Link público real registrado no checklist e aberto em consulta sem autenticação; encaminhá-lo ao avaliador |
 | Crítica | Serviço de Pedidos confiar no preço enviado pelo cliente | Contrato não aceita preço; consulta real ao Catálogo e validação da resposta |
 | Crítica | Consultas N+1 | Lote, índice, contagem de operações e explicação do plano |
 | Crítica | SQL concatenado ou pedido parcial | Parametrização e transação com teste de rollback |
