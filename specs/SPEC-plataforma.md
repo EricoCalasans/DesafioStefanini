@@ -80,7 +80,7 @@ O workflow não publica imagens, não executa deploy, não configura cobertura m
 
 - `main`: branch principal e referência da entrega.
 - `develop`: branch de integração.
-- `feature/<id>-descricao`: trabalho isolado que, no fluxo normal, é proposto a `develop` por PR.
+- `feature/<id>-descricao`: trabalho isolado que, no fluxo normal, é proposto a `develop` por PR. A entrega registra o [PR #1](https://github.com/EricoCalasans/DesafioStefanini/pull/1).
 - `release/<versao>` e `hotfix/<versao>`: caminhos descritos em [`docs/fluxo-git.md`](../docs/fluxo-git.md) para os casos aplicáveis.
 - `master`: alias sincronizada com `main` para compatibilidade; não é linha de desenvolvimento adicional.
 
@@ -94,7 +94,7 @@ Deploy em cloud permanece condicional. O projeto não tem conta, orçamento, des
 
 - **PLA01:** setup Compose com init/migration e volumes vazios foi reproduzido; smoke e testes de integração passaram localmente.
 - **PLA02:** configuração estrita e separação de credenciais estão verificadas em testes e Compose.
-- **PLA03:** política GitFlow, branches e template existem; só considerar PR/revisão independente quando houver links e evidência reais.
+- **PLA03:** política GitFlow, branches, template e [PR #1](https://github.com/EricoCalasans/DesafioStefanini/pull/1) existem; o PR não representa revisão independente por outra pessoa.
 - **PLA04:** CI executa o conjunto de checks em push e PR; falta enforcement por branch protection e não há deploy associado.
 - **PLA05:** release/tag, imagens por digest e smoke cloud não foram implementados, pois deploy é condicional.
 - **PLA06:** bancos são publicados em loopback; contas de runtime, migration, seed e administração são separadas.

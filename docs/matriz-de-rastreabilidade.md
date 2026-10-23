@@ -1,6 +1,6 @@
 # Matriz de rastreabilidade do desafio
 
-**Data:** 21/10/2026, atualizada em 23/10. **Status global:** núcleo funcional, documentação de entrega, artefatos de liderança, link compartilhável e CI hospedada concluídos. O checklist abaixo separa evidências produzidas de itens condicionais ou ainda pendentes, especialmente PRs reais, enforcement de branch protection e CI do SHA final.
+**Data:** 21/10/2026, atualizada em 23/10. **Status global:** núcleo funcional, documentação de entrega, artefatos de liderança, link compartilhável, PR #1 e CI hospedada concluídos. O checklist abaixo separa evidências produzidas de itens condicionais ou ainda pendentes, especialmente revisão independente, enforcement de branch protection e promoção do SHA validado.
 
 53 pontos foram identificados a partir de todas as seções. O número inclui competências contextuais, critérios e repetições relevantes da entrega; **não significa 53 funcionalidades nem 53 obrigações de mesmo peso**. OBR = obrigação explícita; CTX = contexto/critério; DIF = diferencial; ART = artefato incluído por leitura conservadora do objetivo/entrega.
 
@@ -84,7 +84,7 @@ Página é a posição física no PDF. Cenários Qxx estão em [qualidade](../sp
 |---|---|
 | R15-R16, R20-R29 | Pedidos está implementado em NestJS/PostgreSQL. Criação canônica, cálculo, snapshots, validação, persistência atômica, leituras e paginação passaram em testes unitários/HTTP, integração PostgreSQL e smoke real. |
 | R31-R34 | Catálogo está implementado em ASP.NET Core/MongoDB; busca individual, listagem e `$in` em lote foram exercitados. Profiler registrou um `find` para 1/10/100 IDs; `explain` confirmou `_id_` e `ix_products_active_id`. O dataset pequeno não é benchmark de capacidade. |
-| GitFlow / commits | Repositório público com `main`, `develop` e `master`; política, template e commits existem. Links de PR não são alegados sem PR real; branch protection não foi configurada/verificada. |
+| GitFlow / commits | Repositório público com `main`, `develop` e `master`; política, template, commits e [PR #1 para `develop`](https://github.com/EricoCalasans/DesafioStefanini/pull/1) existem. Não houve revisão independente nem branch protection configurada/verificada. |
 | R37, R42-R44 | Build, lint, format, testes, validação documental, contrato runtime e smoke passaram localmente. GitHub Actions executa o mesmo conjunto em um job de CI; não há deploy nem enforcement de status checks por branch. |
 | R11-R14, R35-R36, R47, R50, R52 | Uso de IA ao longo do ciclo e revisão dedicada de mensagens estão documentados; o link público abriu sem autenticação e está no README/checklist. O avaliador ainda não confirmou seu acesso. |
 | R17, R38-R39, R40-R41, R48, R51 | Guia multi-stack em fonte e PDF de duas páginas, proposta de três semanas/sênior/pleno, resumo executivo e slides foram criados. A revisão independente por outra pessoa não foi realizada. |
