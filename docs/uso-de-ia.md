@@ -1,6 +1,6 @@
 # Uso de IA no desafio técnico
 
-**Atualizado em:** 22/10/2026  
+**Atualizado em:** 23/10/2026
 **Ferramenta:** assistente Codex nesta conversa  
 **Modelo exato:** não verificado pela interface; não inferido.
 
@@ -16,7 +16,7 @@ Não foi adicionado recurso de IA ao runtime das APIs. A análise do PDF foi fei
 2. Criar PRD, mapa, contratos, specs, ADRs e critérios verificáveis antes da implementação.
 3. Implementar fatias separadas por projeto, testar a regra e a fronteira afetada e registrar o estado no backlog.
 4. Revisar mensagens de erro, dados externos, transação, logs, dependências e configuração; corrigir achados com testes.
-5. Executar checks locais, integração real e smoke; documentar claramente o que ainda depende de execução hospedada ou material final.
+5. Executar checks locais, integração real, smoke e CI hospedada; documentar claramente o que continua condicionado ou sem comprovação externa.
 
 O repositório e as evidências ficam organizados em [docs](.), [specs](../specs/) e [docs/tasks/todo.md](tasks/todo.md). O histórico detalhado de interações relevantes está em [registro de IA](ia/registro-especificacao.md).
 
@@ -26,16 +26,16 @@ O repositório e as evidências ficam organizados em [docs](.), [specs](../specs
 - **Preparação:** pedido para verificar versões/configuração antes do código. Resultado: Node 24, .NET 10, Docker Compose, PostgreSQL 17 e MongoDB 8 fixados e conferidos.
 - **Implementação:** pedido para comparar specs com o PRD, implementar o sistema completo, separar cada linguagem em projeto próprio, preservar um único Git, manter a raiz enxuta, completar `.gitignore`, criar commits claros e testar tudo. Resultado e verificações estão na revisão e backlog.
 - **Correção orientada a testes:** incompatibilidade entre versões de TypeScript e `typescript-eslint` foi tratada usando Biome para lint/format e `tsc` para tipos. Problemas de parsing/validação do Catálogo foram reproduzidos e corrigidos, conforme o registro real.
-- **Revisão final:** testes locais e revisão de persistência, limites, fronteiras e exemplos foram repetidos; a contagem/explain de Mongo confirmou lote sem N+1; benchmark local, setup limpo e revisão focada de mensagens foram executados. CI hospedada e artefatos de candidatura permanecem explícitos.
+- **Revisão final:** testes locais e revisão de persistência, limites, fronteiras e exemplos foram repetidos; a contagem/explain de Mongo confirmou lote sem N+1; benchmark local, setup limpo e revisão focada de mensagens foram executados. CI hospedada foi executada; README, checklist e slides foram preparados para a entrega. O checklist de submissão registra o SHA publicado, PRs reais e os limites da plataforma.
 
 As mensagens acima são descrições de interações que aconteceram nesta conversa, não prompts futuros apresentados como reais. A especificação e o registro de IA informam os resultados e limites com mais detalhe.
 
 ## Validação humana e técnica
 
-O candidato delegou as decisões técnicas ao assistente com base no PRD; a decisão foi registrada nos ADRs. O assistente verificou os resultados localmente. Não houve revisor independente, aceite da banca, execução GitHub Actions ou deploy remoto.
+O candidato delegou as decisões técnicas ao assistente com base no PRD; a decisão foi registrada nos ADRs. O assistente verificou os resultados localmente e GitHub Actions foi executado no repositório público. Não houve revisor independente, aceite da banca ou deploy remoto. A pipeline não tem branch protection/required checks associados.
 
-Em 22/10/2026 passaram: 33 testes unitários/HTTP de Pedidos, 6 testes PostgreSQL reais, 23 testes .NET, `npm run typecheck`, `npm run lint`, `dotnet format --verify-no-changes`, validação documental/OpenAPI, contratos runtime, smoke ponta a ponta e reprodução em Compose com volumes vazios. O experimento Mongo mediu um `find` por lote de 1/10/100 IDs e confirmou os índices esperados; o benchmark local de leitura está descrito com seus limites. Consulte o [relatório de revisão](revisao-das-especificacoes.md), [evidência de eficiência](evidencias/catalogo-lote-explain.md), [revisão de mensagens](ia/revisao-validacoes-mensagens.md) e [backlog](tasks/todo.md).
+Na última revalidação local de 23/10/2026 passaram: 65 testes unitários/HTTP de Pedidos, seis testes PostgreSQL reais, 28 testes .NET, `npm run build`, `npm run typecheck`, `npm run lint`, `dotnet format --verify-no-changes`, validador documental/OpenAPI (444 links locais), contratos runtime, smoke ponta a ponta e reprodução em Compose com volumes vazios. O experimento Mongo mediu um `find` por lote de 1/10/100 IDs e confirmou os índices esperados; o benchmark local de leitura está descrito com seus limites. A CI do SHA publicado deve ser conferida no histórico do GitHub Actions. Consulte o [relatório de revisão](revisao-das-especificacoes.md), [evidência de eficiência](evidencias/catalogo-lote-explain.md), [revisão de mensagens](ia/revisao-validacoes-mensagens.md) e [backlog](tasks/todo.md).
 
 ## Link compartilhável obrigatório
 
-**Status: pendente.** Nenhum link público ou externo da conversa foi criado ou verificado. Este documento local e o histórico do repositório não substituem o link pedido pelo desafio. Antes da submissão, o candidato precisa decidir se compartilha a conversa, revisar o conteúdo que ficará acessível e validar o link fora da sessão autenticada.
+**Link público da conversa:** [https://chatgpt.com/s/cx_6adace2a8af48191a86a6f1c7ebc73f6](https://chatgpt.com/s/cx_6adace2a8af48191a86a6f1c7ebc73f6). O recurso foi criado para atender ao requisito do desafio. A página abriu numa consulta sem sessão autenticada e exibiu a conversa; não há evidência de que o avaliador já a tenha acessado. Qualquer pessoa com o link pode consultar o conteúdo, então encaminhe-o apenas ao avaliador.

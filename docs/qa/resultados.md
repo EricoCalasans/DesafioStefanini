@@ -2,6 +2,8 @@
 
 Fonte: [execucao.json](execucao.json). Datas UTC; ambiente `desafio-qa-20261022`. As falhas anteriores continuam no histórico após um reteste aprovado.
 
+**Nota temporal:** GAT06 e os demais resultados descrevem o checkout avaliado em 22/10/2026 antes de existir remoto GitHub; não representam o estado posterior. A campanha não foi reexecutada contra este conjunto de alterações documentais. Consulte o [resumo QA atualizado](README.md), o [spec de plataforma](../../specs/SPEC-plataforma.md) e [GitHub Actions](https://github.com/EricoCalasans/DesafioStefanini/actions).
+
 Planejados: 47; executados com tentativa: 47; PASSOU: 45; FALHOU: 0; BLOQUEADO: 1; NÃO EXECUTADO: 1.
 
 ## ENV01 — Toolchains e versões fixadas

@@ -2,6 +2,8 @@
 
 **Estado:** concluída com limitações externas documentadas. Foram planejados e tentados os 47 casos: 45 `PASSOU`, 0 `FALHOU` no estado final, 1 `BLOQUEADO` e 1 `NÃO EXECUTADO`. Falhas intermediárias foram mantidas no histórico de tentativas e aprovadas após correção/reteste.
 
+**Nota de atualização posterior:** este relatório é uma fotografia imutável da campanha no checkout `90a6850`; o GAT06 bloqueado descreve corretamente aquele momento, antes de o usuário criar/publicar o repositório. Depois, GitHub Actions foi executado no SHA `90bd904`. O workflow atual continua sem deploy, branch protection/required checks e registry; confira [SPEC-plataforma](../../specs/SPEC-plataforma.md) e a página de [GitHub Actions](https://github.com/EricoCalasans/DesafioStefanini/actions) para o estado atual. Esta nota não altera o resultado histórico nem afirma que o commit final já passou CI.
+
 Data humana: America/Sao_Paulo; horários das tentativas em UTC. Base: branch `feature/t02-bootstrap`, commit `90a6850714d3c7812366807349c2a3498ecef762`, checkout limpo no início. O HEAD permaneceu nesse commit; nenhuma alteração foi commitada, enviada ou mesclada.
 
 ## Escopo e ambiente

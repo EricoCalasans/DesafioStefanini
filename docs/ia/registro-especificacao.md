@@ -1,6 +1,8 @@
 # Registro real de IA - etapa de especificação
 
-**Data:** 21/10/2026, atualizado em 22/10/2026. **Ferramenta:** assistente Codex nesta conversa. **Modelo/versão exata:** não verificados pela interface nesta atividade. **Status atual:** núcleo das duas APIs implementado e validado localmente; revisão Q29-Q40 registrada; link compartilhável obrigatório pendente.
+**Data:** 21/10/2026, atualizado em 23/10/2026. **Ferramenta:** assistente Codex nesta conversa. **Modelo/versão exata:** não verificados pela interface nesta atividade. **Status:** histórico cronológico das atividades. Na atualização final, os dois serviços passaram nos testes locais; README e artefatos de entrega foram preparados; a conversa tem link público aberto sem autenticação. A CI do SHA publicado e eventuais PRs devem ser verificados no [checklist de submissão](../entrega/checklist-submissao.md) após o push.
+
+As seções abaixo registram o estado observado em cada etapa e preservam a cronologia, inclusive pendências que foram resolvidas depois. Para o estado atual, consulte o [checklist de submissão](../entrega/checklist-submissao.md), a [SPEC de plataforma](../../specs/SPEC-plataforma.md) e o [README da raiz](../../README.md).
 
 ## Solicitação efetiva
 
@@ -67,3 +69,11 @@ Em 22/10/2026, o candidato delegou explicitamente ao Codex as decisões técnica
 **Limite de compartilhamento:** o link da conversa ainda não foi criado ou testado. Não apresentar o registro local como se fosse o link exigido pelo desafio. A revisão desta conversa e a criação/verificação do link ficam para o fechamento da candidatura.
 
 **Revisão de validações/mensagens:** em 22/10/2026 foi aplicada uma revisão focada nas respostas de falha, sanitização, dependência externa e ausência de gravação. O prompt, as recomendações aceitas/rejeitadas e os testes que as verificam estão em [revisão assistida de mensagens](revisao-validacoes-mensagens.md). O resultado ambíguo de perda de conexão durante COMMIT permanece documentado; não foi simulado por queda TCP.
+
+## Fechamento da documentação de entrega
+
+O README foi refeito para começar pelas decisões de stack e fronteiras, e depois guiar setup, execução, seed, migrations, endpoints, testes, CI e critérios da avaliação. A SPEC de plataforma foi reconciliada com `infra/compose.yaml`, `.env.example` e `.github/workflows/ci.yml`; matriz, backlog e checklist agora separam a CI realmente executada dos controles de branch/deploy que ainda não existem. O guia de code review foi mantido como PDF de duas páginas e o diferencial de apresentação foi materializado em slides editáveis com notas do apresentador.
+
+Na revalidação local de 23/10, Pedidos passou 65 testes unitários/HTTP, typecheck e lint; Catálogo passou `dotnet format` e 28 testes; PostgreSQL passou seis testes de integração; smoke do sistema, nove verificações de contrato runtime e validador documental também passaram. O lint inicialmente expôs finais de linha CRLF no Windows. `.gitattributes` fixa LF para TypeScript/JavaScript/MJS e SQL; a correção também evitou divergência de checksum da migration entre Windows e Linux. A CI anterior passou no SHA `90bd904`, mas isso não prova o estado de um commit posterior. Registrar o resultado do SHA publicado somente após conferir o run no GitHub.
+
+**Atividade de entrega em 23/10:** o candidato pediu revisão ponto a ponto do README contra o PDF, cobrindo escolhas de stack, execução, bancos, seed, testes, diferenciais da seção 2.4 e critérios finais. Foram atualizados README, spec de plataforma, matriz, checklist, backlog e evidências; foram acrescentados o deck final editável e um checklist explícito de submissão. A página do link compartilhável foi aberta sem autenticação. Não houve confirmação de acesso pelo avaliador, revisão humana independente, PR real, branch protection, publicação de imagens ou deploy.

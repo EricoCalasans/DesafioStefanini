@@ -1,10 +1,10 @@
 # Matriz de rastreabilidade do desafio
 
-**Data:** 21/10/2026, atualizada em 22/10. **Status global:** especificado, revisado e com núcleo funcional local. As duas APIs, persistência, integração, contrato runtime, smoke real, setup em volumes vazios, benchmark local limitado e medição de comandos/índices do lote têm evidências; CI hospedada, link compartilhável e pacote final continuam pendentes, conforme o estado ao fim deste documento.
+**Data:** 21/10/2026, atualizada em 23/10. **Status global:** núcleo funcional, documentação de entrega, artefatos de liderança, link compartilhável, PR #1 e CI hospedada concluídos. O checklist abaixo separa evidências produzidas de itens condicionais ou ainda pendentes, especialmente revisão independente, enforcement de branch protection e promoção do SHA validado.
 
 53 pontos foram identificados a partir de todas as seções. O número inclui competências contextuais, critérios e repetições relevantes da entrega; **não significa 53 funcionalidades nem 53 obrigações de mesmo peso**. OBR = obrigação explícita; CTX = contexto/critério; DIF = diferencial; ART = artefato incluído por leitura conservadora do objetivo/entrega.
 
-Página é a posição física no PDF. Cenários Qxx estão em [qualidade](../specs/SPEC-qualidade.md). Siglas de aceite, como ORD01 e GOV01, estão nas specs indicadas. A coluna de evidência descreve o que **ainda deverá ser produzido**, salvo as specs existentes.
+Página é a posição física no PDF. Cenários Qxx estão em [qualidade](../specs/SPEC-qualidade.md). Siglas de aceite, como ORD01 e GOV01, estão nas specs indicadas. A coluna de evidência aponta o aceite verificável e os artefatos atuais; a seção de estado abaixo distingue execução local, hospedada e itens condicionais.
 
 | ID | Fonte / página | Natureza e ponto coberto | Spec / documento | Aceite ou evidência associada |
 |---|---|---|---|---|
@@ -20,8 +20,8 @@ Página é a posição física no PDF. Cenários Qxx estão em [qualidade](../sp
 | R10 | §1, p3 | CTX dimensionamento/precificação | [Proposta](../specs/SPEC-proposta.md) | PROP01-PROP05; números assumidos |
 | R11 | §1, p3 | CTX IA no desenvolvimento | [IA/SDD](../specs/SPEC-ia-e-sdd.md) | IA01/02; registros reais |
 | R12 | §1, p3 | DIF SAI APP 3.0 | [IA/SDD](../specs/SPEC-ia-e-sdd.md) | Somente se houver acesso; não declarado como usado |
-| R13 | Adendo, p4 | OBR uso de IA | [IA/SDD](../specs/SPEC-ia-e-sdd.md) | Registro atual e registros das etapas futuras |
-| R14 | Adendo, p4 | OBR link da conversa | [IA/SDD](../specs/SPEC-ia-e-sdd.md), [entrega](../specs/SPEC-entrega.md) | IA05/Q50; link pendente |
+| R13 | Adendo, p4 | OBR uso de IA | [IA/SDD](../specs/SPEC-ia-e-sdd.md) | Registro de especificação, código, depuração, testes e revisão em `docs/uso-de-ia.md` e `docs/ia/` |
+| R14 | Adendo, p4 | OBR link da conversa | [IA/SDD](../specs/SPEC-ia-e-sdd.md), [entrega](../specs/SPEC-entrega.md) | IA05/Q50; link público aberto sem autenticação; avaliador ainda não confirmou acesso |
 | R15 | §2.1, p4 | OBR dois serviços | [Mapa](CAPABILITY-MAP.md), [integração](../specs/SPEC-integracao.md) | INT01; execução independente |
 | R16 | §2.1, p4 | OBR preços do Catálogo em cada criação | [Pedidos](../specs/SPEC-pedidos.md), [integração](../specs/SPEC-integracao.md) | INT01/02; Q29-Q36 |
 | R17 | §2.1, p4 | ART guia de code review | [Governança](../specs/SPEC-governanca.md) | GOV01-GOV04 |
@@ -44,7 +44,7 @@ Página é a posição física no PDF. Cenários Qxx estão em [qualidade](../sp
 | R34 | §2.3.1.2, p5 | OBR consulta eficiente, sem N+1 | [Catálogo](../specs/SPEC-catalogo.md), [qualidade](../specs/SPEC-qualidade.md) | CAT02/INT02; Q25/Q31 |
 | R35 | §2.4.1, p6 | DIF IA revendo validações/mensagens | [IA/SDD](../specs/SPEC-ia-e-sdd.md) | IA03; revisão real futura |
 | R36 | §2.4.1, p6 | DIF prompt e saída validados | [IA/SDD](../specs/SPEC-ia-e-sdd.md) | IA02/03; decisões aceitar/rejeitar/ajustar |
-| R37 | §2.4.2, p6 | DIF testes como gate antes de deploy | [Plataforma](../specs/SPEC-plataforma.md), [qualidade](../specs/SPEC-qualidade.md) | PLA04; Q46/Q47 |
+| R37 | §2.4.2, p6 | DIF testes como gate antes de deploy | [Plataforma](../specs/SPEC-plataforma.md), [qualidade](../specs/SPEC-qualidade.md) | Workflow executa em push/PR; branch protection não está configurada e não existe deploy |
 | R38 | §2.4.3, p6 | DIF/ART guia 1-2 páginas multi-stack | [Governança](../specs/SPEC-governanca.md) | GOV01/03; PDF final e revisão visual |
 | R39 | §2.4.3, p6 | DIF/ART bloqueadores de PR | [Governança](../specs/SPEC-governanca.md) | GOV02; checklist objetivo |
 | R40 | §2.4.4, p6 | DIF/ART esforço, senioridade, composição, premissas | [Proposta](../specs/SPEC-proposta.md) | PROP02-PROP04 |
@@ -52,15 +52,15 @@ Página é a posição física no PDF. Cenários Qxx estão em [qualidade](../sp
 | R42 | §3, p7 | CTX qualidade/vulnerabilidades | [Arquitetura](arquitetura.md), [qualidade](../specs/SPEC-qualidade.md) | Q37-Q43 e review |
 | R43 | §3, p7 | CTX serviços funcionais/integrados | [Integração](../specs/SPEC-integracao.md) | INT01/03/04; testes reais |
 | R44 | §3, p7 | CTX docs setup/config/uso/prompts | [Entrega](../specs/SPEC-entrega.md), [IA/SDD](../specs/SPEC-ia-e-sdd.md) | Q48/Q50; README reproduzido |
-| R45 | §3, p7 | CTX GitHub/PRs/GitFlow | [Plataforma](../specs/SPEC-plataforma.md) | PLA03; links reais |
+| R45 | §3, p7 | CTX GitHub/PRs/GitFlow | [Plataforma](../specs/SPEC-plataforma.md) | Repositório, branches e commits publicados; PRs reais precisam de links próprios |
 | R46 | §3, p7 | CTX qualidade dos diferenciais | [Governança](../specs/SPEC-governanca.md), [proposta](../specs/SPEC-proposta.md), [IA/SDD](../specs/SPEC-ia-e-sdd.md) | Q49/Q50 e revisão |
 | R47 | §3, p7 | CTX IA em especificação/código/testes/depuração | [IA/SDD](../specs/SPEC-ia-e-sdd.md) | IA01-IA04; evidências por etapa |
 | R48 | §3, p7 | CTX liderança e comunicação não técnica | [Governança](../specs/SPEC-governanca.md), [proposta](../specs/SPEC-proposta.md) | GOV04/PROP04; resumo executivo |
 | R49 | §4, p7 | OBR código de ambos no GitHub e README | [Entrega](../specs/SPEC-entrega.md) | ENT01/02; repositório acessível |
-| R50 | §4, p7 | OBR documento da ferramenta/motivo/processo IA | [IA/SDD](../specs/SPEC-ia-e-sdd.md), [entrega](../specs/SPEC-entrega.md) | IA01/02; `docs/uso-de-ia.md` futuro |
+| R50 | §4, p7 | OBR documento da ferramenta/motivo/processo IA | [IA/SDD](../specs/SPEC-ia-e-sdd.md), [entrega](../specs/SPEC-entrega.md) | IA01/02; `docs/uso-de-ia.md` e `docs/ia/` |
 | R51 | §4, p7 | ART guia e dimensionamento anexos | [Entrega](../specs/SPEC-entrega.md) | GOV01/PROP01; docs no repositório |
-| R52 | §4, p7 | OBR link da conversa reiterado | [IA/SDD](../specs/SPEC-ia-e-sdd.md), [entrega](../specs/SPEC-entrega.md) | IA05; bloqueador enquanto pendente |
-| R53 | §4, p7 | DIF desejável vídeo ou slides | [Entrega](../specs/SPEC-entrega.md) | Roteiro definido; material final condicional |
+| R52 | §4, p7 | OBR link da conversa reiterado | [IA/SDD](../specs/SPEC-ia-e-sdd.md), [entrega](../specs/SPEC-entrega.md) | IA05; URL pública registrada e aberta sem autenticação; avaliador ainda não confirmou acesso |
+| R53 | §4, p7 | DIF desejável vídeo ou slides | [Entrega](../specs/SPEC-entrega.md) | Slides editáveis de sete páginas e roteiro de 6–7 minutos em `docs/apresentacao/` |
 
 ## Cobertura de decisões complementares
 
@@ -78,20 +78,16 @@ Página é a posição física no PDF. Cenários Qxx estão em [qualidade](../sp
 | Garantia de uma única criação | Não há idempotência no núcleo; sem retry automático | ADR003, Q40 |
 | Interface de negócio | Fora do núcleo; Swagger UI e exemplos | PRD e Entrega |
 
-## Como atualizar durante a implementação
-
-Acrescentar colunas de commit/PR, evidência e resultado real ao executar. Não substituir a coluna de requisito original por uma funcionalidade parecida, nem transformar meta em resultado. Se houver corte de diferencial, registrar explicitamente.
-
-## Estado de implementação em 22/10/2026
+## Estado de implementação e entrega em 22/10/2026
 
 | Faixa de requisitos | Estado verificável nesta versão |
 |---|---|
 | R15-R16, R20-R29 | Pedidos está implementado em NestJS/PostgreSQL. Criação canônica, cálculo, snapshots, validação, persistência atômica, leituras e paginação passaram em testes unitários/HTTP, integração PostgreSQL e smoke real. |
 | R31-R34 | Catálogo está implementado em ASP.NET Core/MongoDB; busca individual, listagem e `$in` em lote foram exercitados. Profiler registrou um `find` para 1/10/100 IDs; `explain` confirmou `_id_` e `ix_products_active_id`. O dataset pequeno não é benchmark de capacidade. |
-| GitFlow / commits | Política GitFlow, template e histórico local com commits por unidade existem. Não houve PR/merge nem execução em plataforma remota. |
-| R37, R42-R44 | Checks e documentação de execução existem; build, lint, format, testes, validação documental, contrato runtime produtor/consumidor e smoke local passaram. Pipeline hospedada não foi executada. |
-| R11-R14, R35-R36, R47, R50, R52 | Os documentos de uso/registro real de IA cobrem especificação, implementação, depuração e testes. Falta a revisão dedicada de mensagens e o link compartilhável obrigatório. |
-| R17, R38-R39, R40-R41, R48, R51 | Guia multi-stack de code review (fonte e PDF de 2 páginas) e dimensionamento executivo foram produzidos localmente; seguem pendentes revisão independente e pacote final de submissão. |
-| R07, R12, R45, R49, R53 | Publicação GitHub, CI/CD externa, SAI APP 3.0 e vídeo/slides não foram realizados; os elementos condicionais ou dependentes de acesso ficam explícitos no backlog. |
+| GitFlow / commits | Repositório público com `main`, `develop` e `master`; política, template, commits e [PR #1 para `develop`](https://github.com/EricoCalasans/DesafioStefanini/pull/1) existem. Não houve revisão independente nem branch protection configurada/verificada. |
+| R37, R42-R44 | Build, lint, format, testes, validação documental, contrato runtime e smoke passaram localmente. GitHub Actions executa o mesmo conjunto em um job de CI; não há deploy nem enforcement de status checks por branch. |
+| R11-R14, R35-R36, R47, R50, R52 | Uso de IA ao longo do ciclo e revisão dedicada de mensagens estão documentados; o link público abriu sem autenticação e está no README/checklist. O avaliador ainda não confirmou seu acesso. |
+| R17, R38-R39, R40-R41, R48, R51 | Guia multi-stack em fonte e PDF de duas páginas, proposta de três semanas/sênior/pleno, resumo executivo e slides foram criados. A revisão independente por outra pessoa não foi realizada. |
+| R07, R12, R45, R49, R53 | Código em GitHub e CI estão publicados; SAI APP 3.0 não foi usado; cloud e deploy ficam condicionais; slides foram produzidos e vídeo não. |
 
-O backlog distingue implementação local de aceite de entrega. Um arquivo de contrato/spec ou uma configuração de pipeline não é apresentado como execução remota, publicação ou aprovação da banca.
+O [checklist de submissão](entrega/checklist-submissao.md) é a fonte operacional para o estado final. Um arquivo de contrato/spec ou uma configuração de pipeline não é apresentado como aprovação da banca, branch protection, publicação de imagem, deploy ou revisão independente.

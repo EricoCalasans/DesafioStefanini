@@ -1,6 +1,6 @@
 # Checklist de preparação e início
 
-**Status em 22/10/2026:** escolhas essenciais e ambiente local preparados; o candidato autorizou a implementação. O bootstrap das aplicações começou. Este documento registra o que foi conferido antes do código e os bloqueios que ainda precisam fechar antes da entrega.
+**Histórico atualizado em 23/10/2026:** este checklist registra as verificações de preparação antes do desenvolvimento. Os itens de implementação/entrega que estavam abertos foram concluídos e têm evidências no [backlog atual](tasks/todo.md) e no [checklist de submissão](entrega/checklist-submissao.md).
 
 ## Decisões e organização
 
@@ -42,11 +42,11 @@
 
 ## Antes de considerar a entrega pronta
 
-- [ ] Implementar todo o comportamento funcional descrito nas specs, não apenas health checks.
-- [ ] Comprovar papéis e permissões do PostgreSQL; validar MongoDB por meio das APIs.
-- [ ] Cobrir testes de unidade, integração e fluxo completo com bancos reais.
-- [ ] Completar CI, README operacional, documentação de governança, proposta e evidências exigidas pelo PDF.
-- [ ] Revisar os cortes em relação ao prazo e declarar qualquer requisito ainda não concluído.
-- [ ] Criar e testar o link compartilhável da conversa com IA exigido para a submissão.
+- [x] Implementar o comportamento funcional do núcleo descrito nas specs.
+- [x] Comprovar papéis/permissões PostgreSQL e validar MongoDB por meio das APIs.
+- [x] Cobrir testes unitários, integração e fluxo completo com bancos reais.
+- [x] Completar CI, README operacional, governança, proposta e evidências do PDF.
+- [x] Registrar cortes, limites e itens condicionais em documentação de entrega.
+- [x] Criar o link compartilhável da conversa e abrir a página sem sessão autenticada.
 
 Nenhuma instalação ou decisão do candidato bloqueia o início do código. As pendências restantes pertencem à construção e à comprovação do sistema; o plano e o backlog mostram o estado atualizado.

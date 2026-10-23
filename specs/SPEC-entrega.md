@@ -1,25 +1,25 @@
 # Spec - `entrega`
 
-**Versão:** 1.0. **Status:** núcleo implementado e documentado localmente; pacote ainda não publicado e checklist de submissão incompleto. **Origem:** R14, R17-R19, R44-R53.
+**Versão:** 1.1. **Status:** os dois serviços, documentação, guia, proposta, slides, publicação GitHub e link compartilhável estão preparados. O checklist registra a verificação do SHA publicado, CI hospedada e limites de PR/branch protection. **Origem:** R14, R17-R19, R44-R53.
 
 ## 1. Objetivo e inventário final
 
-Disponibilizar um repositório GitHub que permita conferir cada requisito e reproduzir o sistema sem conhecimento desta conversa. Esta etapa cria specs; a entrega abaixo será construída e verificada nas etapas seguintes.
+Disponibilizar um repositório GitHub que permita conferir cada requisito e reproduzir o sistema sem depender de conhecimento tácito. O pacote de referência está no [repositório](https://github.com/EricoCalasans/DesafioStefanini); os artefatos locais e estado de submissão estão no [checklist](../docs/entrega/checklist-submissao.md).
 
-| Artefato futuro | Conteúdo mínimo | Evidência de conclusão |
+| Artefato | Conteúdo | Estado/evidência |
 |---|---|---|
 | Código dos serviços | Pedidos e Catálogo com bancos independentes | Código versionado, builds e testes |
 | README operacional | Pré-requisitos, setup, variáveis, execução, seed, testes, uso e limites | Reprodução em ambiente limpo |
 | Contratos e Swagger UI | OpenAPI coerente com endpoints | OpenAPI validado e respostas reais verificadas contra schemas canônicos; Swagger UI e smoke disponíveis |
 | Compose/Dockerfiles | Ambiente e init/migrations | Health + smoke em execução limpa |
-| CI/CD | Testes obrigatórios antes de deploy | Checks e falha de gate demonstrada |
+| CI | Testes e verificações no mesmo job antes de promover | GitHub Actions executa checks em push/PR; sem deploy e sem branch protection configurada |
 | Specs/ADRs | Requisitos, justificativas e alterações | Histórico anterior aos incrementos |
 | Guia de governança | Fonte editável e PDF de 1-2 páginas | Número de páginas e revisão visual |
 | Dimensionamento | Três semanas, sênior + pleno, premissas e riscos | Conferência de esforço/calendário |
 | Documento `docs/uso-de-ia.md` | Ferramenta, motivo, processo, prompts, decisões e validação | Registros reais por etapa |
-| Link de conversa IA | Link real acessível ao avaliador | Acesso conferido fora da sessão do candidato |
-| Release/tag | Commit avaliado, imagens/digests se gerados e limitações | Checklist vinculado à versão |
-| Apresentação desejável | Roteiro e, se produzido, vídeo ou slides | Material breve, reproduzível e sem segredos |
+| Link de conversa IA | Link público da conversa | URL registrada e aberta sem autenticação; encaminhar ao avaliador |
+| Commit de entrega | SHA principal cujos checks foram verificados | Checklist e CI ligados ao SHA final; sem imagem publicada |
+| Apresentação desejável | Slides e roteiro de 6–7 minutos | PowerPoint editável revisado em `docs/apresentacao/`; vídeo não produzido |
 
 ## 2. README final
 
@@ -70,20 +70,20 @@ Não é obrigação produzir três formatos. Um roteiro basta no planejamento; s
 
 ## 5. Checklist de submissão
 
-- [ ] Repositório acessível ao avaliador e ambos os serviços presentes.
-- [ ] Tag/commit corresponde à versão demonstrada e verificada.
+- [x] Repositório público e ambos os serviços presentes.
+- [ ] Commit final corresponde à versão demonstrada e tem CI aprovada; registrar SHA e links dos checks depois da publicação.
 - [x] Setup e exemplos reproduzidos em composição temporária com volumes vazios; smoke, contratos runtime e integração PostgreSQL passaram. Consulte `docs/evidencias/setup-limpo.md`.
-- [ ] Testes obrigatórios, contratos, build e lint/format passam no SHA de entrega.
-- [ ] Regra configurável demonstrada; pedidos antigos preservados.
-- [ ] Consulta em lote, índice, SQL parametrizado e rollback têm evidência.
-- [ ] Guia de 1-2 páginas e proposta de três semanas anexados.
-- [ ] Documento de ferramenta/uso de IA e prompts/validações completos.
-- [ ] **Link real da conversa com IA presente e acessível.**
-- [ ] PDF de origem e informações confidenciais não publicados por engano.
-- [ ] Limitações, diferenciais não implementados e cloud real/ausente declarados.
-- [ ] Vídeo/slides, se produzidos, apontam à mesma versão.
+- [ ] Testes obrigatórios, contratos, build e lint/format passam no SHA final; última rodada local passou e a CI final ainda deve rodar.
+- [x] Regra configurável demonstrada; pedidos antigos preservados em testes de integração.
+- [x] Consulta em lote, índice, SQL parametrizado e rollback têm evidência.
+- [x] Guia de 1–2 páginas e proposta de três semanas/sênior/pleno anexados.
+- [x] Documento de ferramenta/uso de IA, prompts e decisões de validação documentados.
+- [x] **Link real da conversa com IA presente e acessível sem autenticação.**
+- [x] PDF de origem e credenciais permanecem fora do Git; `.env` está ignorado.
+- [x] Limitações, diferenciais não implementados e ausência de cloud estão declarados.
+- [x] Slides finais estão no mesmo repositório; o commit final precisa ser associado após publicar.
 
-Link pendente de IA, código ausente de um serviço ou integração quebrada impedem declarar submissão completa. Um checklist marcado sem evidência não é aceite.
+O link público abriu sem autenticação; o checklist deve ser encaminhado com essa URL ao avaliador. Fechar a submissão para o SHA final somente depois de a CI correspondente ficar verde; não declarar branch protection, PR, revisão independente ou deploy sem evidência.
 
 ## 6. Comandos disponíveis de verificação
 
@@ -112,7 +112,7 @@ Repetir apenas o necessário após mudanças; usar o CI como evidência principa
 
 ## 7. Limites de ação e aceite
 
-Esta spec não publica arquivos, cria repositório nem compartilha a conversa. Tais ações dependem da etapa de entrega efetivamente autorizada e de acesso do candidato, não de uma instrução no PDF. Não enviar mensagens ao recrutador por iniciativa própria.
+O repositório foi criado pelo candidato e está publicado. O link da conversa foi gerado e aberto sem autenticação; o candidato o encaminha ao avaliador. Não afirmar que o avaliador já o abriu.
 
 - ENT01: pacote contém todos os itens obrigatórios rastreáveis.
 - ENT02: candidato consegue executar e explicar o fluxo e os limites.

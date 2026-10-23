@@ -1,137 +1,102 @@
 # Spec - `plataforma`
 
-**Versão:** 1.0. **Status:** especificado. **Origem:** R06-R07, R20, R30, R37, R44-R45, R49.
+**Versão:** 1.1. **Status:** implementação local e CI hospedada concluídas; GitFlow está documentado e o repositório público contém as branches principais. Não há branch protection, publicação de imagens nem deploy cloud verificados. **Origem:** R06-R07, R20, R30, R37, R44-R45, R49.
 
-## 1. Objetivo e entregáveis
+## 1. Objetivo e estado de entrega
 
-Permitir executar os serviços com configuração explícita, conferir sua saúde, desenvolver com GitFlow e impedir deploy sem testes. Entregáveis: Compose, Dockerfiles multi-stage, `.env.example`, migrações/init, scripts npm de orquestração, lockfiles, CI GitHub Actions, template de PR e caminho documentado de CD.
+Esta especificação registra como executar, configurar, testar e entregar os projetos independentes de Pedidos e Catálogo em um único repositório. O ambiente local usa Docker Compose, PostgreSQL e MongoDB. O workflow do GitHub Actions executa os testes como CI em pushes e pull requests. Não existe job de deploy; por isso, o projeto não alega implantação em nuvem nem proteção obrigatória de branch configurada.
 
-Nenhum contêiner ou recurso cloud foi criado nesta etapa. Docker, SDK .NET e atualização do Node são dependências do bootstrap; observar o ambiente não equivale a prepará-lo.
+O repositório público é [EricoCalasans/DesafioStefanini](https://github.com/EricoCalasans/DesafioStefanini). `main` é a branch principal; `develop` é a branch de integração; `master` permanece como alias de compatibilidade. A existência de branches ou de um template não prova que houve PR ou revisão por outra pessoa. Os links de PR devem ser registrados somente quando PRs reais existirem.
 
-## 2. Serviços e rede locais
+## 2. Projetos, serviços e portas
 
-| Serviço Compose | Papel | Exposição |
+| Serviço Compose | Responsabilidade | Dependências e exposição local |
 |---|---|---|
-| `postgres` | Pedidos | Só rede interna; perfil `dev-db` opcional em loopback |
-| `mongo` | Catálogo | Só rede interna; perfil de debug opcional em loopback |
-| `orders-migrate` | Job one-shot de migração | Sem porta; credencial de migration |
-| `catalog-init` | Job one-shot de validador, índices e seed | Sem porta; credencial de init |
-| `orders` | API NestJS | `127.0.0.1:3000` |
-| `catalog` | API ASP.NET Core | `127.0.0.1:8080` |
+| `postgres` | Persistência SQL de Pedidos | Volume `postgres-data`; `127.0.0.1:${POSTGRES_PORT:-5432}` |
+| `mongo` | Persistência NoSQL do Catálogo | Volume `mongo-data`; `127.0.0.1:${MONGO_PORT:-27017}` |
+| `mongo-bootstrap` | Inicializa validator, índices, usuários e seed | Job sem porta; executa após Mongo saudável |
+| `catalog` | API C#/ASP.NET Core | Depende do bootstrap; `127.0.0.1:${CATALOG_PORT:-8080}` |
+| `orders-migrate` | Aplica migrations SQL | Job sem porta; credencial `orders_migrator` |
+| `orders` | API TypeScript/NestJS | Depende do PostgreSQL, migrations e Catálogo; `127.0.0.1:${ORDERS_PORT:-3000}` |
 
-Bancos com volume persistente; projeto de testes usa nomes/volumes próprios. APIs escutam na interface interna do contêiner, publicadas em loopback no host. Startup de API exige migração/init concluídos com sucesso e healthchecks de banco, além de tentativas de conexão limitadas; `depends_on` simples não substitui readiness.
+Os serviços compartilham somente a rede Docker Compose. Pedidos integra-se ao Catálogo por HTTP e não acessa o MongoDB. O Compose preserva os volumes em `down`; apagar os volumes remove todos os dados locais.
 
-Aplicações rodam sem root. Imagens finais não contêm SDK/toolchain desnecessários. Build de .NET com SDK 10; runtime ASP.NET 10. Node e imagens de banco fixados por patch/digest na implementação. `--no-cache` não é requisito de toda execução; builds reproduzíveis e lockfiles são.
+## 3. Configuração real
 
-## 3. Configuração
+[`infra/.env.example`](../infra/.env.example) é o inventário completo sem credenciais utilizáveis. [`infra/setup-local.ps1`](../infra/setup-local.ps1) cria senhas aleatórias fora do repositório, em uma pasta irmã terminada em `-local`, e recusa substituir uma configuração existente. Use esse script em vez de preencher manualmente secrets.
 
-| Variável | Exemplo local / regra |
-|---|---|
-| `NODE_ENV` | `development`, `test` ou `production` |
-| `ORDERS_PORT` | `3000`, inteiro 1-65535 |
-| `ASPNETCORE_HTTP_PORTS` | `8080`, porta interna do Catálogo |
-| `DATABASE_URL` | PostgreSQL do runtime Pedidos; segredo, sem fallback |
-| `MIGRATION_DATABASE_URL` | Papel de DDL limitado; usado só por migration job |
-| `MONGODB_CONNECTION_STRING` | Credencial de leitura do Catálogo; segredo |
-| `MONGODB_INIT_CONNECTION_STRING` | Credencial de init, não disponível ao runtime |
-| `MONGODB_DATABASE` | `catalog` ou nome isolado de teste |
-| `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD` | Credencial de bootstrap local, sem reutilizar como runtime |
-| `MONGO_INITDB_ROOT_USERNAME`, `MONGO_INITDB_ROOT_PASSWORD` | Bootstrap local, não injetar na API |
-| `ORDERS_DB_USER`, `ORDERS_DB_PASSWORD` | Identidade DML criada pelo bootstrap |
-| `ORDERS_MIGRATION_USER`, `ORDERS_MIGRATION_PASSWORD` | Identidade DDL/DML do job |
-| `CATALOG_DB_USER`, `CATALOG_DB_PASSWORD` | Identidade somente leitura |
-| `CATALOG_INIT_USER`, `CATALOG_INIT_PASSWORD` | Identidade limitada para init/índices/seed |
-| `CATALOG_BASE_URL` | `http://catalog:8080`, URL fixa validada, nunca vinda de request |
-| `CATALOG_TIMEOUT_MS` | `2000`, inteiro positivo com teto 10.000 |
-| `MONGO_QUERY_TIMEOUT_MS` | `1000`, inteiro positivo |
-| `MONGO_SERVER_SELECTION_TIMEOUT_MS` | `1000`, inteiro positivo |
-| `PG_STATEMENT_TIMEOUT_MS` | `2000`, inteiro positivo |
-| `PG_LOCK_TIMEOUT_MS` | `1000`, inteiro positivo, menor/igual ao statement timeout |
-| `PG_POOL_MAX` | `10`, inteiro de 1 a 50 no laboratório |
-| `CREATE_ORDER_TIMEOUT_MS` | `5000`, maior que timeout do fornecedor |
-| `DISCOUNT_ENABLED` | `true`, obrigatório e booleano estrito |
-| `DISCOUNT_RULE_ID` | `volume-v1`, 1-64 caracteres permitidos |
-| `DISCOUNT_MIN_SUBTOTAL_CENTS` | `50000`, inteiro dentro do domínio monetário |
-| `DISCOUNT_RATE_BPS` | `1000`, inteiro entre 0 e 10.000 |
-| `LOG_LEVEL` | `info`, enum permitido |
-| `APP_VERSION` | SHA/tag da aplicação, derivado de build |
+Variáveis de fronteira e seus usos atuais:
 
-O `infra/.env.example` contém placeholders e nenhuma credencial utilizável. `infra/setup-local.ps1` gera credenciais aleatórias no diretório irmão do repositório e recusa sobrescrever as existentes, preservando acesso aos volumes. Aspas, caracteres reservados e URI encoding serão tratados para connection strings. O bootstrap evita imprimir segredos em comandos/logs.
+| Grupo | Variáveis | Uso |
+|---|---|---|
+| Portas do host | `POSTGRES_PORT`, `MONGO_PORT`, `ORDERS_PORT`, `CATALOG_PORT` | Publicação em loopback no host |
+| Contas administrativas/init | `POSTGRES_ADMIN_PASSWORD`, `MONGO_ROOT_PASSWORD`, `MONGO_ADMIN_URI` | Bootstrap dos bancos; não são credenciais de aplicação |
+| Papéis de aplicação e migração | `ORDERS_RUNTIME_PASSWORD`, `ORDERS_MIGRATOR_PASSWORD`, `CATALOG_RUNTIME_PASSWORD`, `CATALOG_SEED_PASSWORD` | Privilégios separados para runtime, migration e seed |
+| PostgreSQL | `ORDERS_DATABASE_URL`, `ORDERS_MIGRATION_DATABASE_URL`, `ORDERS_TEST_DATABASE_URL`, `ORDERS_TEST_MIGRATION_DATABASE_URL` | Banco `orders`, migration, e banco isolado `orders_test` |
+| MongoDB | `CATALOG_MONGODB_URI`, `CATALOG_MONGODB_DATABASE` | Leitura pelo serviço Catálogo; padrão do banco `catalog` |
+| Integração e regra | `CATALOG_URL`, `DISCOUNT_ENABLED`, `DISCOUNT_RULE_ID`, `DISCOUNT_MIN_SUBTOTAL_CENTS`, `DISCOUNT_RATE_BPS` | URL interna do Catálogo e regra de desconto aplicada em Pedidos |
 
-Cada processo recebe somente o necessário. Ausência de variável obrigatória, URL inválida ou intervalos inconsistentes falha no startup com nome da chave e sem imprimir valor sensível. Alterar senha de bootstrap após criação do volume não altera usuários existentes automaticamente; documentar rotação/recriação local com cautela.
+As URLs da configuração gerada usam nomes DNS do Compose (`postgres`, `mongo`, `catalog`) e foram preparadas para os containers. Para execução direta no host, o usuário precisa substituir os hosts pelos endereços publicados em localhost e carregar as mesmas credenciais; o caminho de execução recomendado e verificado é o Compose descrito no README.
 
-## 4. Comandos futuros e ergonomia
+## 4. Inicialização, dados e persistência
 
-Os comandos de cada stack são executados dentro do próprio projeto. Compose e ferramentas documentais são compartilhados pela raiz. Usar comandos PowerShell portáveis, sem depender de bash no Windows.
+Na primeira inicialização, `postgres` cria os bancos/roles definidos em [`infra/postgres/01-roles.sql`](../infra/postgres/01-roles.sql). O serviço `orders-migrate` aplica as migrations versionadas de [`pedidos-typescript/src/migrations/sql/`](../pedidos-typescript/src/migrations/sql/). O banco de pedidos começa vazio; pedidos são criados pela API e o smoke usa dados sintéticos.
 
-    Push-Location pedidos-typescript
-    npm ci
-    npm run lint
-    npm run typecheck
-    npm run build
-    npm test
-    Pop-Location
-    Push-Location catalogo-dotnet
-    dotnet restore Catalog.sln --locked-mode
-    dotnet build Catalog.sln --configuration Release --no-restore
-    dotnet test Catalog.sln --configuration Release --no-build
-    Pop-Location
-    docker compose --env-file ..\desafio-local\.env -f infra\compose.yaml config --quiet
-    docker compose --env-file ..\desafio-local\.env -f infra\compose.yaml up -d --wait
-    docker compose --env-file ..\desafio-local\.env -f infra\compose.yaml run --rm --no-deps mongo-bootstrap
+`mongo-bootstrap` executa [`infra/mongo/initialize.sh`](../infra/mongo/initialize.sh) e [`infra/mongo/bootstrap.js`](../infra/mongo/bootstrap.js), cria o banco `catalog`, validator e índices e insere por upsert 24 produtos sintéticos (23 ativos e um inativo). A rotina é repetível e não apaga produtos existentes. O comando [`infra/seed-demo.ps1`](../infra/seed-demo.ps1) reaplica o bootstrap/seed. A credencial runtime do Catálogo tem leitura; a credencial de seed tem escrita.
 
-`up` aguarda bancos saudáveis; o bootstrap do Mongo é um comando separado e idempotente. `down` preserva volumes por padrão. Reset destrutivo não faz parte do caminho feliz; qualquer rotina desse tipo deverá exigir identificação explícita do projeto descartável.
+O projeto de testes PostgreSQL (`orders_test`) é validado pelo script [`infra/test-orders.ps1`](../infra/test-orders.ps1) antes de executar integração. A pipeline cria credenciais efêmeras e remove apenas sua própria composição/volumes ao fim; os dados locais do usuário não são usados pela CI.
 
-Scripts de desenvolvimento e teste pertencem ao respectivo package.json ou solução. Migrações PostgreSQL pertencem ao projeto Pedidos; bootstrap/seed Mongo pertence à infraestrutura compartilhada e não usa credenciais da API.
+## 5. Comandos operacionais
 
-## 5. Health e logs
+O README da raiz contém o roteiro reproduzível de setup, Compose, Swagger, smoke, testes, logs e encerramento. A sequência principal é:
 
-`/health/live`: 200 com processo UP, sem acesso a fornecedor. `/health/ready`: banco local saudável → 200; indisponível →503. Corpo `Health` do contrato. Não exibir strings de conexão. Um Catálogo fora do ar não deve remover de serviço os GETs de Pedidos que dependem só do SQL.
+```powershell
+.\infra\setup-local.ps1
+$repoRoot = (Resolve-Path .).Path
+$localDirectory = Join-Path (Split-Path -Parent $repoRoot) "$(Split-Path -Leaf $repoRoot)-local"
+$envFile = Join-Path $localDirectory '.env'
+$composeFile = Join-Path $repoRoot 'infra/compose.yaml'
+docker compose --env-file $envFile -f $composeFile up -d --build --wait
+node infra/smoke-system.mjs
+```
 
-Logs JSON em stdout, correlação comum, duração e códigos. Encerramento gracioso: parar de aceitar novas requisições, finalizar/cancelar trabalho com limite de tempo, fechar pools. Liveness e readiness não devem gerar PII ou alto volume de stack traces em falhas esperadas.
+Para iniciar somente uma parte, `docker compose ... up -d --build --wait catalog` inicia Mongo, bootstrap e Catálogo; `docker compose ... up -d --build --wait orders` também inicia as dependências de Pedidos, incluindo Catálogo. A forma completa e os argumentos comuns `--env-file`/`-f` estão em [`README.md`](../README.md).
 
-## 6. GitFlow e histórico
+Para parar mantendo dados: `docker compose ... down`. `down --volumes` é destrutivo e apaga pedidos e produtos locais. O usuário deve conferir o nome/projeto Compose antes de remover volumes; não se recomenda reset como passo de uso normal.
 
-- `main`: releases estáveis, protegida quando o plano GitHub permitir; sem push direto no fluxo normal.
-- `develop`: integração; PR de `feature/<id>-descricao` após critérios de aceite e checks.
-- `release/<versao>`: nasce de develop; somente correções/documentação de estabilização; merge em main com tag e retorno para develop.
-- `hotfix/<versao>`: nasce de main; correção urgente, tag e merges de retorno para main/develop (e release ativa se necessário).
-- Commits pequenos e verdadeiros, com motivo claro, por exemplo `feat(orders): preserve catalog price snapshot`. Preservar histórico útil; evitar squash indiscriminado nos merges de release/back-merge.
+## 6. CI, checks e limites do gate
 
-PR descreve problema, comportamento final, spec/requisitos, testes, riscos e evidências de IA quando relevantes. Trabalho de uma pessoa deve declarar revisão própria; não inventar segundo aprovador. Documentar caso branch protection/revisores não estejam disponíveis no plano/conta escolhidos.
+O workflow único [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) se chama `verify` e tem um job `tests`. Ele roda em push para `main`, `develop`, `master`, `feature/**`, `release/**`, `hotfix/**` e em pull requests. No mesmo job/SHA executa:
 
-## 7. CI obrigatório no plano
+1. Actions oficiais compatíveis com Node 24 e SDK configurado pelo arquivo do projeto; `npm ci`, build, typecheck, lint e testes de Pedidos.
+2. Restore locked, format check, build Release e testes .NET do Catálogo.
+3. Validação de OpenAPI, links e referências documentais.
+4. Compose efêmero com credenciais mascaradas, migrations, testes PostgreSQL, smoke integrado e comparação de respostas reais com OpenAPI.
+5. Cleanup da composição efêmera mesmo após falha.
 
-Triggers: PRs para develop/main/release, pushes nas branches de integração e tags de release. Caminhos de documentação podem ter check rápido, mas não pular testes se contratos ou configuração afetarem comportamento.
+O workflow não publica imagens, não executa deploy, não configura cobertura mínima e não inclui agregador `quality-gate`. Os checks executam em pull request, porém a configuração de branch protection/required status checks não foi criada ou verificada; portanto, não declarar que o GitHub impede merge ou push sem check verde. A política de trabalho documentada é aguardar CI aprovada antes de promover alterações. Como não há deploy, não existe publicação que possa ignorar o resultado da CI.
 
-Jobs, todos ligados ao mesmo SHA:
+## 7. GitFlow
 
-1. Verificar contrato, lint/format e build TypeScript.
-2. Restore bloqueado, format, build e testes unitários .NET.
-3. Unitários TS com cobertura e regras mínimas.
-4. Integração SQL/MongoDB e migração/init em dependências reais.
-5. Testes de contrato e sistema com duas aplicações reais.
-6. Agregador `quality-gate`, com dependências explícitas, avalia sucesso de todos os jobs obrigatórios, inclusive quando há falha/cancelamento.
-7. Build/publicação de imagens de release somente após gate, com SHA/digest.
-8. Job `deploy`, se habilitado, depende do gate e das imagens verificadas; ambiente protegido e execução só em release permitida.
+- `main`: branch principal e referência da entrega.
+- `develop`: branch de integração.
+- `feature/<id>-descricao`: trabalho isolado que, no fluxo normal, é proposto a `develop` por PR. A entrega registra o [PR #1](https://github.com/EricoCalasans/DesafioStefanini/pull/1).
+- `release/<versao>` e `hotfix/<versao>`: caminhos descritos em [`docs/fluxo-git.md`](../docs/fluxo-git.md) para os casos aplicáveis.
+- `master`: alias sincronizada com `main` para compatibilidade; não é linha de desenvolvimento adicional.
 
-Evitar `continue-on-error` em checks obrigatórios, `if: always()` liberando deploy indevido ou workflow separado que publique commit não testado. Teste de falha deliberada em branch descartável demonstra bloqueio. Permissões mínimas, actions oficiais por SHA, sem secrets em PRs de forks e sem checkout de código não confiável em contexto privilegiado.
+O template de PR pede problema, comportamento, requisitos, testes, riscos e evidências. Em uma candidatura individual, revisão própria não deve ser apresentada como aprovação independente. No estado de entrega, documentar commits/branches verdadeiros e não inventar PRs.
 
-## 8. CD e cloud condicionais
+## 8. Cloud e publicação de artefatos
 
-Sem credenciais, manter deploy desabilitado explicitamente e documentar a limitação; build de imagem não equivale a deploy. Caminho proposto: Azure Container Apps para as APIs, PostgreSQL gerenciado, MongoDB Atlas e registry com imagens por digest.
+Deploy em cloud permanece condicional. O projeto não tem conta, orçamento, destino, credenciais, registry, imagem publicada ou infraestrutura cloud configurada. O cenário de Azure Container Apps, PostgreSQL gerenciado e MongoDB Atlas descrito como alternativa é uma proposta, não um recurso existente. Uma implantação futura exigiria gates de release, controle de acesso, HTTPS, segredos federados, teste pós-deploy, rollback e plano de remoção/custos.
 
-Antes de executar: definir conta/assinatura, região, orçamento/teto, ambiente, identidades, segredos, rede, HTTPS e política de acesso. Usar OIDC/identidade federada quando configurável. Catálogo e bancos internos; API de demonstração com acesso restrito e dados sintéticos. Documentar um comando/ação de remoção dos recursos criados e verificar custo residual.
+## 9. Aceite e evidência
 
-Não há promessa de custo mensal ou disponibilidade produtiva sem ambiente e medição. Uma mudança para exposição pública irrestrita exige especificação de autenticação/autorização e revisão do escopo.
+- **PLA01:** setup Compose com init/migration e volumes vazios foi reproduzido; smoke e testes de integração passaram localmente.
+- **PLA02:** configuração estrita e separação de credenciais estão verificadas em testes e Compose.
+- **PLA03:** política GitFlow, branches, template e [PR #1](https://github.com/EricoCalasans/DesafioStefanini/pull/1) existem; o PR não representa revisão independente por outra pessoa.
+- **PLA04:** CI executa o conjunto de checks em push e PR; falta enforcement por branch protection e não há deploy associado.
+- **PLA05:** release/tag, imagens por digest e smoke cloud não foram implementados, pois deploy é condicional.
+- **PLA06:** bancos são publicados em loopback; contas de runtime, migration, seed e administração são separadas.
 
-## 9. Aceite e limites
-
-- PLA01: setup limpo, healthchecks, init/migration idempotentes e persistência após reinício.
-- PLA02: configuração inválida falha cedo e não expõe segredo.
-- PLA03: GitFlow observável por histórico/PRs reais.
-- PLA04: qualquer falha obrigatória impede imagens de release/deploy.
-- PLA05: release identifica SHA/digest; deploy real, se houver, tem smoke e rollback de aplicação para digest anterior.
-- PLA06: bancos não ficam expostos por padrão; roles e segredos separados.
-
-Sempre manter evidência do estado real. Não afirmar proteção de branch configurada ou deploy executado a partir apenas de um YAML.
+As execuções e datas da pipeline ficam no [histórico de GitHub Actions](https://github.com/EricoCalasans/DesafioStefanini/actions). O estado de um commit específico deve ser conferido na página do SHA submetido; um run anterior não prova o status de uma alteração posterior.
