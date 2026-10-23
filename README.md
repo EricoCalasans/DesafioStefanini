@@ -27,9 +27,20 @@ O escopo solicitado é de APIs. Não há uma interface de negócio separada; Swa
 
 ## Início rápido no Windows
 
-Execute os comandos a partir da raiz deste repositório. É necessário ter Docker Desktop iniciado com suporte a Docker Compose v2. Para compilar e testar os projetos diretamente no host, instale também Node.js 24 e .NET SDK 10. Python 3.12 é usado apenas nos validadores de documentação e contratos.
+Execute os comandos a partir da raiz deste repositório. Para rodar o sistema em containers, basta ter o Docker Desktop instalado e iniciado com suporte a Docker Compose v2; Node.js, .NET SDK e Python não precisam ser instalados no Windows para esse fluxo, pois as imagens fazem o build dos serviços. Para compilar, desenvolver e testar diretamente no host, instale Node.js 24 e .NET SDK 10. Python 3.12 é usado apenas nos validadores de documentação e contratos.
 
 As versões exatas estão fixadas em [`pedidos-typescript/.node-version`](pedidos-typescript/.node-version), [`catalogo-dotnet/global.json`](catalogo-dotnet/global.json) e nas imagens de [`infra/compose.yaml`](infra/compose.yaml). A instalação das ferramentas de cada API é independente; não existe `package.json` nem `node_modules` na raiz.
+
+### 0. Confirmar que o Docker está pronto
+
+Abra o Docker Desktop e aguarde o Engine indicar que está em execução. No PowerShell, na raiz do repositório, confirme o cliente, o servidor e o Compose:
+
+```powershell
+docker version
+docker compose version
+```
+
+O primeiro comando deve mostrar as versões de Client e Server. Se não conseguir conectar ao Server, aguarde a inicialização do Docker Desktop e tente novamente. O segundo deve identificar o Docker Compose v2. A primeira execução também baixa as imagens-base necessárias e pode levar alguns minutos.
 
 ### 1. Criar credenciais locais
 
@@ -70,6 +81,8 @@ node infra/smoke-system.mjs
 
 O Compose aguarda os bancos, inicializa o Catálogo e aplica as migrations do PostgreSQL antes de iniciar Pedidos. O smoke executa chamadas reais às duas APIs e cria um pedido sintético; repeti-lo cria outro pedido, pois o endpoint não oferece idempotência.
 
+Esse comando inicia o ambiente completo em segundo plano (`-d`), constrói as imagens locais (`--build`) e espera os health checks (`--wait`). Para acompanhar os logs em primeiro plano, use `docker compose --env-file $envFile -f $composeFile up --build` (sem `-d` e sem `--wait`); `Ctrl+C` interrompe os containers iniciados nesse modo.
+
 Confira o estado e os logs:
 
 ```powershell
@@ -91,6 +104,8 @@ Invoke-RestMethod 'http://localhost:8080/health/ready'
 | Contrato do Catálogo | [`contracts/catalogo.openapi.yaml`](contracts/catalogo.openapi.yaml) |
 
 As APIs, PostgreSQL e MongoDB publicam portas apenas em `127.0.0.1`. As portas padrão são 3000, 8080, 5432 e 27017; elas podem ser alteradas no `.env` local sem mudar as portas usadas entre containers.
+
+Quando terminar de usar o ambiente, siga [Parar ou recriar o ambiente](#parar-ou-recriar-o-ambiente). O comando `down` encerra os containers e preserva os dados nos volumes; a remoção dos volumes é uma ação de reset e apaga os dados locais.
 
 ## Executar cada serviço
 
