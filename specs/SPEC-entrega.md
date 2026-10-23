@@ -1,6 +1,6 @@
 # Spec - `entrega`
 
-**Versão:** 1.1. **Status:** os dois serviços, documentação, guia, proposta, slides, publicação GitHub e link compartilhável estão preparados. O checklist registra a verificação do SHA publicado, CI hospedada e limites de PR/branch protection. **Origem:** R14, R17-R19, R44-R53.
+**Versão:** 1.1. **Status:** os dois serviços, documentação, guia, proposta, slides, publicação GitHub e link compartilhável estão preparados. O PR #1 foi integrado; o merge commit publicado em `main`, `develop` e `master` passou na CI. O checklist registra o SHA e os limites de revisão/branch protection. **Origem:** R14, R17-R19, R44-R53.
 
 ## 1. Objetivo e inventário final
 
@@ -18,7 +18,7 @@ Disponibilizar um repositório GitHub que permita conferir cada requisito e repr
 | Dimensionamento | Três semanas, sênior + pleno, premissas e riscos | Conferência de esforço/calendário |
 | Documento `docs/uso-de-ia.md` | Ferramenta, motivo, processo, prompts, decisões e validação | Registros reais por etapa |
 | Link de conversa IA | Link público da conversa | URL registrada e aberta sem autenticação; encaminhar ao avaliador |
-| Commit de entrega | SHA principal cujos checks foram verificados | Checklist e CI ligados ao SHA final; sem imagem publicada |
+| Commit de entrega | SHA principal cujos checks foram verificados | Merge commit `31e3e66` passou nos checks de `main`/`develop`/`master`; sem imagem publicada |
 | Apresentação desejável | Slides e roteiro de 6–7 minutos | PowerPoint editável revisado em `docs/apresentacao/`; vídeo não produzido |
 
 ## 2. README final
@@ -71,9 +71,9 @@ Não é obrigação produzir três formatos. Um roteiro basta no planejamento; s
 ## 5. Checklist de submissão
 
 - [x] Repositório público e ambos os serviços presentes.
-- [ ] Commit final corresponde à versão demonstrada e tem CI aprovada; registrar SHA e links dos checks depois da publicação.
+- [x] Merge commit `31e3e66` corresponde à versão publicada e tem CI aprovada em `main`, `develop` e `master`; runs no [registro hospedado](../docs/evidencias/ci-hospedada.md).
 - [x] Setup e exemplos reproduzidos em composição temporária com volumes vazios; smoke, contratos runtime e integração PostgreSQL passaram. Consulte `docs/evidencias/setup-limpo.md`.
-- [ ] Testes obrigatórios, contratos, build e lint/format passam no SHA final; última rodada local passou e a CI final ainda deve rodar.
+- [x] Testes obrigatórios, contratos, build e lint/format passaram localmente; a CI do merge commit também passou nas três branches.
 - [x] Regra configurável demonstrada; pedidos antigos preservados em testes de integração.
 - [x] Consulta em lote, índice, SQL parametrizado e rollback têm evidência.
 - [x] Guia de 1–2 páginas e proposta de três semanas/sênior/pleno anexados.
@@ -81,9 +81,9 @@ Não é obrigação produzir três formatos. Um roteiro basta no planejamento; s
 - [x] **Link real da conversa com IA presente e acessível sem autenticação.**
 - [x] PDF de origem e credenciais permanecem fora do Git; `.env` está ignorado.
 - [x] Limitações, diferenciais não implementados e ausência de cloud estão declarados.
-- [x] Slides finais estão no mesmo repositório; o commit final precisa ser associado após publicar.
+- [x] Slides finais estão no mesmo repositório e na versão publicada.
 
-O link público abriu sem autenticação; o checklist deve ser encaminhado com essa URL ao avaliador. Fechar a submissão para o SHA final somente depois de a CI correspondente ficar verde; não declarar branch protection, PR, revisão independente ou deploy sem evidência.
+O link público abriu sem autenticação; o checklist deve ser encaminhado com essa URL ao avaliador. O PR #1 foi integrado depois dos checks do head passarem. Não houve revisão independente por outra pessoa; também não declarar branch protection ou deploy sem evidência.
 
 ## 6. Comandos disponíveis de verificação
 

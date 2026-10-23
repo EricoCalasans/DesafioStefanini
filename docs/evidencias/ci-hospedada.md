@@ -12,12 +12,20 @@ Em 23/10/2026, o GitHub Actions executou o workflow `verify` no SHA `90bd904` e 
 
 ## Execução da branch de entrega
 
-Após atualizar o workflow para actions com runtime Node 24, o commit `676a0b88dfca1090a6e6022ba93411f89a31cec4` passou no GitHub Actions, run [39893636611](https://github.com/EricoCalasans/DesafioStefanini/actions/runs/39893636611) (`feature/readme-delivery`, `verify`, conclusão `success`). O run validou Pedidos, Catálogo, OpenAPI/documentação, PostgreSQL, smoke e contratos runtime. A branch foi proposta em [PR #1](https://github.com/EricoCalasans/DesafioStefanini/pull/1); o commit que inclui estes links e o merge ainda precisam de seus próprios checks.
+Após atualizar o workflow para actions com runtime Node 24, o commit `676a0b88dfca1090a6e6022ba93411f89a31cec4` passou no GitHub Actions, run [39893636611](https://github.com/EricoCalasans/DesafioStefanini/actions/runs/39893636611) (`feature/readme-delivery`, `verify`, conclusão `success`). O run validou Pedidos, Catálogo, OpenAPI/documentação, PostgreSQL, smoke e contratos runtime. O commit seguinte, `11a7841`, também passou no run [39893961500](https://github.com/EricoCalasans/DesafioStefanini/actions/runs/39893961500) e corresponde ao head aprovado do [PR #1](https://github.com/EricoCalasans/DesafioStefanini/pull/1), integrado a `develop`.
 
-Essas execuções exibiram avisos de que `actions/checkout@v4`, `setup-node@v4`, `setup-dotnet@v4` e `setup-python@v5` usavam Node 20, além da transição do runner `ubuntu-latest`. O workflow foi atualizado para versões oficiais dos actions com runtime Node 24: checkout v7, setup-node v7, setup-dotnet v6 e setup-python v7. A versão base do workflow atual e o estado do commit final ainda precisam de uma nova execução; os resultados acima não são atribuídos a esse SHA.
+Essas execuções exibiram avisos de que `actions/checkout@v4`, `setup-node@v4`, `setup-dotnet@v4` e `setup-python@v5` usavam Node 20, além da transição do runner `ubuntu-latest`. O workflow foi atualizado para versões oficiais dos actions com runtime Node 24: checkout v7, setup-node v7, setup-dotnet v6 e setup-python v7. Os runs abaixo verificam o merge e as branches alinhadas.
 
 ## Estado do commit de entrega
 
-Preencher esta seção após publicar o commit de documentação e aguardar a execução correspondente em cada branch. Registrar o SHA, link do run e resultado de `main`/`develop`/`master`; não inferir sucesso de um run de SHA anterior.
+O PR #1 foi integrado pelo merge commit `31e3e667c58f554b6ff433388a095d5c8584622c`. O mesmo SHA foi publicado em `main`, `develop` e `master`; cada branch executou o workflow `verify` com conclusão `success`.
+
+| Branch | SHA | Run | Resultado |
+|---|---|---|---|
+| `main` | `31e3e66` | [39894269158](https://github.com/EricoCalasans/DesafioStefanini/actions/runs/39894269158) | Success |
+| `develop` | `31e3e66` | [39894252053](https://github.com/EricoCalasans/DesafioStefanini/actions/runs/39894252053) | Success |
+| `master` | `31e3e66` | [39894272281](https://github.com/EricoCalasans/DesafioStefanini/actions/runs/39894272281) | Success |
+
+O SHA exato da submissão deve sempre ser comparado ao run correspondente no [histórico de Actions](https://github.com/EricoCalasans/DesafioStefanini/actions); um resultado anterior não cobre commits posteriores.
 
 O workflow executa checks em push e pull request. Não há branch protection/required checks configurados, imagens publicadas, registry ou deploy; portanto, esta evidência comprova CI executada, mas não bloqueio técnico de merge nem deployment.

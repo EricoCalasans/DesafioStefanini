@@ -1,6 +1,6 @@
 # Matriz de rastreabilidade do desafio
 
-**Data:** 21/10/2026, atualizada em 23/10. **Status global:** núcleo funcional, documentação de entrega, artefatos de liderança, link compartilhável, PR #1 e CI hospedada concluídos. O checklist abaixo separa evidências produzidas de itens condicionais ou ainda pendentes, especialmente revisão independente, enforcement de branch protection e promoção do SHA validado.
+**Data:** 21/10/2026, atualizada em 23/10. **Status global:** núcleo funcional, documentação de entrega, artefatos de liderança, link compartilhável, PR #1 integrado e CI hospedada concluídos. O checklist abaixo separa evidências produzidas de itens condicionais ou ainda pendentes, especialmente revisão independente, enforcement de branch protection e deploy em cloud.
 
 53 pontos foram identificados a partir de todas as seções. O número inclui competências contextuais, critérios e repetições relevantes da entrega; **não significa 53 funcionalidades nem 53 obrigações de mesmo peso**. OBR = obrigação explícita; CTX = contexto/critério; DIF = diferencial; ART = artefato incluído por leitura conservadora do objetivo/entrega.
 

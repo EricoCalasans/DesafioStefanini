@@ -1,6 +1,6 @@
 # Plano de construção
 
-**Status em 23/10/2026:** núcleo das duas APIs, documentação de entrega, artefatos de liderança, link compartilhável e CI hospedada concluídos. Falta conferir CI no SHA final e resolver/explicitar os itens condicionais. **Referências:** [mapa](../CAPABILITY-MAP.md), [PRD](../PRD.md), [backlog](todo.md), [proposta hipotética](../../specs/SPEC-proposta.md).
+**Status em 23/10/2026:** núcleo das duas APIs, documentação de entrega, artefatos de liderança, link compartilhável e promoção GitFlow concluídos. O PR #1 foi integrado; o merge commit `31e3e66` passou na CI de `main`, `develop` e `master`. Revisão independente, branch protection e deploy cloud continuam ausentes ou condicionais e estão declarados no [checklist](../entrega/checklist-submissao.md). **Referências:** [mapa](../CAPABILITY-MAP.md), [PRD](../PRD.md), [backlog](todo.md), [proposta hipotética](../../specs/SPEC-proposta.md).
 
 **Prazo de entrega informado pelo candidato:** 23/10/2026 às 18:00 (horário de Brasília). As 240 horas e três semanas da [proposta](../../specs/SPEC-proposta.md) são um cenário técnico-comercial hipotético, não uma previsão para esta candidatura. O escopo integral não cabe no prazo real; priorizar o núcleo demonstrável, preservar requisitos obrigatórios e reportar cortes e verificações pendentes com transparência.
 
