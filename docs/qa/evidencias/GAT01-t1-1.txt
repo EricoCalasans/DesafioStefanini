@@ -1,0 +1,10 @@
+PASS Catalog query request
+PASS Catalog batch response
+PASS Catalog product response
+PASS Catalog page response
+PASS Order create request
+PASS Order create response
+PASS Order lookup response
+PASS Order page response
+PASS Validation problem response
+Runtime contract smoke passed for both APIs.

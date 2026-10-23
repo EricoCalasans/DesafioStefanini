@@ -1,0 +1,8 @@
+
+ RUN  v5.0.5 E:/projeto/Stefanini/desafio/pedidos-typescript
+
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  20:53:01
+   Duration  173ms (import 26%, transform 24%, setup 20%, worker 15%, tests 14%, environment 1%)

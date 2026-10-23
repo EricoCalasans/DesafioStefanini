@@ -1,0 +1,20 @@
+
+> @coe/orders-service@1.0.0 pretest
+> npm run build
+
+
+> @coe/orders-service@1.0.0 build
+> tsc -p tsconfig.build.json && node scripts/copy-migrations.mjs
+
+
+> @coe/orders-service@1.0.0 test
+> vitest run --exclude '**/integration/**'
+
+
+ RUN  v5.0.5 E:/projeto/Stefanini/desafio/pedidos-typescript
+
+
+ Test Files  7 passed (7)
+      Tests  38 passed (38)
+   Start at  20:56:09
+   Duration  2.70s (tests 62%, import 35%, transform 2%, setup 1%, worker 1%)

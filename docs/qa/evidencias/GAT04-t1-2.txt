@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "E:\projeto\Stefanini\desafio\docs\validation\validar-especificacoes.py", line 13, in <module>
+    from openapi_spec_validator import validate
+ModuleNotFoundError: No module named 'openapi_spec_validator'

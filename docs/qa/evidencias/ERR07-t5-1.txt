@@ -1,0 +1,15 @@
+{"phase":"sending the synthetic order","errorName":"TypeError","commitQueries":1,"commitAcknowledgementsSuppressed":1,"appExited":true,"appExitCode":1,"appExitSignal":null,"liveStatus":"unreachable","committedOrderCount":1,"appEvents":["[Nest] 31524  - 22/10/2026, 22:11:51     LOG [HttpRequest] {\"service\":\"orders\",\"method\":\"GET\",\"path\":\"/health/ready\",\"status\":200,\"durationMs\":22.9,\"correlationId\":\"9298fd9a-f1c3-49f9-95f9-bedb13aa5885\"}","Error: Connection terminated unexpectedly"]}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+[TypeError: fetch failed] {
+  [cause]: Error: read ECONNRESET
+      at TCP.onStreamRead (node:internal/stream_base_commons:221:20) {
+    errno: -4077,
+    code: 'ECONNRESET',
+    syscall: 'read'
+  }
+}
+
+Node.js v24.22.1

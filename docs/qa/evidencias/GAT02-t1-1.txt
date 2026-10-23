@@ -1,0 +1,23 @@
+
+> @coe/orders-service@1.0.0 pretest
+> npm run build
+
+
+> @coe/orders-service@1.0.0 build
+> tsc -p tsconfig.build.json && node scripts/copy-migrations.mjs
+
+
+> @coe/orders-service@1.0.0 test
+> vitest run --exclude '**/integration/**'
+
+
+ RUN  v5.0.5 E:/projeto/Stefanini/desafio/pedidos-typescript
+
+[Nest] 38220  - 22/10/2026, 22:14:53   ERROR [PostgresOrderRepository] Order persistence failed errorType=Error databaseCode=P0001 traceId=cccccccc-cccc-4ccc-8ccc-cccccccccccc
+[Nest] 38220  - 22/10/2026, 22:14:53   ERROR [PostgresOrderRepository] Order persistence failed errorType=Error databaseCode=55P03 traceId=cccccccc-cccc-4ccc-8ccc-cccccccccccc
+[Nest] 38220  - 22/10/2026, 22:14:53   ERROR [PostgresOrderRepository] Order persistence failed errorType=Error databaseCode=ECONNREFUSED traceId=cccccccc-cccc-4ccc-8ccc-cccccccccccc
+
+ Test Files  9 passed (9)
+      Tests  65 passed (65)
+   Start at  22:14:52
+   Duration  2.78s (tests 59%, import 39%, transform 1%, worker 1%)

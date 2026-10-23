@@ -1,0 +1,5 @@
+Service=orders
+URL=http://127.0.0.1:33000/health/ready
+Ready=200
+ProductionTraffic=none; loopback and isolated Compose project
+sha256:706c63d0e14d37f6742275b319ccfe68e7cc367d74af468251aa3114f7dad97c 2026-10-22T23:56:37.231960964Z

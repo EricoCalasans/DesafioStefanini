@@ -1,0 +1,110 @@
+warn: Microsoft.AspNetCore.Hosting.Diagnostics[15]
+      Overriding HTTP_PORTS '8080' and HTTPS_PORTS ''. Binding to values defined by URLS instead 'http://+:8080'.
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://[::]:8080
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /app
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=GET Path=/health/ready StatusCode=200 DurationMs=245.5471 CorrelationId=58b5dfd9-2a8f-4950-9eb8-afa870443953 ProductIdCount=(null)
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=GET Path=/health/live StatusCode=200 DurationMs=3.4308 CorrelationId=52c678c6-85bf-4b5e-9b00-5e523b775ba7 ProductIdCount=(null)
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=GET Path=/health/ready StatusCode=503 DurationMs=1011.2235 CorrelationId=d7b0e33d-6666-4434-8408-9ff210cd7c1b ProductIdCount=(null)
+fail: Catalog.Api.Errors.ApiExceptionMiddleware[0]
+      Catalog request failed. Code=PERSISTENCE_UNAVAILABLE ExceptionType=CatalogPersistenceException TraceId=817350b6-be3c-4332-98ee-fd17bbd090ba
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=GET Path=/api/v1/products StatusCode=503 DurationMs=1073.2491 CorrelationId=817350b6-be3c-4332-98ee-fd17bbd090ba ProductIdCount=(null)
+fail: Catalog.Api.Errors.ApiExceptionMiddleware[0]
+      Catalog request failed. Code=PERSISTENCE_UNAVAILABLE ExceptionType=CatalogPersistenceException TraceId=a39c4848-4c76-4c08-8d61-8b72e11c3bf1
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=503 DurationMs=1052.489 CorrelationId=a39c4848-4c76-4c08-8d61-8b72e11c3bf1 ProductIdCount=1
+fail: Catalog.Api.Errors.ApiExceptionMiddleware[0]
+      Catalog request failed. Code=PERSISTENCE_UNAVAILABLE ExceptionType=CatalogPersistenceException TraceId=ef704d2b-03b7-4b2e-9f9b-87cb70fe04f3
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=503 DurationMs=1003.6566 CorrelationId=ef704d2b-03b7-4b2e-9f9b-87cb70fe04f3 ProductIdCount=2
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=GET Path=/health/ready StatusCode=503 DurationMs=1001.4779 CorrelationId=0155cd3b-6b84-4839-8f29-133727e3f534 ProductIdCount=(null)
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=GET Path=/health/ready StatusCode=503 DurationMs=1003.443 CorrelationId=d162a1b4-fbce-4f1f-a226-9bbea487974e ProductIdCount=(null)
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=GET Path=/health/ready StatusCode=200 DurationMs=17.9463 CorrelationId=2feee9fd-8d70-43e8-9f4f-74391c61203a ProductIdCount=(null)
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=200 DurationMs=30.6427 CorrelationId=572ebcc3-dc2f-4631-83e5-fa703ab2ac11 ProductIdCount=2
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=GET Path=/health/live StatusCode=200 DurationMs=5.8694 CorrelationId=567cb56e-c7c6-4d83-8287-9a1795108bfe ProductIdCount=(null)
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=GET Path=/health/ready StatusCode=200 DurationMs=23.9843 CorrelationId=a2c98a78-08bc-4d74-ac09-0aae3b0d93a9 ProductIdCount=(null)
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=GET Path=/health/ready StatusCode=200 DurationMs=2.0525 CorrelationId=4ed39a96-0189-4c38-bd2d-39e8b32694f7 ProductIdCount=(null)
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=200 DurationMs=15.1293 CorrelationId=68c1e31b-47ea-46c6-adf4-bb3654a86ed1 ProductIdCount=2
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=200 DurationMs=9.8675 CorrelationId=5126cfe4-753a-472b-ae78-b00476c4495b ProductIdCount=2
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=200 DurationMs=4.1547 CorrelationId=68c1e31b-47ea-46c6-adf4-bb3654a86ed1 ProductIdCount=2
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=200 DurationMs=2.3774 CorrelationId=a58ba11a-c108-44a5-8590-cfffead06c70 ProductIdCount=2
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=200 DurationMs=3.6253 CorrelationId=2d10aa0e-2f08-489e-965d-d57d86753cd7 ProductIdCount=2
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=200 DurationMs=2.1594 CorrelationId=49c98aea-7168-4b05-9487-49c5db3af823 ProductIdCount=2
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=200 DurationMs=3.7134 CorrelationId=1ab3b8a2-e1d2-4de8-bdc3-525514f4b652 ProductIdCount=2
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=200 DurationMs=3.5884 CorrelationId=b244c5e5-bdd8-4252-988b-f31d6983778c ProductIdCount=2
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=200 DurationMs=2.3857 CorrelationId=2faa9f77-fc30-430c-9f07-338b1259abe0 ProductIdCount=2
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=200 DurationMs=2.7267 CorrelationId=ded784be-d007-4183-abb5-28c52bb8f6f7 ProductIdCount=2
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=200 DurationMs=2.1564 CorrelationId=7bc6ec67-4ee2-405c-aee1-87bd69c97b55 ProductIdCount=2
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=200 DurationMs=3.2363 CorrelationId=cc260beb-6dba-4e74-9872-b426eb3600cb ProductIdCount=2
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=200 DurationMs=2.9859 CorrelationId=3e5cc335-0227-46c5-a040-ffd2a7971a3e ProductIdCount=2
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=200 DurationMs=2.9249 CorrelationId=80dc30a3-9dd8-4f76-922f-0aace5035ff2 ProductIdCount=2
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=200 DurationMs=3.902 CorrelationId=f9f7a30a-e299-44b8-b16c-cb7fecdc2f3e ProductIdCount=2
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=200 DurationMs=3.0476 CorrelationId=bfb3abe1-a253-4deb-86be-a4190d2c4f2c ProductIdCount=2
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=200 DurationMs=3.8543 CorrelationId=a5d19553-59cc-4888-b80f-3de82ea924d6 ProductIdCount=1
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=200 DurationMs=7.7323 CorrelationId=57ba3694-ab95-4925-bc70-839678186c02 ProductIdCount=10
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=200 DurationMs=8.5601 CorrelationId=e5406dae-4e61-4653-b3ee-7a5cbcd62b03 ProductIdCount=100
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=200 DurationMs=3.6945 CorrelationId=bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb ProductIdCount=2
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=GET Path=/api/v1/products/11111111-1111-4111-8111-111111111111 StatusCode=200 DurationMs=73.5604 CorrelationId=bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb ProductIdCount=(null)
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=GET Path=/api/v1/products StatusCode=200 DurationMs=21.612 CorrelationId=bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb ProductIdCount=(null)
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=200 DurationMs=1.8519 CorrelationId=bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb ProductIdCount=2
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=200 DurationMs=3.0064 CorrelationId=bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb ProductIdCount=2
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=200 DurationMs=2.3522 CorrelationId=f8c5e77f-77c6-4313-a40c-59f0bd81615a ProductIdCount=1
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=200 DurationMs=1.7042 CorrelationId=037f02a6-47e1-4a59-85a2-cbe47f88c216 ProductIdCount=1
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=200 DurationMs=3.5882 CorrelationId=bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb ProductIdCount=2
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=GET Path=/api/v1/products/11111111-1111-4111-8111-111111111111 StatusCode=200 DurationMs=2.7865 CorrelationId=bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb ProductIdCount=(null)
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=GET Path=/api/v1/products StatusCode=200 DurationMs=4.5923 CorrelationId=bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb ProductIdCount=(null)
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=200 DurationMs=1.7004 CorrelationId=bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb ProductIdCount=2
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=200 DurationMs=2.4224 CorrelationId=bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb ProductIdCount=2
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=200 DurationMs=2.7495 CorrelationId=69da1c33-ee22-4720-8365-2b0eefd3835e ProductIdCount=1
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=200 DurationMs=2.1343 CorrelationId=0889b7e0-5bcb-432d-8de2-facc3c337a2c ProductIdCount=1
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=GET Path=/swagger/v1/swagger.json StatusCode=200 DurationMs=111.632 CorrelationId=e1ec3656-e1be-409d-8479-00e64a810c02 ProductIdCount=(null)

@@ -1,0 +1,14 @@
+PASS OpenAPI catalogo.openapi.yaml OpenAPI 3.1 v�lido
+PASS OpenAPI common.openapi.yaml OpenAPI 3.1 v�lido
+PASS OpenAPI pedidos.openapi.yaml OpenAPI 3.1 v�lido
+PASS Links locais Markdown 369 links locais com destino existente
+PASS IDs e contagem de artefatos R01-R53, Q01-Q50 e T01-T45 sem lacunas ou duplica��es; 9 specs
+PASS Exemplo criar-pedido.json criar-pedido.json compat�vel com CreateOrder
+PASS Exemplo pedido.json pedido.json compat�vel com Order
+PASS Exemplo consulta-produtos.json consulta-produtos.json compat�vel com ProductQuery
+PASS Exemplo produtos.json produtos.json compat�vel com ProductQueryResult
+PASS Exemplo problema-produto-inativo.json problema-produto-inativo.json compat�vel com Problem
+PASS Sem�ntica do exemplo can�nico Conjuntos, pre�os, linhas, subtotal, desconto e total consistentes
+PASS Contratos - exemplos negativos 6 exemplos inv�lidos recusados pelo schema; n�o � teste do servidor
+PASS Aritm�tica da proposta 204 h base +36 h reserva =240 h; 120 h/pessoa; pre�o hipot�tico R$49.500 reconciliado
+RESULT: pass

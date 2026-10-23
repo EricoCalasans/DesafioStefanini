@@ -1,0 +1,11 @@
+  Catalog.Domain -> E:\projeto\Stefanini\desafio\catalogo-dotnet\Catalog.Domain\bin\Release\net10.0\Catalog.Domain.dll
+  Catalog.Application -> E:\projeto\Stefanini\desafio\catalogo-dotnet\Catalog.Application\bin\Release\net10.0\Catalog.Application.dll
+  Catalog.Infrastructure -> E:\projeto\Stefanini\desafio\catalogo-dotnet\Catalog.Infrastructure\bin\Release\net10.0\Catalog.Infrastructure.dll
+  Catalog.Api -> E:\projeto\Stefanini\desafio\catalogo-dotnet\Catalog.Api\bin\Release\net10.0\Catalog.Api.dll
+  Catalog.Tests.Unit -> E:\projeto\Stefanini\desafio\catalogo-dotnet\Catalog.Tests.Unit\bin\Release\net10.0\Catalog.Tests.Unit.dll
+
+Compilação com êxito.
+    0 Aviso(s)
+    0 Erro(s)
+
+Tempo Decorrido 00:00:06.71

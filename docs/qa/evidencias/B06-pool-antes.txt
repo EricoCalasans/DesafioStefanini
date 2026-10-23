@@ -1,0 +1,405 @@
+[32m[Nest] 1  - [39m10/22/2026, 11:56:43 PM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:56:43 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +7ms[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:56:43 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mHealthController {/api/v1/health}:[39m[38;5;3m +20ms[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:56:43 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/health/live, GET} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:56:43 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/health/ready, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:56:43 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mOrdersController {/api/v1/orders}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:56:43 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/orders, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:56:43 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/orders, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:56:43 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/orders/:orderId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:56:43 PM [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:56:48 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/live","status":200,"durationMs":3.58,"correlationId":"658f348f-6ba6-4789-87f5-09e2fb54492a"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:56:49 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/ready","status":200,"durationMs":15.72,"correlationId":"357bab08-d969-4544-9264-a78d0baf2f81"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:56:53 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"POST","path":"/api/v1/orders","status":400,"durationMs":6.18,"correlationId":"4f5c22c7-5e17-4fcc-a99e-c523b95fe672"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:56:53 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"POST","path":"/api/v1/orders","status":413,"durationMs":0.5,"correlationId":"a0b5e9b5-9ba4-401f-be95-c1df8f1ebbc0"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:56:53 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"POST","path":"/api/v1/orders","status":415,"durationMs":0.42,"correlationId":"d9754664-bad8-4151-8e9e-b9175a56780d"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:56:53 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"POST","path":"/api/v1/orders/","status":415,"durationMs":0.44,"correlationId":"a12d31bf-0240-4c66-b64f-84648c457620"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:56:53 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"POST","path":"/API/v1/orders","status":415,"durationMs":0.37,"correlationId":"6e8f7486-0aae-4aea-81d9-a219d87a9737"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:56:53 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"POST","path":"/api/v1/orders","status":201,"durationMs":61.73,"correlationId":"7620741c-2a3b-491d-91ac-10b6081310fb"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:56:53 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"POST","path":"/api/v1/orders","status":201,"durationMs":39.55,"correlationId":"67cceeeb-62c1-405a-98d6-70bfb9d5cee8"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:56:53 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/api/v1/orders/4d081666-33a5-4cfe-9efb-8f588dc23dde","status":200,"durationMs":3.92,"correlationId":"a1f81bdf-521b-4df8-a553-ba95e76f7730"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:56:54 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"POST","path":"/api/v1/orders","status":201,"durationMs":74.43,"correlationId":"e05c73d9-28f3-4783-91fb-3861802bad11"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:56:54 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/api/v1/orders/4dae3ba8-e6f8-492a-9e18-fc9f221c0d98","status":200,"durationMs":1.58,"correlationId":"809a50e4-f97a-446d-a700-5799eb02cb6c"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:56:54 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/api/v1/orders/b6271514-f01f-43cf-aa49-acb5c054a7bb","status":404,"durationMs":1.45,"correlationId":"7a6cc85b-360d-4c32-b960-34b28cf966ca"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:56:54 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/api/v1/orders/not-uuid","status":400,"durationMs":0.49,"correlationId":"693e63c7-23f0-46f1-a8ba-b871a2189bb2"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:56:54 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/api/v1/orders/4dae3ba8-e6f8-492a-9e18-fc9f221c0d98%0A","status":400,"durationMs":0.53,"correlationId":"c5604d47-5296-4460-a79c-0b9e48b9d464"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:56:54 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/api/v1/orders","status":200,"durationMs":6.9,"correlationId":"28d075b7-3837-406d-ad32-7b4027c9ed54"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:56:54 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/api/v1/orders","status":200,"durationMs":2.07,"correlationId":"8db16900-6e0c-4cbe-a11a-b6994449d0af"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:56:54 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/api/v1/orders","status":400,"durationMs":0.45,"correlationId":"c362643b-638e-4e5a-a2f4-5379ed7b43ee"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:56:54 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/api/v1/orders","status":400,"durationMs":0.32,"correlationId":"28d7ef3e-4a36-44a0-b4fd-c238eaf33aeb"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:56:54 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/api/v1/orders","status":400,"durationMs":0.26,"correlationId":"3ccacf7c-7d87-4ec5-b7aa-441209ffa729"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:56:54 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/api/v1/orders","status":400,"durationMs":0.3,"correlationId":"ed223a3b-05ac-4492-88b3-7bb309e2814c"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:56:54 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/api/v1/orders","status":400,"durationMs":0.3,"correlationId":"8edb6a25-e801-4609-81db-8587f31769f7"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:56:54 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/api/v1/orders","status":400,"durationMs":0.26,"correlationId":"a422fa00-bebf-4fbd-b6d3-2a33ca45892e"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:56:54 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/api/v1/orders","status":400,"durationMs":0.3,"correlationId":"26b132f0-7745-464d-9026-3f0ad4da9d56"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:56:54 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/api/v1/orders","status":400,"durationMs":0.29,"correlationId":"f7322ad2-a1d2-4d29-9812-32698609dcb4"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:56:54 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/api/v1/orders","status":400,"durationMs":0.26,"correlationId":"9514148b-2bfe-4ecd-bcc1-ddf0c9537eb4"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:56:54 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"POST","path":"/api/v1/orders","status":201,"durationMs":35.68,"correlationId":"5b8c7aae-8a06-471a-bd8d-fa74d4bbb57e"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:57:03 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/live","status":200,"durationMs":0.73,"correlationId":"1260580d-1dc5-4974-81cb-0d125a438370"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:57:18 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/live","status":200,"durationMs":0.39,"correlationId":"ad28650e-9ffe-4ea1-a7d6-735e3adf4c3a"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:57:21 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"POST","path":"/api/v1/orders","status":201,"durationMs":53.67,"correlationId":"892fc849-1c46-4494-9da3-88d11295676c"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:57:21 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"POST","path":"/api/v1/orders","status":201,"durationMs":35.34,"correlationId":"988d1d71-ce12-4528-8290-62c144806ee4"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:57:21 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/api/v1/orders/95cf222d-8fec-4936-a665-8e88048b8894","status":200,"durationMs":2.15,"correlationId":"93cf2e7d-9af7-4550-a916-714c5cad1894"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:57:22 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"POST","path":"/api/v1/orders","status":201,"durationMs":43.33,"correlationId":"971d6d4a-d2d8-40ef-bf2f-84a0a73e51f2"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:57:22 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"POST","path":"/api/v1/orders","status":201,"durationMs":65.6,"correlationId":"e337d622-195f-440d-9a54-d86f1e8db9e8"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:57:22 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"POST","path":"/api/v1/orders","status":201,"durationMs":67.14,"correlationId":"a919c7e0-f5fb-44b8-b611-f3f3dbbec46b"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:57:22 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"POST","path":"/api/v1/orders","status":201,"durationMs":70.16,"correlationId":"d07722e7-0381-4121-bab5-dba95a1d0b98"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:57:22 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"POST","path":"/api/v1/orders","status":201,"durationMs":69.1,"correlationId":"dc9f9de6-f443-45c7-8670-ac9b9d5c15de"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:57:22 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/api/v1/orders/1f76badb-5d4f-4756-8409-c5f9efd4b3be","status":200,"durationMs":1.41,"correlationId":"575d0c03-9571-46d8-8e0c-fee54cf4515e"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:57:22 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/api/v1/orders/59f272c2-7be9-4213-8b29-6653f581d5e1","status":200,"durationMs":1,"correlationId":"9290be9d-6a08-4951-912f-2489db8ab9a4"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:57:22 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/api/v1/orders/835094ae-a577-4dd9-8553-e81856d61c23","status":200,"durationMs":1.04,"correlationId":"81dc82ef-88ba-4082-8b90-f21c7a125a99"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:57:22 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/api/v1/orders/59d31f6d-2eb9-4b2a-8201-4a26bbbac9c9","status":200,"durationMs":0.95,"correlationId":"a74a9aac-f888-4be2-86a5-ebe2cc10ef7b"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:57:22 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/api/v1/orders/9803bcb9-f32f-433b-bbeb-3e2d87bfddc6","status":200,"durationMs":1.16,"correlationId":"7b6521ed-d237-4e63-ada3-d9dce6062c3b"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:57:22 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/api/v1/orders","status":200,"durationMs":2.69,"correlationId":"cad4c137-e7ac-4dba-97fe-42cc362e0b63"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:57:33 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/live","status":200,"durationMs":0.49,"correlationId":"53cd5b6a-37fd-43ea-b6a8-dbc1438355fe"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:57:48 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/live","status":200,"durationMs":0.51,"correlationId":"23f5d480-abc0-40da-a26d-5b7e51773b9e"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:58:03 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/live","status":200,"durationMs":0.45,"correlationId":"e3ebd6ae-2cb1-44eb-b89f-612b51119895"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:58:13 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"POST","path":"/api/v1/orders","status":201,"durationMs":50.61,"correlationId":"eb3e44d8-be0c-4953-818f-75b96e43b470"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:58:17 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"POST","path":"/api/v1/orders","status":504,"durationMs":2001.96,"correlationId":"d5203bf4-a59a-4f47-8869-7ecb4e73e855"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:58:18 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/live","status":200,"durationMs":0.53,"correlationId":"ff88c41e-8901-43f8-b01e-79d1449b3d81"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:58:34 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/live","status":200,"durationMs":0.61,"correlationId":"c6a6df86-695d-4c11-b93d-113c61ab2fc5"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:58:49 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/live","status":200,"durationMs":0.41,"correlationId":"d9ffdea8-38ea-49ca-ac55-b41ddce1408d"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:59:04 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/live","status":200,"durationMs":0.34,"correlationId":"f09e1518-265a-4238-a1cf-9f803e22e283"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:59:19 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/live","status":200,"durationMs":0.44,"correlationId":"c4edff4d-c916-4d82-881f-59d5963355b2"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:59:34 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/live","status":200,"durationMs":0.62,"correlationId":"d9d0dfea-a73b-4c05-a0f2-2b4626054762"}[39m
+[32m[Nest] 1  - [39m10/22/2026, 11:59:49 PM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/live","status":200,"durationMs":0.44,"correlationId":"51bf9cdf-ab29-46e2-bcf2-279a09bb7aee"}[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:00:04 AM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/live","status":200,"durationMs":0.37,"correlationId":"21efba58-6aef-463e-9d90-fbc729c9b0d1"}[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:00:09 AM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"POST","path":"/api/v1/orders","status":201,"durationMs":163.65,"correlationId":"481654ed-dc01-420c-bd97-703f47d46821"}[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:00:12 AM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"POST","path":"/api/v1/orders","status":504,"durationMs":2002.16,"correlationId":"2518e6c2-ee6d-479b-ae2a-f092071506d8"}[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:00:12 AM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/api/v1/orders/9327f99f-d6a0-41a5-a312-eb4f5acdc82d","status":200,"durationMs":1.75,"correlationId":"52126402-d772-4f7c-bcd8-ce6cc1132302"}[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:00:12 AM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/api/v1/orders","status":200,"durationMs":3.03,"correlationId":"cba81597-4fc3-4116-b3de-3ad721e154cb"}[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:00:12 AM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/ready","status":200,"durationMs":0.46,"correlationId":"ed6120c8-87d8-4e1a-90ae-f9097b136635"}[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:00:12 AM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/live","status":200,"durationMs":0.2,"correlationId":"a077e963-4594-444f-82b0-e19147ffe793"}[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:00:18 AM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"POST","path":"/api/v1/orders","status":201,"durationMs":168.75,"correlationId":"74e90cc0-c7cc-48b1-8f01-902b3cbf5016"}[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:00:19 AM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/live","status":200,"durationMs":0.38,"correlationId":"02a2ee29-54a0-4cce-b7e2-16ba39b4fe4e"}[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:00:34 AM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/live","status":200,"durationMs":0.44,"correlationId":"1e21bb39-50c1-4e2e-9d25-4c670b9ee8e1"}[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:00:49 AM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/live","status":200,"durationMs":0.37,"correlationId":"7dcbc349-c9d1-48c6-b1c4-479e9e547cb9"}[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:01:04 AM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/live","status":200,"durationMs":0.36,"correlationId":"2633c066-f7c3-40bd-8023-2a8a684b2336"}[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:01:20 AM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/live","status":200,"durationMs":0.51,"correlationId":"73d98e36-b30f-4d6f-bc8f-b88f7a8e1ede"}[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:01:35 AM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/live","status":200,"durationMs":0.49,"correlationId":"675d6ef2-a3e3-4923-9b0e-9c37f97f92e1"}[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:01:50 AM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/live","status":200,"durationMs":0.45,"correlationId":"2ffd83e3-b664-4e1f-9b8a-28ca22899881"}[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:02:05 AM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/live","status":200,"durationMs":0.9,"correlationId":"14d2e4af-730d-468b-8342-33cdd09d4cd3"}[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:02:20 AM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/live","status":200,"durationMs":0.42,"correlationId":"a49a3022-7579-405c-ba5c-04ed253946ec"}[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:02:35 AM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/live","status":200,"durationMs":0.37,"correlationId":"6fb5f40d-fe3e-4bb1-891f-bb9c757f928a"}[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:02:50 AM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/live","status":200,"durationMs":0.36,"correlationId":"cbf8f95a-42a6-4413-b70d-962ae45cc498"}[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:03:05 AM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/live","status":200,"durationMs":0.34,"correlationId":"ac7655d3-df03-4dda-a91b-5ad588806af8"}[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:03:20 AM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/live","status":200,"durationMs":0.51,"correlationId":"19cfc796-a81c-4774-88ab-bdc708c55281"}[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:03:22 AM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"POST","path":"/api/v1/orders","status":503,"durationMs":1009.82,"correlationId":"ef704d2b-03b7-4b2e-9f9b-87cb70fe04f3"}[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:03:26 AM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"POST","path":"/api/v1/orders","status":201,"durationMs":80.23,"correlationId":"572ebcc3-dc2f-4631-83e5-fa703ab2ac11"}[39m
+node:events:505
+    throw er; // Unhandled 'error' event
+    ^
+
+error: terminating connection due to administrator command
+    at parseErrorMessage (/app/node_modules/pg-protocol/dist/parser.js:306:11)
+    at Parser.handlePacket (/app/node_modules/pg-protocol/dist/parser.js:143:27)
+    at Parser.parse (/app/node_modules/pg-protocol/dist/parser.js:37:38)
+    at Socket.<anonymous> (/app/node_modules/pg-protocol/dist/index.js:12:42)
+    at Socket.emit (node:events:514:28)
+    at addChunk (node:internal/streams/readable:569:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:520:3)
+    at Readable.push (node:internal/streams/readable:400:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:194:23)
+Emitted 'error' event on BoundPool instance at:
+    at Client.idleListener (/app/node_modules/pg-pool/index.js:62:10)
+    at Client.emit (node:events:514:28)
+    at Client._handleErrorEvent (/app/node_modules/pg/lib/client.js:422:10)
+    at Client._handleErrorMessage (/app/node_modules/pg/lib/client.js:433:12)
+    at Connection.emit (node:events:514:28)
+    at /app/node_modules/pg/lib/connection.js:143:12
+    at Parser.parse (/app/node_modules/pg-protocol/dist/parser.js:38:17)
+    at Socket.<anonymous> (/app/node_modules/pg-protocol/dist/index.js:12:42)
+    at Socket.emit (node:events:514:28)
+    at addChunk (node:internal/streams/readable:569:12) {
+  length: 116,
+  severity: 'FATAL',
+  code: '57P01',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'postgres.c',
+  line: '3316',
+  routine: 'ProcessInterrupts',
+  client: Client {
+    _events: [Object: null prototype] { error: [Function (anonymous)] },
+    _eventsCount: 1,
+    _maxListeners: undefined,
+    connectionParameters: ConnectionParameters {
+      user: 'orders_runtime',
+      database: 'orders',
+      port: 5432,
+      host: 'postgres',
+      binary: false,
+      options: '-c statement_timeout=2000 -c lock_timeout=1000',
+      ssl: false,
+      sslnegotiation: undefined,
+      client_encoding: '',
+      replication: undefined,
+      isDomainSocket: false,
+      application_name: undefined,
+      fallback_application_name: undefined,
+      statement_timeout: false,
+      lock_timeout: false,
+      idle_in_transaction_session_timeout: false,
+      query_timeout: false,
+      connect_timeout: 1
+    },
+    user: 'orders_runtime',
+    database: 'orders',
+    port: 5432,
+    host: 'postgres',
+    replication: undefined,
+    _Promise: [Function: Promise],
+    _types: TypeOverrides {
+      _types: {
+        getTypeParser: [Function: getTypeParser],
+        setTypeParser: [Function: setTypeParser],
+        arrayParser: { create: [Function: create] },
+        builtins: {
+          BOOL: 16,
+          BYTEA: 17,
+          CHAR: 18,
+          INT8: 20,
+          INT2: 21,
+          INT4: 23,
+          REGPROC: 24,
+          TEXT: 25,
+          OID: 26,
+          TID: 27,
+          XID: 28,
+          CID: 29,
+          JSON: 114,
+          XML: 142,
+          PG_NODE_TREE: 194,
+          SMGR: 210,
+          PATH: 602,
+          POLYGON: 604,
+          CIDR: 650,
+          FLOAT4: 700,
+          FLOAT8: 701,
+          ABSTIME: 702,
+          RELTIME: 703,
+          TINTERVAL: 704,
+          CIRCLE: 718,
+          MACADDR8: 774,
+          MONEY: 790,
+          MACADDR: 829,
+          INET: 869,
+          ACLITEM: 1033,
+          BPCHAR: 1042,
+          VARCHAR: 1043,
+          DATE: 1082,
+          TIME: 1083,
+          TIMESTAMP: 1114,
+          TIMESTAMPTZ: 1184,
+          INTERVAL: 1186,
+          TIMETZ: 1266,
+          BIT: 1560,
+          VARBIT: 1562,
+          NUMERIC: 1700,
+          REFCURSOR: 1790,
+          REGPROCEDURE: 2202,
+          REGOPER: 2203,
+          REGOPERATOR: 2204,
+          REGCLASS: 2205,
+          REGTYPE: 2206,
+          UUID: 2950,
+          TXID_SNAPSHOT: 2970,
+          PG_LSN: 3220,
+          PG_NDISTINCT: 3361,
+          PG_DEPENDENCIES: 3402,
+          TSVECTOR: 3614,
+          TSQUERY: 3615,
+          GTSVECTOR: 3642,
+          REGCONFIG: 3734,
+          REGDICTIONARY: 3769,
+          JSONB: 3802,
+          REGNAMESPACE: 4089,
+          REGROLE: 4096
+        }
+      },
+      text: {},
+      binary: {}
+    },
+    _ending: true,
+    _ended: false,
+    _connecting: false,
+    _connected: true,
+    _connectionError: false,
+    _queryable: false,
+    _activeQuery: null,
+    _txStatus: 'I',
+    enableChannelBinding: false,
+    scramMaxIterations: 100000,
+    connection: Connection {
+      _events: [Object: null prototype] {
+        newListener: [Function (anonymous)],
+        connect: [Function (anonymous)],
+        sslconnect: [Function (anonymous)],
+        authenticationCleartextPassword: [Function: bound _handleAuthCleartextPassword],
+        authenticationMD5Password: [Function: bound _handleAuthMD5Password],
+        authenticationSASL: [Function: bound _handleAuthSASL],
+        authenticationSASLContinue: [Function: bound _handleAuthSASLContinue] AsyncFunction,
+        authenticationSASLFinal: [Function: bound _handleAuthSASLFinal],
+        backendKeyData: [Function: bound _handleBackendKeyData],
+        error: [Function: bound _handleErrorEvent],
+        errorMessage: [Function: bound _handleErrorMessage],
+        readyForQuery: [Function: bound _handleReadyForQuery],
+        notice: [Function: bound _handleNotice],
+        rowDescription: [Function: bound _handleRowDescription],
+        dataRow: [Function: bound _handleDataRow],
+        portalSuspended: [Function: bound _handlePortalSuspended],
+        emptyQuery: [Function: bound _handleEmptyQuery],
+        commandComplete: [Function: bound _handleCommandComplete],
+        parseComplete: [Function: bound _handleParseComplete],
+        copyInResponse: [Function: bound _handleCopyInResponse],
+        copyData: [Function: bound _handleCopyData],
+        notification: [Function: bound _handleNotification],
+        end: [
+          [Function: wrapper] { listener: [Function (anonymous)] },
+          [Function: wrapper] { listener: [Function (anonymous)] },
+          Symbol(events.emitting): 0
+        ]
+      },
+      _eventsCount: 23,
+      _maxListeners: undefined,
+      stream: Socket {
+        connecting: false,
+        _hadError: false,
+        _parent: null,
+        _host: 'postgres',
+        _closeAfterHandlingError: false,
+        _events: {
+          close: [Function (anonymous)],
+          error: [Function: reportStreamError],
+          prefinish: undefined,
+          finish: undefined,
+          drain: undefined,
+          data: [Function (anonymous)],
+          end: [
+            [Function: onReadableStreamEnd],
+            [Function (anonymous)],
+            Symbol(events.emitting): 0
+          ],
+          readable: undefined,
+          connect: undefined
+        },
+        _readableState: ReadableState {
+          highWaterMark: 65536,
+          buffer: [],
+          bufferIndex: 0,
+          length: 0,
+          pipes: [],
+          awaitDrainWriters: null,
+          Symbol(kState): 194519348
+        },
+        _writableState: WritableState {
+          highWaterMark: 65536,
+          length: 0,
+          corked: 0,
+          onwrite: [Function (anonymous)],
+          writelen: 0,
+          bufferedIndex: 0,
+          pendingcb: 0,
+          Symbol(kState): 17563956,
+          Symbol(kBufferedValue): null,
+          Symbol(kWriteCbValue): null
+        },
+        allowHalfOpen: false,
+        _maxListeners: undefined,
+        _eventsCount: 4,
+        _sockname: null,
+        _pendingData: null,
+        _pendingEncoding: '',
+        server: null,
+        _server: null,
+        Symbol(async_id_symbol): 1443,
+        Symbol(kHandle): null,
+        Symbol(lastWriteQueueSize): 0,
+        Symbol(timeout): null,
+        Symbol(kBuffer): null,
+        Symbol(kBufferCb): null,
+        Symbol(kBufferGen): null,
+        Symbol(shapeMode): true,
+        Symbol(kCapture): false,
+        Symbol(kSetNoDelay): true,
+        Symbol(kSetKeepAlive): false,
+        Symbol(kSetKeepAliveInitialDelay): 0,
+        Symbol(kSetTOS): undefined,
+        Symbol(kBytesRead): 843,
+        Symbol(kBytesWritten): 2125
+      },
+      _keepAlive: false,
+      _keepAliveInitialDelayMillis: 0,
+      parsedStatements: {},
+      submittedNamedStatements: {},
+      ssl: false,
+      sslNegotiation: 'postgres',
+      _ending: false,
+      _emitMessage: false,
+      _connecting: true,
+      Symbol(shapeMode): false,
+      Symbol(kCapture): false
+    },
+    _queryQueue: [],
+    _sentQueryQueue: [],
+    pipeline: false,
+    binary: false,
+    processID: 1582,
+    secretKey: 1764964844,
+    ssl: false,
+    sslNegotiation: 'postgres',
+    _connectionTimeoutMillis: 1000,
+    _connectionCallback: null,
+    connectionTimeoutHandle: Timeout {
+      _idleTimeout: -1,
+      _idlePrev: null,
+      _idleNext: null,
+      _idleStart: 403710,
+      _onTimeout: undefined,
+      _timerArgs: undefined,
+      _repeat: null,
+      _destroyed: true,
+      Symbol(refed): false,
+      Symbol(kHasPrimitive): false,
+      Symbol(asyncId): 1442,
+      Symbol(triggerId): 0,
+      Symbol(kAsyncContextFrame): undefined
+    },
+    saslSession: null,
+    release: [Function (anonymous)],
+    readyForQuery: true,
+    hasExecuted: true,
+    _poolUseCount: 1,
+    Symbol(shapeMode): false,
+    Symbol(kCapture): false
+  }
+}
+
+[32m[Nest] 1  - [39m10/23/2026, 12:03:33 AM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+Node.js v24.22.1
+[32m[Nest] 1  - [39m10/23/2026, 12:03:33 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +10ms[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:03:33 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mHealthController {/api/v1/health}:[39m[38;5;3m +21ms[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:03:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/health/live, GET} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:03:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/health/ready, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:03:33 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mOrdersController {/api/v1/orders}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:03:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/orders, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:03:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/orders, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:03:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/orders/:orderId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:03:33 AM [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +2ms[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:03:34 AM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/ready","status":503,"durationMs":240.91,"correlationId":"138e7ecd-676a-41ae-b441-502788676f32"}[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:03:35 AM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/ready","status":200,"durationMs":15.87,"correlationId":"fb4c1d28-2387-42fd-bbc7-20437f193613"}[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:03:38 AM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/live","status":200,"durationMs":0.7,"correlationId":"4cbf8ef9-734c-4cb7-a3e6-b1f660e89b91"}[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:03:53 AM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/live","status":200,"durationMs":0.78,"correlationId":"f063bcf9-4434-49d4-9e73-e93736361c79"}[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:04:08 AM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/live","status":200,"durationMs":0.61,"correlationId":"bb9894b8-0939-476b-b8fe-f6906a34df70"}[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:04:23 AM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/live","status":200,"durationMs":0.61,"correlationId":"16aa85ee-c440-4bc2-b80a-4dd284f8c57a"}[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:04:38 AM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/live","status":200,"durationMs":0.52,"correlationId":"1c9fc92a-d363-455d-b36d-4503fab5833c"}[39m
+[32m[Nest] 1  - [39m10/23/2026, 12:04:53 AM [32m    LOG[39m [38;5;3m[HttpRequest] [39m[32m{"service":"orders","method":"GET","path":"/health/live","status":200,"durationMs":0.59,"correlationId":"48eb8a6a-4c60-4989-9af2-8fe01e3a5c5e"}[39m

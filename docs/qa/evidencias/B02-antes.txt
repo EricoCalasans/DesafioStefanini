@@ -1,0 +1,18 @@
+  Catalog.Domain -> E:\projeto\Stefanini\desafio\catalogo-dotnet\Catalog.Domain\bin\Release\net10.0\Catalog.Domain.dll
+  Catalog.Application -> E:\projeto\Stefanini\desafio\catalogo-dotnet\Catalog.Application\bin\Release\net10.0\Catalog.Application.dll
+  Catalog.Infrastructure -> E:\projeto\Stefanini\desafio\catalogo-dotnet\Catalog.Infrastructure\bin\Release\net10.0\Catalog.Infrastructure.dll
+  Catalog.Api -> E:\projeto\Stefanini\desafio\catalogo-dotnet\Catalog.Api\bin\Release\net10.0\Catalog.Api.dll
+  Catalog.Tests.Unit -> E:\projeto\Stefanini\desafio\catalogo-dotnet\Catalog.Tests.Unit\bin\Release\net10.0\Catalog.Tests.Unit.dll
+Execução de teste para E:\projeto\Stefanini\desafio\catalogo-dotnet\Catalog.Tests.Unit\bin\Release\net10.0\Catalog.Tests.Unit.dll (.NETCoreApp,Version=v10.0)
+1 arquivos de teste no total corresponderam ao padrão especificado.
+[xUnit.net 00:00:00.57]     Catalog.Tests.Unit.ProductsApiTests.Unsupported_media_type_returns_problem_details(path: "/api/v1/products/query/") [FAIL]
+  Com falha Catalog.Tests.Unit.ProductsApiTests.Unsupported_media_type_returns_problem_details(path: "/api/v1/products/query/") [51 ms]
+  Mensagem de erro:
+   Assert.Equal() Failure: Strings differ
+Expected: "application/problem+json"
+Actual:   null
+  Rastreamento de pilha:
+     at Catalog.Tests.Unit.ProductsApiTests.Unsupported_media_type_returns_problem_details(String path) in E:\projeto\Stefanini\desafio\catalogo-dotnet\Catalog.Tests.Unit\ProductsApiTests.cs:line 241
+--- End of stack trace from previous location ---
+
+Com falha! – Com falha:     1, Aprovado:     2, Ignorado:     0, Total:     3, Duração: 369 ms - Catalog.Tests.Unit.dll (net10.0)

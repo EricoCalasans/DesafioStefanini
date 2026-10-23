@@ -1,0 +1,5 @@
+Service=catalog
+URL=http://127.0.0.1:38080/health/ready
+Ready=200
+ProductionTraffic=none; loopback and isolated Compose project
+sha256:eada5e94c9efcea3b06027561132d7200b5b5d422829b201d7d118cc3e671e14 2026-10-22T23:52:46.182638738Z

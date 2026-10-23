@@ -1,0 +1,3 @@
+ Container desafio-qa-20261022-orders-migrate-run-dd0edb4e8a03 Creating
+ Container desafio-qa-20261022-orders-migrate-run-dd0edb4e8a03 Created
+Applied migrations: 0; verified: 1.

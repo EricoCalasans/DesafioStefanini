@@ -1,0 +1,85 @@
+ Image coe-qa-orders:20261022 Building
+#1 [internal] load local bake definitions
+#1 reading from stdin 575B 0.1s done
+#1 DONE 0.1s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 728B 0.0s done
+#2 DONE 0.3s
+
+#3 [internal] load metadata for docker.io/library/node:24.22.1-bookworm-slim
+#3 DONE 2.1s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 189B done
+#4 DONE 0.3s
+
+#5 [internal] load build context
+#5 DONE 0.0s
+
+#6 [build 1/8] FROM docker.io/library/node:24.22.1-bookworm-slim@sha256:55fb5f5a527ea2c5c4a95f963e48ef90aa38c7b346054fdc8ee9957a2b55d205
+#6 resolve docker.io/library/node:24.22.1-bookworm-slim@sha256:55fb5f5a527ea2c5c4a95f963e48ef90aa38c7b346054fdc8ee9957a2b55d205
+#6 resolve docker.io/library/node:24.22.1-bookworm-slim@sha256:55fb5f5a527ea2c5c4a95f963e48ef90aa38c7b346054fdc8ee9957a2b55d205 0.6s done
+#6 DONE 0.7s
+
+#5 [internal] load build context
+#5 transferring context: 14.90kB done
+#5 DONE 0.3s
+
+#7 [build 2/8] WORKDIR /app
+#7 CACHED
+
+#8 [build 3/8] COPY package.json package-lock.json ./
+#8 CACHED
+
+#9 [build 4/8] RUN npm ci
+#9 CACHED
+
+#10 [build 5/8] COPY biome.json tsconfig.json tsconfig.build.json ./
+#10 CACHED
+
+#11 [build 6/8] COPY scripts ./scripts
+#11 CACHED
+
+#12 [build 7/8] COPY src ./src
+#12 DONE 1.8s
+
+#13 [build 8/8] RUN npm run build
+#13 2.180
+#13 2.180 > @coe/orders-service@1.0.0 build
+#13 2.180 > tsc -p tsconfig.build.json && node scripts/copy-migrations.mjs
+#13 2.180
+#13 DONE 5.6s
+
+#14 [runtime 4/5] RUN npm ci --omit=dev && npm cache clean --force
+#14 CACHED
+
+#15 [runtime 5/5] COPY --from=build --chown=node:node /app/dist ./dist
+#15 DONE 1.6s
+
+#16 exporting to image
+#16 exporting layers
+#16 exporting layers 2.4s done
+#16 exporting manifest sha256:2779739e169abb234c8ccffe01066af899199f18f0b13e46bc2801dbb9271492
+#16 exporting manifest sha256:2779739e169abb234c8ccffe01066af899199f18f0b13e46bc2801dbb9271492 0.5s done
+#16 exporting config sha256:2c880a788047bde105fddb3e843a4f9859944e88010289bb04294b104e152c6d
+#16 exporting config sha256:2c880a788047bde105fddb3e843a4f9859944e88010289bb04294b104e152c6d 0.4s done
+#16 exporting attestation manifest sha256:891b4c61e229684d92eacfbaf488f7add9b2e09f8e40f23e98b6ca9c0ae20bbe
+#16 exporting attestation manifest sha256:891b4c61e229684d92eacfbaf488f7add9b2e09f8e40f23e98b6ca9c0ae20bbe 0.9s done
+#16 exporting manifest list sha256:ddd5d7e43c6561c2a34910e580bdf3220d37e58968cd59d11648b33bbf373812
+#16 exporting manifest list sha256:ddd5d7e43c6561c2a34910e580bdf3220d37e58968cd59d11648b33bbf373812 0.4s done
+#16 naming to docker.io/library/coe-qa-orders:20261022
+#16 naming to docker.io/library/coe-qa-orders:20261022 0.1s done
+#16 unpacking to docker.io/library/coe-qa-orders:20261022
+#16 unpacking to docker.io/library/coe-qa-orders:20261022 0.6s done
+#16 DONE 5.8s
+
+#17 resolving provenance for metadata file
+#17 DONE 0.4s
+ Image coe-qa-orders:20261022 Built
+ Container desafio-qa-20261022-orders-1 Recreate
+ Container desafio-qa-20261022-orders-1 Recreated
+ Container desafio-qa-20261022-orders-1 Starting
+ Container desafio-qa-20261022-orders-1 Started
+ Container desafio-qa-20261022-orders-1 Waiting
+ Container desafio-qa-20261022-orders-1 Healthy

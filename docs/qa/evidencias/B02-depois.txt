@@ -1,0 +1,9 @@
+  Catalog.Domain -> E:\projeto\Stefanini\desafio\catalogo-dotnet\Catalog.Domain\bin\Release\net10.0\Catalog.Domain.dll
+  Catalog.Application -> E:\projeto\Stefanini\desafio\catalogo-dotnet\Catalog.Application\bin\Release\net10.0\Catalog.Application.dll
+  Catalog.Infrastructure -> E:\projeto\Stefanini\desafio\catalogo-dotnet\Catalog.Infrastructure\bin\Release\net10.0\Catalog.Infrastructure.dll
+  Catalog.Api -> E:\projeto\Stefanini\desafio\catalogo-dotnet\Catalog.Api\bin\Release\net10.0\Catalog.Api.dll
+  Catalog.Tests.Unit -> E:\projeto\Stefanini\desafio\catalogo-dotnet\Catalog.Tests.Unit\bin\Release\net10.0\Catalog.Tests.Unit.dll
+Execução de teste para E:\projeto\Stefanini\desafio\catalogo-dotnet\Catalog.Tests.Unit\bin\Release\net10.0\Catalog.Tests.Unit.dll (.NETCoreApp,Version=v10.0)
+1 arquivos de teste no total corresponderam ao padrão especificado.
+
+Aprovado!  – Com falha:     0, Aprovado:    27, Ignorado:     0, Total:    27, Duração: 923 ms - Catalog.Tests.Unit.dll (net10.0)

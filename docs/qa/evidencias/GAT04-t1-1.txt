@@ -1,0 +1,1 @@
+System smoke passed: health, create, snapshot lookup, pagination, validation, dependency errors, and OpenAPI.

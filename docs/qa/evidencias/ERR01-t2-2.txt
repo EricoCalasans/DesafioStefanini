@@ -1,0 +1,2 @@
+ Container desafio-qa-20261022-catalog-1 Stopping
+ Container desafio-qa-20261022-catalog-1 Stopped

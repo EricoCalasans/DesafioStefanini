@@ -1,0 +1,15 @@
+{"phase":"sending the synthetic order","errorName":"TypeError","commitQueries":1,"commitAcknowledgementsSuppressed":1,"appExited":false,"appEvents":["[Nest] 26100  - 22/10/2026, 22:10:59     LOG [HttpRequest] {\"service\":\"orders\",\"method\":\"GET\",\"path\":\"/health/ready\",\"status\":200,\"durationMs\":19.63,\"correlationId\":\"9f7c0e42-cde1-4ab0-949b-615509f66cbb\"}"]}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+[TypeError: fetch failed] {
+  [cause]: Error: read ECONNRESET
+      at TCP.onStreamRead (node:internal/stream_base_commons:221:20) {
+    errno: -4077,
+    code: 'ECONNRESET',
+    syscall: 'read'
+  }
+}
+
+Node.js v24.22.1

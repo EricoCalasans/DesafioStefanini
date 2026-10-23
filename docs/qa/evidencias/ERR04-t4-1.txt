@@ -1,0 +1,2 @@
+ Container desafio-qa-20261022-orders-1 Restarting
+ Container desafio-qa-20261022-orders-1 Started

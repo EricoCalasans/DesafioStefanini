@@ -1,0 +1,3 @@
+ Container desafio-qa-20261022-mongo-bootstrap-run-7aeae0eba061 Creating
+ Container desafio-qa-20261022-mongo-bootstrap-run-7aeae0eba061 Created
+MongoDB catalog initialized: schema, indexes, seed user, and idempotent seed; 4 products visible to the runtime reader.

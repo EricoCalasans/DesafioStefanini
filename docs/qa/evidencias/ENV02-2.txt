@@ -1,0 +1,6 @@
+  Determinando os projetos a serem restaurados...
+  E:\projeto\Stefanini\desafio\catalogo-dotnet\Catalog.Domain\Catalog.Domain.csproj restaurado (em 92 ms).
+  E:\projeto\Stefanini\desafio\catalogo-dotnet\Catalog.Application\Catalog.Application.csproj restaurado (em 92 ms).
+  E:\projeto\Stefanini\desafio\catalogo-dotnet\Catalog.Infrastructure\Catalog.Infrastructure.csproj restaurado (em 751 ms).
+  E:\projeto\Stefanini\desafio\catalogo-dotnet\Catalog.Api\Catalog.Api.csproj restaurado (em 752 ms).
+  E:\projeto\Stefanini\desafio\catalogo-dotnet\Catalog.Tests.Unit\Catalog.Tests.Unit.csproj restaurado (em 778 ms).

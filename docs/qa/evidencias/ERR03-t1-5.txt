@@ -1,0 +1,2 @@
+ Container desafio-qa-20261022-mongo-1 Starting
+ Container desafio-qa-20261022-mongo-1 Started

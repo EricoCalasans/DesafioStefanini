@@ -1,0 +1,5 @@
+
+> @coe/orders-service@1.0.0 lint
+> biome check src test scripts vitest.config.ts
+
+Checked 33 files in 28ms. No fixes applied.

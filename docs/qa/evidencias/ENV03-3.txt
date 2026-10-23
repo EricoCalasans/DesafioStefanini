@@ -1,0 +1,7 @@
+NAME                                    IMAGE                     COMMAND                  SERVICE           CREATED          STATUS                      PORTS
+desafio-qa-20261022-catalog-1           coe-qa-catalog:20261022   "dotnet Catalog.Api.…"   catalog           35 seconds ago   Up 8 seconds                127.0.0.1:38080->8080/tcp
+desafio-qa-20261022-mongo-1             mongo:8.0.34-noble        "docker-entrypoint.s…"   mongo             44 seconds ago   Up 31 seconds (healthy)     127.0.0.1:37017->27017/tcp
+desafio-qa-20261022-mongo-bootstrap-1   mongo:8.0.34-noble        "/bin/sh /scripts/in…"   mongo-bootstrap   40 seconds ago   Exited (0) 11 seconds ago
+desafio-qa-20261022-orders-1            coe-qa-orders:20261022    "docker-entrypoint.s…"   orders            34 seconds ago   Up 6 seconds (healthy)      127.0.0.1:33000->3000/tcp
+desafio-qa-20261022-orders-migrate-1    coe-qa-orders:20261022    "docker-entrypoint.s…"   orders-migrate    41 seconds ago   Exited (0) 9 seconds ago
+desafio-qa-20261022-postgres-1          postgres:17.11            "docker-entrypoint.s…"   postgres          44 seconds ago   Up 30 seconds (healthy)     127.0.0.1:35432->5432/tcp

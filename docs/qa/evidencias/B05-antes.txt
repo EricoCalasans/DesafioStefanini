@@ -1,0 +1,30 @@
+  Catalog.Domain -> E:\projeto\Stefanini\desafio\catalogo-dotnet\Catalog.Domain\bin\Release\net10.0\Catalog.Domain.dll
+  Catalog.Application -> E:\projeto\Stefanini\desafio\catalogo-dotnet\Catalog.Application\bin\Release\net10.0\Catalog.Application.dll
+  Catalog.Infrastructure -> E:\projeto\Stefanini\desafio\catalogo-dotnet\Catalog.Infrastructure\bin\Release\net10.0\Catalog.Infrastructure.dll
+  Catalog.Api -> E:\projeto\Stefanini\desafio\catalogo-dotnet\Catalog.Api\bin\Release\net10.0\Catalog.Api.dll
+  Catalog.Tests.Unit -> E:\projeto\Stefanini\desafio\catalogo-dotnet\Catalog.Tests.Unit\bin\Release\net10.0\Catalog.Tests.Unit.dll
+Execução de teste para E:\projeto\Stefanini\desafio\catalogo-dotnet\Catalog.Tests.Unit\bin\Release\net10.0\Catalog.Tests.Unit.dll (.NETCoreApp,Version=v10.0)
+1 arquivos de teste no total corresponderam ao padrão especificado.
+[xUnit.net 00:00:01.55]     Catalog.Tests.Unit.MongoUnavailableTests.Server_selection_timeout_is_classified_as_persistence_unavailable [FAIL]
+  Com falha Catalog.Tests.Unit.MongoUnavailableTests.Server_selection_timeout_is_classified_as_persistence_unavailable [1 s]
+  Mensagem de erro:
+   Assert.Throws() Failure: Exception type was not an exact match
+Expected: typeof(Catalog.Infrastructure.Products.CatalogPersistenceException)
+Actual:   typeof(System.TimeoutException)
+---- System.TimeoutException : A timeout occurred after 1008ms selecting a server using CompositeServerSelector{ Selectors = ReadPreferenceServerSelector{ ReadPreference = { Mode : Primary } }, LatencyLimitingServerSelector{ AllowedLatencyRange = 00:00:00.0150000 }, OperationsCountServerSelector }. Client view of cluster state is { ClusterId : "1", DirectConnection : "true", Type : "Standalone", State : "Disconnected", Servers : [{ ServerId: "{ ClusterId : 1, EndPoint : "127.0.0.1:1" }", EndPoint: "127.0.0.1:1", ReasonChanged: "ServerInitialDescription", State: "Disconnected", ServerVersion: , TopologyVersion: , Type: "Unknown", LastHeartbeatTimestamp: null, LastUpdateTimestamp: "2026-10-23T00:01:13.0683972Z" }] }.
+  Rastreamento de pilha:
+     at Catalog.Tests.Unit.MongoUnavailableTests.Server_selection_timeout_is_classified_as_persistence_unavailable() in E:\projeto\Stefanini\desafio\catalogo-dotnet\Catalog.Tests.Unit\MongoUnavailableTests.cs:line 23
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at MongoDB.Driver.Core.Operations.RetryableReadOperationExecutor.ExecuteAsync[TResult](OperationContext operationContext, IRetryableReadOperation`1 operation, RetryableReadContext context)
+   at MongoDB.Driver.Core.Operations.ReadCommandOperation`1.ExecuteAsync(OperationContext operationContext, RetryableReadContext context)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.ExecuteAsync(OperationContext operationContext, RetryableReadContext context)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.ExecuteAsync(OperationContext operationContext, IReadBinding binding)
+   at MongoDB.Driver.OperationExecutor.ExecuteReadOperationAsync[TResult](OperationContext operationContext, IClientSessionHandle session, IReadOperation`1 operation, ReadPreference readPreference, Boolean allowChannelPinning)
+   at MongoDB.Driver.MongoCollectionImpl`1.ExecuteReadOperationAsync[TResult](IClientSessionHandle session, IReadOperation`1 operation, ReadPreference explicitReadPreference, Nullable`1 timeout, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindAsync[TProjection](FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.IAsyncCursorSourceExtensions.ToListAsync[TDocument](IAsyncCursorSource`1 source, CancellationToken cancellationToken)
+   at Catalog.Infrastructure.Products.MongoProductRepository.ExecuteAsync[T](Func`2 action, CancellationToken cancellationToken) in E:\projeto\Stefanini\desafio\catalogo-dotnet\Catalog.Infrastructure\Products\MongoProductRepository.cs:line 112
+   at Catalog.Infrastructure.Products.MongoProductRepository.FindByIdsAsync(IReadOnlyList`1 ids, CancellationToken cancellationToken) in E:\projeto\Stefanini\desafio\catalogo-dotnet\Catalog.Infrastructure\Products\MongoProductRepository.cs:line 66
+
+Com falha! – Com falha:     1, Aprovado:     0, Ignorado:     0, Total:     1, Duração: 1 s - Catalog.Tests.Unit.dll (net10.0)

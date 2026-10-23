@@ -1,0 +1,18 @@
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=GET Path=/health/ready StatusCode=200 DurationMs=276.6467 CorrelationId=9491e4da-f8e7-4540-af23-479c11d4532d ProductIdCount=(null)
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=400 DurationMs=11.6069 CorrelationId=3028aa54-17dd-4aee-93c1-5fc9f9403a09 ProductIdCount=(null)
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=415 DurationMs=0.7883 CorrelationId=9fcf4583-18da-439f-b35a-2ced27216fee ProductIdCount=(null)
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query/ StatusCode=415 DurationMs=0.1313 CorrelationId=3af6dadb-d113-480a-b538-bf357cb9db7f ProductIdCount=(null)
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=413 DurationMs=0.1184 CorrelationId=95d40db5-49b9-44a1-a01b-17cfcd00e3b2 ProductIdCount=(null)
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=200 DurationMs=113.7226 CorrelationId=1a1d5d4b-fde5-4b9c-830b-1fd31ff2bdfa ProductIdCount=2
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=200 DurationMs=4.4168 CorrelationId=c7703b13-7dbb-4584-ab11-befd4b3057dc ProductIdCount=2
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=200 DurationMs=3.3334 CorrelationId=2895d5af-ebe7-455f-8d3f-b7e0a5283106 ProductIdCount=2
+info: Catalog.Api.Errors.RequestLoggingMiddleware[0]
+      Catalog HTTP request completed. Method=POST Path=/api/v1/products/query StatusCode=200 DurationMs=2.8658 CorrelationId=61e2fac6-3ef2-4f0b-bebc-4ed3b60ea913 ProductIdCount=2
