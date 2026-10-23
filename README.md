@@ -27,7 +27,9 @@ O escopo solicitado é de APIs. Não há uma interface de negócio separada; Swa
 
 ## Início rápido no Windows
 
-Execute os comandos a partir da raiz deste repositório. Para rodar o sistema em containers, basta ter o Docker Desktop instalado e iniciado com suporte a Docker Compose v2; Node.js, .NET SDK e Python não precisam ser instalados no Windows para esse fluxo, pois as imagens fazem o build dos serviços. Para compilar, desenvolver e testar diretamente no host, instale Node.js 24 e .NET SDK 10. Python 3.12 é usado apenas nos validadores de documentação e contratos.
+Execute os comandos a partir da raiz deste repositório. Abra o Windows Terminal ou o PowerShell nessa pasta e selecione um perfil PowerShell; no VS Code, use **Terminal > New Terminal** com o perfil PowerShell. Pelo Explorer, você também pode abrir o menu de contexto da pasta do repositório e selecionar **Abrir no Terminal**. Confirme que está na raiz executando `Test-Path .\infra\compose.yaml`; o resultado deve ser `True`. Cole cada bloco marcado `powershell` nessa janela e pressione Enter, seguindo as instruções da seção. Execute apenas os blocos da tarefa que deseja fazer; alguns são alternativas, como rodar a API em Docker ou diretamente no host. Mantenha a mesma janela aberta, pois alguns comandos usam variáveis definidas em etapas anteriores; se abrir outra, repita a etapa 1 para defini-las novamente.
+
+Para rodar o sistema em containers, basta ter o Docker Desktop instalado e iniciado com suporte a Docker Compose v2; Node.js, .NET SDK e Python não precisam ser instalados no Windows para iniciar os serviços. Para compilar, desenvolver e testar diretamente no host, instale Node.js 24 e .NET SDK 10. A verificação de smoke local também usa Node.js 24. Python 3.12 é usado apenas nos validadores de documentação e contratos.
 
 As versões exatas estão fixadas em [`pedidos-typescript/.node-version`](pedidos-typescript/.node-version), [`catalogo-dotnet/global.json`](catalogo-dotnet/global.json) e nas imagens de [`infra/compose.yaml`](infra/compose.yaml). A instalação das ferramentas de cada API é independente; não existe `package.json` nem `node_modules` na raiz.
 
@@ -40,11 +42,11 @@ docker version
 docker compose version
 ```
 
-O primeiro comando deve mostrar as versões de Client e Server. Se não conseguir conectar ao Server, aguarde a inicialização do Docker Desktop e tente novamente. O segundo deve identificar o Docker Compose v2. A primeira execução também baixa as imagens-base necessárias e pode levar alguns minutos.
+O primeiro comando deve mostrar as versões de Client e Server. Se não conseguir conectar ao Server, aguarde a inicialização do Docker Desktop e tente novamente. O segundo deve identificar o Docker Compose v2. Na primeira subida do sistema, o Compose baixa as imagens-base necessárias e pode levar alguns minutos.
 
 ### 1. Preparar credenciais locais
 
-Você não precisa criar senhas nem preencher o `.env` manualmente. Execute este bloco uma vez na raiz do repositório:
+Você não precisa criar senhas nem preencher o `.env` manualmente. Na janela PowerShell aberta na raiz do repositório, cole o bloco inteiro e pressione Enter. Ele prepara os caminhos usados pelos próximos comandos e executa o script de credenciais:
 
 ```powershell
 $repoRoot = (Resolve-Path .).Path
@@ -54,7 +56,7 @@ $composeFile = Join-Path $repoRoot 'infra/compose.yaml'
 .\infra\setup-local.ps1
 ```
 
-Na primeira execução, `infra/setup-local.ps1` cria senhas aleatórias e configura as conexões dos serviços. O arquivo fica fora do Git, na pasta irmã `<nome-do-repositório>-local`; neste projeto, normalmente `..\desafio-local\.env`. O script pode ser executado novamente: se o arquivo já existir, ele o mantém intacto e não troca as senhas. Assim, você pode repetir o bloco sem perder o acesso aos bancos já criados.
+Na primeira execução, `infra/setup-local.ps1` cria senhas aleatórias e configura as conexões dos serviços. O arquivo fica fora do Git, na pasta irmã `<nome-do-repositório>-local`; neste projeto, normalmente `..\desafio-local\.env`. O script pode ser executado novamente: se o arquivo já existir, ele o mantém intacto e não troca as senhas. Repita o bloco quando abrir um novo terminal para preparar as variáveis e preservar o acesso aos bancos.
 
 Mantenha essa pasta enquanto usar os bancos locais. As senhas do arquivo correspondem às contas persistidas nos volumes do PostgreSQL e do MongoDB. Não apague, edite nem publique o `.env`; para iniciar o sistema, basta seguir o próximo passo, sem abrir ou copiar as senhas. `infra/.env.example` lista os nomes das configurações, mas não contém credenciais utilizáveis.
 
@@ -77,17 +79,24 @@ O script gera os segredos e as URLs de conexão do Compose. Não troque os hostn
 
 ### 2. Subir os serviços e conferir o fluxo
 
+Na mesma janela PowerShell, ainda na raiz, execute este bloco para validar a configuração e iniciar os containers:
+
 ```powershell
 docker compose --env-file $envFile -f $composeFile config --quiet
 docker compose --env-file $envFile -f $composeFile up -d --build --wait
-node infra/smoke-system.mjs
 ```
 
 O Compose aguarda os bancos, inicializa o Catálogo e aplica as migrations do PostgreSQL antes de iniciar Pedidos. O smoke executa chamadas reais às duas APIs e cria um pedido sintético; repeti-lo cria outro pedido, pois o endpoint não oferece idempotência.
 
 Esse comando inicia o ambiente completo em segundo plano (`-d`), constrói as imagens locais (`--build`) e espera os health checks (`--wait`). Para acompanhar os logs em primeiro plano, use `docker compose --env-file $envFile -f $composeFile up --build` (sem `-d` e sem `--wait`); `Ctrl+C` interrompe os containers iniciados nesse modo.
 
-Confira o estado e os logs:
+Com os serviços saudáveis, você pode verificar o fluxo de ponta a ponta. Este teste opcional exige Node.js 24 instalado no Windows; execute-o na mesma janela PowerShell e na raiz. Ele cria pedidos sintéticos no banco:
+
+```powershell
+node infra/smoke-system.mjs
+```
+
+Confira o estado, os logs e a prontidão das APIs na mesma janela:
 
 ```powershell
 docker compose --env-file $envFile -f $composeFile ps
@@ -113,7 +122,7 @@ Quando terminar de usar o ambiente, siga [Parar ou recriar o ambiente](#parar-ou
 
 ## Executar cada serviço
 
-Para iniciar apenas o Catálogo com seu banco e bootstrap, execute na raiz:
+Execute apenas o bloco do serviço que deseja iniciar, na mesma janela PowerShell da etapa 1 e a partir da raiz do repositório. O Compose também inicia as dependências necessárias:
 
 ```powershell
 docker compose --env-file $envFile -f $composeFile up -d --build --wait catalog
@@ -125,11 +134,16 @@ Para iniciar Pedidos, execute:
 docker compose --env-file $envFile -f $composeFile up -d --build --wait orders
 ```
 
-Pedidos depende do PostgreSQL e do Catálogo; o Compose sobe essas dependências automaticamente. Para ver os logs de uma aplicação, use `docker compose ... logs -f orders` ou `docker compose ... logs -f catalog` com os mesmos argumentos `--env-file` e `-f`.
+Pedidos depende do PostgreSQL e do Catálogo; o Compose sobe essas dependências automaticamente. Para acompanhar os logs, execute um dos comandos abaixo na mesma janela PowerShell da etapa 1; pressione `Ctrl+C` para parar de acompanhar:
+
+```powershell
+docker compose --env-file $envFile -f $composeFile logs -f orders
+docker compose --env-file $envFile -f $composeFile logs -f catalog
+```
 
 Os comandos Compose acima são o modo recomendado e mais simples. Eles também permitem iniciar apenas o Catálogo ou apenas Pedidos (com as dependências necessárias). Para hot reload executando um processo direto no host, inicie os bancos/dependências Compose e ajuste as URLs geradas para usar as portas locais.
 
-**Executar Catálogo diretamente no host:** primeiro suba o Mongo e aplique o bootstrap. No mesmo PowerShell em que calculou `$envFile` e `$composeFile`:
+**Executar Catálogo diretamente no host:** requer .NET SDK 10. No mesmo PowerShell em que executou a etapa 1, cole o bloco inteiro a partir da raiz. Ele prepara o Mongo e inicia o Catálogo em primeiro plano:
 
 ```powershell
 docker compose --env-file $envFile -f $composeFile up -d --wait mongo
@@ -143,9 +157,9 @@ dotnet restore Catalog.sln --locked-mode
 dotnet run --project Catalog.Api --no-launch-profile
 ```
 
-Swagger ficará em `http://localhost:8081/docs`. Para encerrar, `Ctrl+C` e `Pop-Location`.
+Swagger ficará em `http://localhost:8081/docs`. Para encerrar, pressione `Ctrl+C` na janela do processo e, depois que ele parar, execute `Pop-Location` nessa mesma janela para voltar à raiz.
 
-**Executar Pedidos diretamente no host:** deixe o Catálogo Compose iniciado na porta padrão 8080 e suba também PostgreSQL. Aplique a migration usando o job oficial antes de iniciar o processo NestJS:
+**Executar Pedidos diretamente no host:** requer Node.js 24. No mesmo PowerShell em que executou a etapa 1, cole este bloco inteiro a partir da raiz. Ele inicia as dependências, aplica a migration e inicia Pedidos em primeiro plano:
 
 ```powershell
 docker compose --env-file $envFile -f $composeFile up -d --build --wait postgres catalog
@@ -164,7 +178,7 @@ npm ci
 npm run start:dev
 ```
 
-Swagger ficará em `http://localhost:3001/docs`. Para encerrar, `Ctrl+C` e `Pop-Location`. A configuração gerada usa `postgres`, `catalog` e `mongo` como nomes DNS, válidos dentro da rede Compose; os exemplos acima convertem somente as URLs necessárias ao processo executado no host. Execute um bloco de cada vez e mantenha as variáveis da respectiva API no PowerShell em que o processo inicia.
+Swagger ficará em `http://localhost:3001/docs`. Para encerrar, pressione `Ctrl+C` na janela do processo e, depois que ele parar, execute `Pop-Location` nessa mesma janela para voltar à raiz. A configuração gerada usa `postgres`, `catalog` e `mongo` como nomes DNS, válidos dentro da rede Compose; os exemplos acima convertem somente as URLs necessárias ao processo executado no host. Execute um bloco de cada vez e mantenha as variáveis da respectiva API no PowerShell em que o processo inicia.
 
 ## Bancos, migrations e dados de demonstração
 
@@ -176,7 +190,7 @@ O runtime usa o papel `orders_runtime`, com acesso limitado. O job de migration 
 
 ### MongoDB — Catálogo
 
-No primeiro início do volume, `mongo-bootstrap` cria o validador, os índices, os papéis e 24 produtos sintéticos: 23 ativos e um inativo. O processo é idempotente e insere somente produtos ausentes. Para reaplicar o seed a qualquer momento:
+No primeiro início do volume, `mongo-bootstrap` cria o validador, os índices, os papéis e 24 produtos sintéticos: 23 ativos e um inativo. O processo é idempotente e insere somente produtos ausentes. Com o Docker Desktop em execução, use a janela PowerShell na raiz do repositório para reaplicar o seed:
 
 ```powershell
 .\infra\seed-demo.ps1
@@ -190,7 +204,7 @@ O cenário canônico usa o Teclado (`11111111-1111-4111-8111-111111111111`, R$ 2
 
 Pedidos oferece `POST /api/v1/orders` para criar, `GET /api/v1/orders` para listar resumos paginados e `GET /api/v1/orders/{orderId}` para consultar um pedido completo. Catálogo oferece `GET /api/v1/products` para listar ativos, `GET /api/v1/products/{productId}` para consultar um produto e `POST /api/v1/products/query` para buscar de 1 a 100 produtos em lote. Ambos têm `GET /health/live` e `GET /health/ready`.
 
-Exemplo no PowerShell, depois de subir o sistema:
+Depois de subir o sistema, execute este exemplo na janela PowerShell aberta na raiz. Ele consulta o Catálogo, cria um pedido e consulta esse pedido; a criação grava dados no PostgreSQL:
 
 ```powershell
 $products = Invoke-RestMethod 'http://localhost:8080/api/v1/products?page=1&pageSize=20'
@@ -212,11 +226,13 @@ Invoke-RestMethod "http://localhost:3000/api/v1/orders/$($order.id)"
 Invoke-RestMethod 'http://localhost:3000/api/v1/orders?page=1&pageSize=20'
 ```
 
-O corpo de criação aceita cliente e itens, não aceita preço, desconto ou status. Um produto inexistente/inativo ou falha do Catálogo impede a gravação. Erros seguem `application/problem+json` e incluem código estável e correlação. Os exemplos executáveis adicionais estão em [`pedidos-typescript/Orders.http`](pedidos-typescript/Orders.http) e [`catalogo-dotnet/Catalog.Api/Catalog.Api.http`](catalogo-dotnet/Catalog.Api/Catalog.Api.http).
+O corpo de criação aceita cliente e itens, não aceita preço, desconto ou status. Um produto inexistente/inativo ou falha do Catálogo impede a gravação. Erros seguem `application/problem+json` e incluem código estável e correlação. Os exemplos HTTP estão em [`pedidos-typescript/Orders.http`](pedidos-typescript/Orders.http) e [`catalogo-dotnet/Catalog.Api/Catalog.Api.http`](catalogo-dotnet/Catalog.Api/Catalog.Api.http). Para executá-los, deixe as APIs iniciadas, abra o arquivo no VS Code com a extensão REST Client e clique em **Send Request** acima da requisição desejada. O arquivo de Pedidos usa a porta 3000 e o do Catálogo usa a 8080; para executar no host, ajuste a URL conforme a porta escolhida.
 
 ## Testes e validação
 
 ### Pedidos — TypeScript/NestJS
+
+Requer Node.js 24. Na janela PowerShell aberta na raiz do repositório, cole e execute o bloco inteiro; ele entra na pasta do projeto, instala as dependências e executa build, tipos, lint e testes:
 
 ```powershell
 Push-Location pedidos-typescript
@@ -228,13 +244,15 @@ npm test
 Pop-Location
 ```
 
-Os testes unitários e HTTP não precisam de banco. Para testar migrations e transações com PostgreSQL real, suba o ambiente Compose e execute na raiz:
+Os testes unitários e HTTP não precisam de banco. Para testar migrations e transações com PostgreSQL real, suba o ambiente Compose e execute este comando em PowerShell, na raiz do repositório:
 
 ```powershell
 .\infra\test-orders.ps1
 ```
 
 ### Catálogo — C#/ASP.NET Core
+
+Requer .NET SDK 10. Na janela PowerShell aberta na raiz do repositório, cole e execute o bloco inteiro; os comandos restauram, formatam, compilam e testam a solução:
 
 ```powershell
 Push-Location catalogo-dotnet
@@ -247,7 +265,7 @@ Pop-Location
 
 ### Contratos, documentação e integração
 
-Os validadores Python usam dependências de documentação fora dos projetos de aplicação e podem ser instalados em uma virtualenv na pasta local irmã:
+Requer Python 3.12 e a janela PowerShell da etapa 1, pois o bloco usa `$localDirectory` definido ali. Na raiz do repositório, cole e execute o bloco inteiro; ele cria uma virtualenv fora do Git, instala as dependências dos validadores e valida as specs. Se abrir outro terminal depois, repita também este bloco para definir `$docsPython` antes da validação runtime abaixo:
 
 ```powershell
 py -3.12 -m venv (Join-Path $localDirectory '.venv-docs')
@@ -256,7 +274,7 @@ $docsPython = Join-Path $localDirectory '.venv-docs/Scripts/python.exe'
 & $docsPython docs/validation/validar-especificacoes.py
 ```
 
-Com os serviços Compose no ar, rode também:
+Com os serviços Compose no ar, execute este bloco na mesma janela PowerShell em que criou `$docsPython`, ainda na raiz. Ele roda o smoke (requer Node.js 24) e valida as respostas das APIs:
 
 ```powershell
 node infra/smoke-system.mjs
@@ -305,12 +323,17 @@ A [matriz](docs/matriz-de-rastreabilidade.md) liga os 53 pontos identificados no
 
 ## Parar ou recriar o ambiente
 
-Para parar os containers e manter os dados:
+Na mesma janela PowerShell em que executou a etapa 1, pare os containers e mantenha os dados com este comando:
 
 ```powershell
 docker compose --env-file $envFile -f $composeFile down
 ```
 
-Para apagar os bancos e começar de novo, use `down --volumes` e depois faça novo `up`. **Isso apaga todos os pedidos e produtos locais**; não é necessário para uso normal.
+Para apagar os bancos e começar de novo, execute este bloco na mesma janela PowerShell da etapa 1 e a partir da raiz. **Ele apaga todos os pedidos e produtos locais**; use somente quando quiser um reset completo:
+
+```powershell
+docker compose --env-file $envFile -f $composeFile down --volumes
+docker compose --env-file $envFile -f $composeFile up -d --build --wait
+```
 
 Se uma porta estiver ocupada, altere `POSTGRES_PORT`, `MONGO_PORT`, `ORDERS_PORT` ou `CATALOG_PORT` no `.env` local e recrie os containers. Se o ambiente não ficar saudável, confira `ps` e `logs`; se a migration falhar, verifique o PostgreSQL e o job `orders-migrate`; se Pedidos não criar um pedido, confira `http://localhost:8080/health/ready` e os logs sanitizados.
