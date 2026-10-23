@@ -4,6 +4,8 @@ Estado: **concluída com limitações externas documentadas**. Os 47 casos têm 
 
 **Nota temporal:** esta campanha registra a fotografia do checkout e do ambiente de QA no momento em que foi executada em 22/10/2026, antes da publicação GitHub e dos ajustes de entrega desta revisão. O GAT06 e os arquivos individuais abaixo continuam sendo evidência histórica e não foram reescritos. Depois da campanha, o repositório foi publicado e o workflow GitHub Actions executou; confira o estado do commit atual em [GitHub Actions](https://github.com/EricoCalasans/DesafioStefanini/actions) e os limites atuais em [SPEC-plataforma](../../specs/SPEC-plataforma.md). Não há branch protection/required checks configurados nem deploy cloud.
 
+A cobertura de código foi medida e ganhou gates locais em 23/10/2026. Consulte o [registro atual de cobertura](cobertura-2026-10-23.md); o GAT07 abaixo continua descrevendo corretamente a campanha histórica, anterior à implementação desses gates.
+
 ## Reconhecimento e escopo
 
 - Base inicial: `90a6850`, branch `feature/t02-bootstrap`, Git limpo. Não há `AGENTS.md` aplicável encontrado na árvore ou ancestrais. Convenções: `docs/fluxo-git.md`, ADRs e comandos reais de cada projeto.
@@ -47,4 +49,4 @@ O executor mantém tentativas anteriores e ignora casos já aprovados ao retomar
 
 `PASSOU`: comportamento esperado observado com evidência. `FALHOU`: divergência reproduzível e campanha interrompida. `BLOQUEADO`: dependência concreta indisponível; motivo obrigatório, sem equivaler a aprovação. `NÃO EXECUTADO`: ainda não executado ou limitação justificada. Erro de validação esperado conta como PASSOU. Resultado final e histórico não se confundem: uma falha corrigida continua nas tentativas.
 
-Aceite da campanha histórica: todos os casos tinham resultado/evidência ou limitação concreta; GAT07 não mediu carga de escrita nem cobertura, porque esses gates não existem no projeto. GAT06 ficou bloqueado naquele checkout, que não tinha remoto; a publicação e a CI ocorreram posteriormente. A campanha não é reclassificada retroativamente como teste do SHA final e não representa aprovação externa.
+Aceite da campanha histórica: todos os casos tinham resultado/evidência ou limitação concreta; GAT07 não mediu carga de escrita nem cobertura, porque esses gates não existiam no projeto à época. GAT06 ficou bloqueado naquele checkout, que não tinha remoto; a publicação e a CI ocorreram posteriormente. A campanha não é reclassificada retroativamente como teste do SHA final e não representa aprovação externa.

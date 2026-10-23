@@ -1,6 +1,6 @@
 # Spec - `qualidade`
 
-**Versão:** 1.0. **Status:** plano de verificação, sem testes de aplicação executados. **Origem:** R04-R05, R21, R28-R29, R34, R37, R42-R48.
+**Versão:** 1.1. **Status:** estratégia implementada e cobertura auditada em 23/10/2026; veja o [registro de cobertura](../docs/qa/cobertura-2026-10-23.md). **Origem:** R04-R05, R21, R28-R29, R34, R37, R42-R48.
 
 ## 1. Objetivo e estratégia
 
@@ -92,25 +92,25 @@ Os testes de desempenho ficam fora do gate rápido se ambiente de CI for instáv
 
 ## 7. Cobertura e independência
 
-Meta interna: domínio/aplicação de Pedidos com ≥90% de linhas e ≥85% de branches; aplicação/domínio de Catálogo com ≥85% de linhas. Excluir apenas código gerado e entrypoints documentados. Regras críticas e todos os cenários bloqueantes devem ter cobertura comportamental mesmo se a porcentagem geral passar.
+Metas internas de referência: domínio/aplicação de Pedidos com ≥90% de linhas e ≥85% de branches; aplicação/domínio de Catálogo com ≥85% de linhas. Os gates locais atuais são mais estritos no agregado: Pedidos exige ≥95% de linhas/instruções, ≥85% de branches e ≥90% de funções; Catálogo exige ≥95% de cobertura total combinada. Excluir apenas código gerado e entrypoints documentados. Regras críticas e todos os cenários bloqueantes devem ter cobertura comportamental mesmo se a porcentagem geral passar.
 
 Oráculos independentes: exemplos de centavos com cálculo manual, tabelas de borda e fixtures de contrato não geradas por funções de produção. Assertar estado real do banco após rollback, não apenas que `rollback()` foi chamado. Testes com mocks não substituem a evidência de consultas parametrizadas ou índice.
 
-## 8. Comandos futuros e evidências
+## 8. Comandos e evidências
 
     Push-Location pedidos-typescript
-    npm test -- --coverage
+    npm run test:coverage
     npm run test:integration
     npm run test:contracts
     npm run test:system
     npm run test:performance
     Pop-Location
     Push-Location catalogo-dotnet
-    dotnet test Catalog.sln --configuration Release --collect:"XPlat Code Coverage"
+    dotnet test Catalog.sln --configuration Release -p:CollectCoverage=true -p:Threshold=95 -p:ThresholdStat=total -p:CoverletOutputFormat=cobertura
     Pop-Location
     python docs/validation/validar-especificacoes.py
 
-Saída mínima: commit/tag, data, comando, ambiente, resumo e artefato/log; falhas e limitações preservadas. Destino `docs/evidencias/<commit>/` ou artefato do CI vinculado. Não versionar dumps com PII nem arquivos gigantes de cobertura sem necessidade. A [revisão atual das specs](../docs/revisao-das-especificacoes.md) é evidência documental, não execução desta matriz.
+Saída mínima: commit/tag, data, comando, ambiente, resumo e artefato/log; falhas e limitações preservadas. Destino `docs/evidencias/<commit>/` ou artefato do CI vinculado. Não versionar dumps com PII nem arquivos gigantes de cobertura sem necessidade. O [registro local de cobertura](../docs/qa/cobertura-2026-10-23.md) informa resultados e dependências não executadas. A [revisão atual das specs](../docs/revisao-das-especificacoes.md) é evidência documental, não execução desta matriz.
 
 ## 9. Critérios de conclusão e fronteiras
 

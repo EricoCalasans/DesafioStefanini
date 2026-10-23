@@ -2,9 +2,13 @@ import { RequestMethod, ValidationPipe } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import request from 'supertest';
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import { AppModule } from '../src/app.module.js';
+import { ApplicationError } from '../src/application/errors.js';
 import type { CatalogClient, OrderPage, OrderRepository } from '../src/application/ports.js';
+import { CATALOG_CLIENT, ORDER_REPOSITORY } from '../src/application/ports.js';
 import type { Order } from '../src/domain/order.js';
 import { correlationMiddleware } from '../src/http/correlation.middleware.js';
+import { ProblemExceptionFilter, validationException } from '../src/http/problem.filter.js';
 
 const firstId = '11111111-1111-4111-8111-111111111111';
 const secondId = '22222222-2222-4222-8222-222222222222';
@@ -40,14 +44,6 @@ describe('Orders HTTP API', () => {
   });
 
   async function createApplication() {
-    const builtModuleUrl = new URL('../dist/app.module.js', import.meta.url).href;
-    const builtPortsUrl = new URL('../dist/application/ports.js', import.meta.url).href;
-    const builtFilterUrl = new URL('../dist/http/problem.filter.js', import.meta.url).href;
-    const [
-      { AppModule },
-      { CATALOG_CLIENT, ORDER_REPOSITORY },
-      { ProblemExceptionFilter, validationException },
-    ] = await Promise.all([import(builtModuleUrl), import(builtPortsUrl), import(builtFilterUrl)]);
     const orders: Order[] = [];
     const catalog: CatalogClient = {
       queryProducts: vi.fn(async (_ids, _correlationId) => ({
@@ -57,12 +53,12 @@ describe('Orders HTTP API', () => {
       })),
     };
     const repository: OrderRepository = {
-      create: async (order) => {
+      create: vi.fn(async (order) => {
         orders.push(order);
         return order;
-      },
-      findById: async (id) => orders.find((order) => order.id === id) ?? null,
-      list: async (page, pageSize): Promise<OrderPage> => {
+      }),
+      findById: vi.fn(async (id) => orders.find((order) => order.id === id) ?? null),
+      list: vi.fn(async (page, pageSize): Promise<OrderPage> => {
         const summaries = orders.slice((page - 1) * pageSize, page * pageSize).map((order) => ({
           id: order.id,
           customer: order.customer,
@@ -83,8 +79,8 @@ describe('Orders HTTP API', () => {
             totalPages: orders.length === 0 ? 0 : Math.ceil(orders.length / pageSize),
           },
         };
-      },
-      checkReady: async () => undefined,
+      }),
+      checkReady: vi.fn(async () => undefined),
     };
     const moduleRef = await Test.createTestingModule({ imports: [AppModule] })
       .overrideProvider(ORDER_REPOSITORY)
@@ -113,7 +109,7 @@ describe('Orders HTTP API', () => {
     app.useGlobalFilters(new ProblemExceptionFilter());
     await app.init();
     applications.push(app);
-    return { app, orders, catalog };
+    return { app, orders, catalog, repository };
   }
 
   it('creates, retrieves, and lists a complete pricing snapshot with correlation', async () => {
@@ -230,6 +226,89 @@ describe('Orders HTTP API', () => {
     }
     expect(orders).toHaveLength(0);
     expect(catalog.queryProducts).not.toHaveBeenCalled();
+  });
+
+  it('rejects malformed customers and item limits before contacting dependencies', async () => {
+    const { app, orders, catalog } = await createApplication();
+    const validCustomer = { name: 'Cliente', email: 'cliente@example.com' };
+    const validItem = { productId: firstId, quantity: 1 };
+    const invalidBodies = [
+      { items: [validItem] },
+      { customer: null, items: [validItem] },
+      { customer: { name: '   ', email: 'cliente@example.com' }, items: [validItem] },
+      { customer: { name: 'João\u0000', email: 'cliente@example.com' }, items: [validItem] },
+      { customer: { name: 'A'.repeat(121), email: 'cliente@example.com' }, items: [validItem] },
+      { customer: { name: 'Cliente', email: 'joão@example.com' }, items: [validItem] },
+      { customer: validCustomer, items: [] },
+      { customer: validCustomer, items: null },
+      { customer: validCustomer, items: [null] },
+      { customer: validCustomer, items: [{ productId: firstId, quantity: 0 }] },
+      { customer: validCustomer, items: [{ productId: firstId, quantity: 10_001 }] },
+      { customer: validCustomer, items: [{ productId: firstId, quantity: 1.5 }] },
+      { customer: validCustomer, items: [{ productId: firstId, quantity: '1' }] },
+      {
+        customer: validCustomer,
+        items: Array.from({ length: 101 }, () => validItem),
+      },
+    ];
+
+    for (const body of invalidBodies) {
+      const response = await request(app.getHttpServer())
+        .post('/api/v1/orders')
+        .send(body)
+        .expect(400);
+      expect(response.body.code).toBe('VALIDATION_ERROR');
+    }
+
+    expect(orders).toHaveLength(0);
+    expect(catalog.queryProducts).not.toHaveBeenCalled();
+  });
+
+  it('validates list filters and applies default pagination', async () => {
+    const { app, repository } = await createApplication();
+    for (const query of [
+      '?unknown=value',
+      '?page=0',
+      '?page=1000001',
+      '?page=1.5',
+      '?page=9007199254740992',
+      '?pageSize=0',
+      '?pageSize=101',
+      '?page=1&page=2',
+    ]) {
+      const response = await request(app.getHttpServer()).get(`/api/v1/orders${query}`).expect(400);
+      expect(response.body.code).toBe('VALIDATION_ERROR');
+    }
+
+    await request(app.getHttpServer()).get('/api/v1/orders').expect(200);
+    expect(repository.list).toHaveBeenCalledWith(1, 20);
+  });
+
+  it('maps catalog availability failures without creating an order', async () => {
+    const { app, orders, catalog } = await createApplication();
+    vi.mocked(catalog.queryProducts).mockRejectedValueOnce(
+      new ApplicationError(
+        503,
+        'CATALOG_UNAVAILABLE',
+        'Catálogo indisponível',
+        'Não foi possível consultar o Catálogo.',
+      ),
+    );
+
+    const response = await request(app.getHttpServer())
+      .post('/api/v1/orders')
+      .send({
+        customer: { name: 'Cliente', email: 'cliente@example.com' },
+        items: [{ productId: firstId, quantity: 1 }],
+      })
+      .expect(503);
+
+    expect(response.headers['content-type']).toMatch(/^application\/problem\+json/);
+    expect(response.body).toMatchObject({
+      code: 'CATALOG_UNAVAILABLE',
+      detail: 'Não foi possível consultar o Catálogo.',
+    });
+    expect(orders).toHaveLength(0);
   });
 
   it.each([undefined, 'invalid-correlation', 'AAAAAAAA-AAAA-4AAA-8AAA-AAAAAAAAAAAA'])(

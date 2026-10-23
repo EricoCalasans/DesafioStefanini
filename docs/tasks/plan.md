@@ -15,7 +15,7 @@
 | 2 - Catálogo | MongoDB, validador/índices, seed e endpoints | API real, lote, paginação, erros, Swagger, contagem de comandos e explain exercitados |
 | 3 - Primeiro fluxo de pedido | Domínio, desconto, porta de catálogo, SQL e POST | Pedido canônico real passou com valores corretos; rollback provado em PostgreSQL |
 | 4 - Leitura e robustez | GETs/paginação, snapshots, falhas e logs | GETs, paginação, snapshots, falha de inserção e timeout SQL passaram; COMMIT desconectado segue documentado como resultado ambíguo |
-| 5 - Qualidade e automação | Integração/sistema/contrato, cobertura, eficiência e gate | Testes locais e CI hospedada, contrato runtime, smoke, N+1 e benchmark local restrito passaram; gate obrigatório no GitHub/deploy continua parcial |
+| 5 - Qualidade e automação | Integração/sistema/contrato, cobertura, eficiência e gate | Cobertura e limites locais, testes locais e CI hospedada, contrato runtime, smoke, N+1 e benchmark local restrito passaram; gate obrigatório no GitHub/deploy continua parcial |
 | 6 - Liderança e IA | Guia curto, proposta, revisão por IA e registros | Guia, proposta e revisão dedicada de validações/mensagens estão documentados e testados localmente |
 | 7 - Fechamento | README limpo, tag/evidências, conversa e roteiro | README e reprodução em volumes vazios passaram; deck e checklist estão prontos; conferir compartilhamento, tag/commit de submissão e CI desse SHA |
 | 8 - Extensões condicionais | Cloud real e/ou vídeo/slides | Núcleo aceito, recursos e tempo disponíveis |

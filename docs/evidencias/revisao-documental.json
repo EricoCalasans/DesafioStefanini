@@ -26,12 +26,12 @@
     {
       "check": "Links locais Markdown",
       "result": "pass",
-      "detail": "456 links locais com destino existente"
+      "detail": "460 links locais com destino existente"
     },
     {
       "check": "IDs e contagem de artefatos",
       "result": "pass",
-      "detail": "R01-R53, Q01-Q50 e T01-T45 sem lacunas ou duplicações; 9 specs"
+      "detail": "R01-R53, Q01-Q50 e T01-T45 sem lacunas ou duplicações; 10 specs"
     },
     {
       "check": "Exemplo criar-pedido.json",

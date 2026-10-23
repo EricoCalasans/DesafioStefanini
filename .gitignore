@@ -23,6 +23,7 @@ coverage/
 *.trx
 *.coverage
 *.coveragexml
+coverage.cobertura.xml
 .vs/
 *.suo
 *.user

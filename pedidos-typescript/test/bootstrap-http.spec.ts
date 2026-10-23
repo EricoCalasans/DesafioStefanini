@@ -5,7 +5,7 @@ import { setTimeout as delay } from 'node:timers/promises';
 import { fileURLToPath } from 'node:url';
 import { expect, it } from 'vitest';
 
-it('enforces the JSON media contract on every routed spelling of order creation', async () => {
+it('enforces bootstrap media, JSON parsing, and body-size rules over real HTTP', async () => {
   const reservation = createServer();
   reservation.listen(0, '127.0.0.1');
   await once(reservation, 'listening');
@@ -62,6 +62,32 @@ it('enforces the JSON media contract on every routed spelling of order creation'
         traceId: response.headers.get('x-correlation-id'),
       });
     }
+
+    const malformedJson = await fetch(`http://127.0.0.1:${port}/api/v1/orders`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: '{',
+      signal: AbortSignal.timeout(2000),
+    });
+    expect(malformedJson.status).toBe(400);
+    expect(malformedJson.headers.get('content-type')).toMatch(/^application\/problem\+json/);
+    expect(await malformedJson.json()).toMatchObject({
+      code: 'INVALID_JSON',
+      traceId: malformedJson.headers.get('x-correlation-id'),
+    });
+
+    const oversizedBody = await fetch(`http://127.0.0.1:${port}/api/v1/orders`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ client: { name: 'A'.repeat(65_537) }, items: [] }),
+      signal: AbortSignal.timeout(2000),
+    });
+    expect(oversizedBody.status).toBe(413);
+    expect(oversizedBody.headers.get('content-type')).toMatch(/^application\/problem\+json/);
+    expect(await oversizedBody.json()).toMatchObject({
+      code: 'PAYLOAD_TOO_LARGE',
+      traceId: oversizedBody.headers.get('x-correlation-id'),
+    });
   } finally {
     if (process.exitCode === null) {
       const exited = once(process, 'exit');

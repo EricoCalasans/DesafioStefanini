@@ -1,8 +1,10 @@
 # Desafio técnico COE Leader — Pedidos e Catálogo
 
+> **Aviso — Central local de avaliação:** após iniciar os serviços com Docker Compose, acesse [http://localhost:4173/](http://localhost:4173/). Esta tela serve apenas para facilitar os testes manuais dos endpoints implementados de Pedidos e Catálogo, reunindo verificações de saúde, consultas de produtos, criação e consulta de pedidos. Ela chama as APIs reais do ambiente local, não é uma interface de produção nem substitui os testes automatizados. Os pedidos criados por ela ficam persistidos no banco local. A porta pode ser alterada pela variável `EVALUATOR_PORT`.
+
 ## Escolhas principais
 
-O desafio foi implementado como dois serviços independentes, em um único repositório Git. Pedidos usa TypeScript, Node.js e NestJS com PostgreSQL; Catálogo usa C# e ASP.NET Core com MongoDB. Cada aplicação tem sua própria pasta, dependências, testes, build e Dockerfile. A integração entre elas acontece por HTTP REST, com contratos OpenAPI versionados em `contracts/`.
+O desafio foi implementado como dois serviços de negócio independentes, em um único repositório Git. Pedidos usa TypeScript, Node.js e NestJS com PostgreSQL; Catálogo usa C# e ASP.NET Core com MongoDB. Cada aplicação tem sua própria pasta, dependências, testes, build e Dockerfile. A integração entre elas acontece por HTTP REST, com contratos OpenAPI versionados em `contracts/`. Uma Central local de avaliação reúne as operações HTTP em uma página, sem acessar diretamente os bancos nem alterar as APIs.
 
 | Projeto | Stack | Responsabilidade | Persistência |
 |---|---|---|---|
@@ -23,7 +25,7 @@ flowchart LR
     K --> M[(MongoDB)]
 ```
 
-O escopo solicitado é de APIs. Não há uma interface de negócio separada; Swagger UI permite explorar e enviar requisições pelos navegadores. Os dois serviços também oferecem endpoints de saúde.
+Swagger UI continua disponível para exploração técnica. Para a demonstração integrada, a Central de avaliação reúne consultas de produtos, criação e histórico de pedidos, estado dos serviços e respostas HTTP. Os dois serviços oferecem endpoints de saúde.
 
 ## Início rápido no Windows
 
@@ -67,7 +69,7 @@ As variáveis e os limites de configuração estão descritos no [spec de plataf
 
 | Grupo | Variáveis | Finalidade |
 |---|---|---|
-| Portas locais | `POSTGRES_PORT`, `MONGO_PORT`, `ORDERS_PORT`, `CATALOG_PORT` | Portas publicadas em `127.0.0.1` no host |
+| Portas locais | `POSTGRES_PORT`, `MONGO_PORT`, `ORDERS_PORT`, `CATALOG_PORT`, `EVALUATOR_PORT` | Portas publicadas em `127.0.0.1` no host |
 | Senhas de bootstrap | `POSTGRES_ADMIN_PASSWORD`, `MONGO_ROOT_PASSWORD` | Criar e administrar os bancos; não usar nas APIs |
 | Contas de execução/init | `ORDERS_RUNTIME_PASSWORD`, `ORDERS_MIGRATOR_PASSWORD`, `CATALOG_RUNTIME_PASSWORD`, `CATALOG_SEED_PASSWORD` | Separar permissões de aplicação, migration e seed |
 | Conexões | `ORDERS_DATABASE_URL`, `ORDERS_MIGRATION_DATABASE_URL`, `ORDERS_TEST_DATABASE_URL`, `ORDERS_TEST_MIGRATION_DATABASE_URL`, `CATALOG_MONGODB_URI`, `MONGO_ADMIN_URI` | Conectar aos bancos com a conta e o escopo correspondentes |
@@ -100,15 +102,18 @@ Confira o estado, os logs e a prontidão das APIs na mesma janela:
 
 ```powershell
 docker compose --env-file $envFile -f $composeFile ps
-docker compose --env-file $envFile -f $composeFile logs --tail 100 orders catalog postgres mongo
+docker compose --env-file $envFile -f $composeFile logs --tail 100 evaluator orders catalog postgres mongo
 Invoke-RestMethod 'http://localhost:3000/health/ready'
 Invoke-RestMethod 'http://localhost:8080/health/ready'
 ```
+
+A tela local estará em `http://localhost:4173/` quando a composição completa estiver saudável.
 
 ### 3. Abrir documentação e APIs
 
 | Acesso | URL |
 |---|---|
+| Central de avaliação integrada | [http://localhost:4173](http://localhost:4173) |
 | Swagger UI de Pedidos | [http://localhost:3000/docs](http://localhost:3000/docs) |
 | Swagger UI do Catálogo | [http://localhost:8080/docs](http://localhost:8080/docs) |
 | Saúde de Pedidos | [http://localhost:3000/health/live](http://localhost:3000/health/live) e [http://localhost:3000/health/ready](http://localhost:3000/health/ready) |
@@ -116,7 +121,7 @@ Invoke-RestMethod 'http://localhost:8080/health/ready'
 | Contrato de Pedidos | [`contracts/pedidos.openapi.yaml`](contracts/pedidos.openapi.yaml) |
 | Contrato do Catálogo | [`contracts/catalogo.openapi.yaml`](contracts/catalogo.openapi.yaml) |
 
-As APIs, PostgreSQL e MongoDB publicam portas apenas em `127.0.0.1`. As portas padrão são 3000, 8080, 5432 e 27017; elas podem ser alteradas no `.env` local sem mudar as portas usadas entre containers.
+As APIs, a tela de avaliação, PostgreSQL e MongoDB publicam portas apenas em `127.0.0.1`. As portas padrão são 3000, 8080, 4173, 5432 e 27017; elas podem ser alteradas no `.env` local sem mudar as portas usadas entre containers.
 
 Quando terminar de usar o ambiente, siga [Parar ou recriar o ambiente](#parar-ou-recriar-o-ambiente). O comando `down` encerra os containers e preserva os dados nos volumes; a remoção dos volumes é uma ação de reset e apaga os dados locais.
 
@@ -134,6 +139,12 @@ Para iniciar Pedidos, execute:
 docker compose --env-file $envFile -f $composeFile up -d --build --wait orders
 ```
 
+Para iniciar somente a Central de avaliação e as dependências dela, execute:
+
+```powershell
+docker compose --env-file $envFile -f $composeFile up -d --build --wait evaluator
+```
+
 Pedidos depende do PostgreSQL e do Catálogo; o Compose sobe essas dependências automaticamente. Para acompanhar os logs, execute um dos comandos abaixo na mesma janela PowerShell da etapa 1; pressione `Ctrl+C` para parar de acompanhar:
 
 ```powershell
@@ -141,7 +152,7 @@ docker compose --env-file $envFile -f $composeFile logs -f orders
 docker compose --env-file $envFile -f $composeFile logs -f catalog
 ```
 
-Os comandos Compose acima são o modo recomendado e mais simples. Eles também permitem iniciar apenas o Catálogo ou apenas Pedidos (com as dependências necessárias). Para hot reload executando um processo direto no host, inicie os bancos/dependências Compose e ajuste as URLs geradas para usar as portas locais.
+Os comandos Compose acima são o modo recomendado e mais simples. Eles também permitem iniciar apenas o Catálogo, apenas Pedidos ou a Central de avaliação com as dependências necessárias. Para hot reload executando um processo direto no host, inicie os bancos/dependências Compose e ajuste as URLs geradas para usar as portas locais.
 
 **Executar Catálogo diretamente no host:** requer .NET SDK 10. No mesmo PowerShell em que executou a etapa 1, cole o bloco inteiro a partir da raiz. Ele prepara o Mongo e inicia o Catálogo em primeiro plano:
 
@@ -230,6 +241,8 @@ O corpo de criação aceita cliente e itens, não aceita preço, desconto ou sta
 
 ## Testes e validação
 
+Os testes foram uma prioridade na construção do sistema e fazem parte da forma como evoluímos as APIs com segurança. As verificações em diferentes níveis cobrem regras de negócio, validações, contratos HTTP, tratamento de falhas e persistência; na CI, limites mínimos de cobertura ajudam a identificar regressões cedo. Essa disciplina contribui para preservar a consistência dos dados e a previsibilidade das respostas a cada mudança.
+
 ### Pedidos — TypeScript/NestJS
 
 Requer Node.js 24. Na janela PowerShell aberta na raiz do repositório, cole e execute o bloco inteiro; ele entra na pasta do projeto, instala as dependências e executa build, tipos, lint e testes:
@@ -241,8 +254,11 @@ npm run build
 npm run typecheck
 npm run lint
 npm test
+npm run test:coverage
 Pop-Location
 ```
+
+`test:coverage` mede cobertura dos módulos executados pela suíte unitária/HTTP e aplica limites de 95% em linhas e instruções, 85% em branches e 90% em funções. A suíte PostgreSQL real é separada e requer o ambiente Compose.
 
 Os testes unitários e HTTP não precisam de banco. Para testar migrations e transações com PostgreSQL real, suba o ambiente Compose e execute este comando em PowerShell, na raiz do repositório:
 
@@ -260,8 +276,11 @@ dotnet restore Catalog.sln --locked-mode
 dotnet format Catalog.sln --verify-no-changes --no-restore
 dotnet build Catalog.sln --configuration Release --no-restore
 dotnet test Catalog.sln --configuration Release --no-build
+dotnet test Catalog.sln --configuration Release -p:CollectCoverage=true -p:Threshold=95 -p:ThresholdStat=total -p:CoverletOutputFormat=cobertura
 Pop-Location
 ```
+
+O comando final publica cobertura e falha se a cobertura combinada cair abaixo de 95% (linhas, branches ou métodos).
 
 ### Contratos, documentação e integração
 
@@ -336,4 +355,4 @@ docker compose --env-file $envFile -f $composeFile down --volumes
 docker compose --env-file $envFile -f $composeFile up -d --build --wait
 ```
 
-Se uma porta estiver ocupada, altere `POSTGRES_PORT`, `MONGO_PORT`, `ORDERS_PORT` ou `CATALOG_PORT` no `.env` local e recrie os containers. Se o ambiente não ficar saudável, confira `ps` e `logs`; se a migration falhar, verifique o PostgreSQL e o job `orders-migrate`; se Pedidos não criar um pedido, confira `http://localhost:8080/health/ready` e os logs sanitizados.
+Se uma porta estiver ocupada, altere `POSTGRES_PORT`, `MONGO_PORT`, `ORDERS_PORT`, `CATALOG_PORT` ou `EVALUATOR_PORT` no `.env` local e recrie os containers. Se o ambiente não ficar saudável, confira `ps` e `logs`; se a migration falhar, verifique o PostgreSQL e o job `orders-migrate`; se Pedidos não criar um pedido, confira `http://localhost:8080/health/ready` e os logs sanitizados.

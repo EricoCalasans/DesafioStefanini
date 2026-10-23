@@ -28,6 +28,7 @@ $content = @(
     'MONGO_PORT=27017',
     'ORDERS_PORT=3000',
     'CATALOG_PORT=8080',
+    'EVALUATOR_PORT=4173',
     "POSTGRES_ADMIN_PASSWORD=$postgresAdmin",
     "ORDERS_RUNTIME_PASSWORD=$ordersRuntime",
     "ORDERS_MIGRATOR_PASSWORD=$ordersMigrator",
@@ -50,4 +51,4 @@ $content = @(
 
 [System.IO.File]::WriteAllText($envFile, ($content -join [Environment]::NewLine) + [Environment]::NewLine, [System.Text.UTF8Encoding]::new($false))
 Write-Output "Local development secrets were generated outside the repository at $envFile."
-Write-Output ('Start the databases and APIs with: docker compose --env-file "{0}" -f "{1}" up -d --build --wait' -f $envFile, $composeFile)
+Write-Output ('Start the databases, APIs, and evaluator with: docker compose --env-file "{0}" -f "{1}" up -d --build --wait' -f $envFile, $composeFile)

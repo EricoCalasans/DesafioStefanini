@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#102f3b" />
+    <title>Central de avaliação · Pedidos e Catálogo</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/app.js" type="module"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Pular para o conteúdo</a>
+
+    <header class="hero">
+      <div class="hero-inner">
+        <div class="topline">
+          <a class="brand" href="#top" aria-label="Central de avaliação, início">
+            <span class="brand-mark" aria-hidden="true">C</span>
+            <span>Desafio técnico <span class="brand-divider">/</span> Central de avaliação</span>
+          </a>
+          <span class="environment-tag"><span class="environment-dot" aria-hidden="true"></span> Ambiente local</span>
+        </div>
+
+        <div class="hero-copy" id="top">
+          <p class="eyebrow hero-eyebrow">Pedidos · Catálogo · Integração</p>
+          <h1>Avalie o fluxo completo,<br class="desktop-break" /> em um só lugar.</h1>
+          <p class="hero-description">
+            Consulte produtos, crie pedidos e confira o histórico usando as APIs reais do projeto.
+            Os dados são sintéticos; cada pedido enviado fica salvo no banco local.
+          </p>
+          <a class="hero-link" href="#catalog">Começar pelo catálogo <span aria-hidden="true">↓</span></a>
+        </div>
+
+        <div class="hero-orbit orbit-one" aria-hidden="true"></div>
+        <div class="hero-orbit orbit-two" aria-hidden="true"></div>
+      </div>
+    </header>
+
+    <main id="main" class="page-shell">
+      <section class="service-overview" aria-labelledby="service-title">
+        <div class="overview-heading">
+          <div>
+            <p class="eyebrow">Ambiente</p>
+            <h2 id="service-title">Serviços conectados</h2>
+          </div>
+          <button id="refreshHealth" class="button button-subtle" type="button">
+            <svg class="button-icon icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16.5 8a6.6 6.6 0 0 0-11.8-2L3.5 8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.5 4.8V8h3.2M3.5 12a6.6 6.6 0 0 0 11.8 2l1.2-2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M16.5 15.2V12h-3.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span data-label>Atualizar estado</span>
+          </button>
+        </div>
+
+        <div class="health-grid">
+          <article id="ordersHealth" class="health-card" aria-live="polite">
+            <span class="health-icon orders-icon" aria-hidden="true">P</span>
+            <div class="health-copy">
+              <p>Pedidos <span>· PostgreSQL</span></p>
+              <strong class="health-state state-loading">Verificando…</strong>
+              <small class="health-detail">Readiness da API e do banco</small>
+            </div>
+            <span class="status-indicator loading" aria-hidden="true"></span>
+          </article>
+          <article id="catalogHealth" class="health-card" aria-live="polite">
+            <span class="health-icon catalog-icon" aria-hidden="true">C</span>
+            <div class="health-copy">
+              <p>Catálogo <span>· MongoDB</span></p>
+              <strong class="health-state state-loading">Verificando…</strong>
+              <small class="health-detail">Readiness da API e do banco</small>
+            </div>
+            <span class="status-indicator loading" aria-hidden="true"></span>
+          </article>
+        </div>
+      </section>
+
+      <nav class="section-nav" aria-label="Seções da central de avaliação">
+        <a href="#catalog"><span>01</span> Catálogo</a>
+        <a href="#create-order"><span>02</span> Novo pedido</a>
+        <a href="#history"><span>03</span> Histórico</a>
+        <a href="#last-request"><span>04</span> Última chamada</a>
+      </nav>
+
+      <section id="catalog" class="content-section" aria-labelledby="catalog-title">
+        <div class="section-heading">
+          <div class="section-number" aria-hidden="true">01</div>
+          <div>
+            <p class="eyebrow">MongoDB · consultas</p>
+            <h2 id="catalog-title">Explore o catálogo</h2>
+            <p class="section-description">Liste produtos ativos, consulte um ID ou pesquise vários de uma vez.</p>
+          </div>
+        </div>
+
+        <div class="catalog-layout">
+          <article class="card product-card">
+            <div class="card-heading">
+              <div>
+                <h3>Produtos ativos</h3>
+                <p id="productMeta" class="muted-copy">Carregando catálogo…</p>
+              </div>
+              <button id="reloadProducts" class="button button-outline" type="button">
+                <svg class="button-icon icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16.5 8a6.6 6.6 0 0 0-11.8-2L3.5 8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.5 4.8V8h3.2M3.5 12a6.6 6.6 0 0 0 11.8 2l1.2-2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M16.5 15.2V12h-3.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span data-label>Recarregar</span>
+              </button>
+            </div>
+
+            <form id="productPaginationForm" class="table-toolbar" aria-label="Paginação do catálogo">
+              <label class="compact-field" for="productPage">Página
+                <input id="productPage" type="number" min="1" max="1000000" step="1" value="1" required />
+              </label>
+              <label class="compact-field" for="productPageSize">Por página
+                <input id="productPageSize" type="number" min="1" max="100" step="1" value="20" required />
+              </label>
+              <button id="searchProducts" class="button button-outline" type="submit"><span data-label>Buscar</span></button>
+            </form>
+            <p class="table-scroll-hint table-scroll-hint-mobile">Em telas menores, deslize a tabela para ver todas as colunas.</p>
+
+            <div id="productsTable" class="table-scroll" aria-busy="false">
+              <table>
+                <caption class="visually-hidden">Produtos ativos disponíveis no catálogo</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Produto</th>
+                    <th scope="col">SKU</th>
+                    <th scope="col">Preço atual</th>
+                    <th scope="col">Disponibilidade</th>
+                    <th scope="col">Versão</th>
+                    <th scope="col"><span class="visually-hidden">Ações</span></th>
+                  </tr>
+                </thead>
+                <tbody id="productsBody">
+                  <tr><td colspan="6" class="table-message">Carregando produtos…</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p id="productNotice" class="inline-notice" aria-live="polite"></p>
+          </article>
+
+          <aside class="catalog-tools">
+            <article class="card tool-card">
+              <div class="card-heading compact-heading">
+                <div>
+                  <span class="tool-icon" aria-hidden="true"><svg class="icon" viewBox="0 0 20 20" fill="none"><circle cx="8.5" cy="8.5" r="5.4" stroke="currentColor" stroke-width="1.7"/><path d="m12.5 12.5 4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+                  <h3>Consultar por ID</h3>
+                </div>
+              </div>
+              <p class="helper-copy">Consulta individual, inclusive para verificar um produto inativo.</p>
+              <form id="productLookupForm" class="stack-form">
+                <label for="productLookupId">UUID do produto</label>
+                <input id="productLookupId" name="productId" type="text" placeholder="11111111-1111-4111-8111-111111111111" autocomplete="off" />
+                <button class="button button-outline button-full" type="submit"><span data-label>Consultar produto</span></button>
+              </form>
+              <div id="singleProductResult" class="result-slot" aria-live="polite"></div>
+            </article>
+
+            <article class="card tool-card">
+              <div class="card-heading compact-heading">
+                <div>
+                  <span class="tool-icon batch-icon" aria-hidden="true"><svg class="icon" viewBox="0 0 20 20" fill="none"><path d="M4 5.2h12M4 10h12M4 14.8h12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="2.8" cy="5.2" r=".7" fill="currentColor"/><circle cx="2.8" cy="10" r=".7" fill="currentColor"/><circle cx="2.8" cy="14.8" r=".7" fill="currentColor"/></svg></span>
+                  <h3>Consulta em lote</h3>
+                </div>
+              </div>
+              <p class="helper-copy">Cole de 1 a 100 UUIDs, um por linha. Repetições são enviadas para a API validar.</p>
+              <form id="batchForm" class="stack-form">
+                <label for="batchIds">IDs dos produtos</label>
+                <textarea id="batchIds" name="productIds" rows="4" placeholder="11111111-1111-4111-8111-111111111111&#10;22222222-2222-4222-8222-222222222222"></textarea>
+                <div class="button-row">
+                  <button id="fillBatchExample" class="button button-quiet" type="button">Preencher exemplo</button>
+                  <button class="button button-primary" type="submit"><span data-label>Consultar lote</span></button>
+                </div>
+              </form>
+              <div id="batchResult" class="result-slot" aria-live="polite"></div>
+            </article>
+          </aside>
+        </div>
+      </section>
+
+      <section id="create-order" class="content-section" aria-labelledby="order-title">
+        <div class="section-heading">
+          <div class="section-number" aria-hidden="true">02</div>
+          <div>
+            <p class="eyebrow">TypeScript · integração · PostgreSQL</p>
+            <h2 id="order-title">Monte um pedido</h2>
+            <p class="section-description">A API consulta os preços atuais e calcula o desconto. Esta ação grava um pedido no banco local.</p>
+          </div>
+        </div>
+
+        <div class="order-layout">
+          <div class="order-workspace">
+            <article class="card order-card">
+              <div class="card-heading">
+                <div>
+                  <h3>Dados do pedido</h3>
+                  <p class="muted-copy">Preencha o cliente e selecione os itens do catálogo.</p>
+                </div>
+                <button id="fillOrderExample" class="button button-quiet" type="button">Preencher exemplo feliz</button>
+              </div>
+
+              <form id="orderForm" class="order-form">
+                <div class="customer-grid">
+                  <div class="field-group">
+                    <label for="customerName">Nome do cliente <span class="required-mark">*</span></label>
+                    <input id="customerName" name="customerName" type="text" maxlength="120" placeholder="Ex.: Cliente Exemplo" required />
+                    <small>Obrigatório · até 120 caracteres</small>
+                  </div>
+                  <div class="field-group">
+                    <label for="customerEmail">E-mail <span class="required-mark">*</span></label>
+                    <input id="customerEmail" name="customerEmail" type="email" maxlength="254" placeholder="cliente@example.com" required />
+                    <small>Obrigatório · formato de e-mail</small>
+                  </div>
+                </div>
+
+                <div class="items-heading">
+                  <div>
+                    <h4>Itens do pedido</h4>
+                    <p>Entre 1 e 100 produtos diferentes; quantidade inteira de 1 a 10.000.</p>
+                  </div>
+                  <button id="addOrderItem" class="button button-outline" type="button"><span aria-hidden="true">＋</span> Adicionar item</button>
+                </div>
+
+                <div id="orderItems" class="order-items"></div>
+
+                <div class="order-footnote">
+                  <span class="info-mark" aria-hidden="true">i</span>
+                  <p>Preço, subtotal, desconto e total são calculados e confirmados pela API. Valores não podem ser enviados pelo cliente.</p>
+                </div>
+
+                <div class="form-actions">
+                  <span class="muted-copy">POST /api/v1/orders</span>
+                  <button id="createOrderButton" class="button button-primary button-large" type="submit">
+                    <span data-label>Criar pedido</span><span aria-hidden="true">→</span>
+                  </button>
+                </div>
+              </form>
+            </article>
+
+            <details id="advancedOrder" class="card advanced-panel">
+              <summary>
+                <span><span class="advanced-mark" aria-hidden="true">{ }</span> Modo técnico · testar validações</span>
+                <span class="summary-hint">JSON manual e cenários de erro</span>
+              </summary>
+              <div class="advanced-content">
+                <p class="helper-copy">Use esta área para enviar payloads fora do formulário. A API decide o resultado e a resposta original fica disponível abaixo.</p>
+                <div class="scenario-row">
+                  <label for="orderScenario">Cenário pronto</label>
+                  <select id="orderScenario">
+                    <option value="happy">Fluxo feliz</option>
+                    <option value="inactive">Produto inativo · esperado 422</option>
+                    <option value="missing">Produto ausente · esperado 422</option>
+                    <option value="duplicate">IDs repetidos · esperado 422</option>
+                    <option value="quantity">Quantidade zero · esperado 400</option>
+                    <option value="customer">Cliente inválido · esperado 400</option>
+                    <option value="extra">Campo não permitido · esperado 400</option>
+                  </select>
+                  <button id="loadOrderScenario" class="button button-outline" type="button">Carregar</button>
+                </div>
+                <label for="rawOrderJson">Corpo JSON de criação</label>
+                <textarea id="rawOrderJson" class="code-input" rows="11" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea>
+                <div class="raw-actions">
+                  <span class="muted-copy">Não inclua preço, desconto ou status.</span>
+                  <button id="sendRawOrder" class="button button-primary" type="button"><span data-label>Enviar JSON</span></button>
+                </div>
+              </div>
+            </details>
+          </div>
+
+          <aside class="order-result-column">
+            <article id="orderResult" class="card order-result-card" aria-live="polite">
+              <div class="empty-result-icon" aria-hidden="true"><svg class="empty-state-icon" viewBox="0 0 24 24" fill="none"><path d="M6 7.5h8.5A3.5 3.5 0 0 1 18 11v.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="m14.5 9.5 3.5 3.5 3.5-3.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 16.5h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div>
+              <p class="eyebrow">Resposta da API</p>
+              <h3>Aguardando uma criação</h3>
+              <p>O resultado do próximo pedido aparece aqui, com os valores calculados pelo serviço.</p>
+            </article>
+            <div class="demo-note">
+              <span class="demo-note-icon" aria-hidden="true">✦</span>
+              <div>
+                <strong>Exemplo conhecido</strong>
+                <p>Teclado × 2 + Mouse × 1 → subtotal de R$ 500,00. A configuração local padrão aplica 10% de desconto.</p>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="history" class="content-section" aria-labelledby="history-title">
+        <div class="section-heading">
+          <div class="section-number" aria-hidden="true">03</div>
+          <div>
+            <p class="eyebrow">PostgreSQL · leitura histórica</p>
+            <h2 id="history-title">Pedidos registrados</h2>
+            <p class="section-description">Confira a listagem paginada ou abra um pedido para ver os snapshots que foram salvos.</p>
+          </div>
+        </div>
+
+        <div class="history-layout">
+          <article class="card history-card">
+            <div class="card-heading history-heading">
+              <div>
+                <h3>Histórico</h3>
+                <p id="orderMeta" class="muted-copy">Carregando pedidos…</p>
+              </div>
+              <button id="reloadOrders" class="button button-outline" type="button">
+                <svg class="button-icon icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16.5 8a6.6 6.6 0 0 0-11.8-2L3.5 8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.5 4.8V8h3.2M3.5 12a6.6 6.6 0 0 0 11.8 2l1.2-2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M16.5 15.2V12h-3.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span data-label>Atualizar lista</span>
+              </button>
+            </div>
+
+            <form id="orderLookupForm" class="order-lookup">
+              <label for="orderLookupId">Consultar pedido por UUID</label>
+              <div class="lookup-controls">
+                <input id="orderLookupId" type="text" placeholder="Cole o ID retornado na criação" autocomplete="off" />
+                <button class="button button-outline" type="submit"><span data-label>Buscar pedido</span></button>
+              </div>
+            </form>
+
+            <form id="ordersPaginationForm" class="table-toolbar history-toolbar" aria-label="Paginação do histórico">
+              <label class="compact-field" for="orderPage">Página
+                <input id="orderPage" type="number" min="1" max="1000000" step="1" value="1" required />
+              </label>
+              <label class="compact-field" for="orderPageSize">Por página
+                <input id="orderPageSize" type="number" min="1" max="100" step="1" value="20" required />
+              </label>
+              <button id="searchOrders" class="button button-outline" type="submit"><span data-label>Buscar</span></button>
+            </form>
+            <p class="table-scroll-hint">Use a rolagem horizontal para acessar todas as colunas.</p>
+
+            <div id="ordersTable" class="table-scroll" aria-busy="false">
+              <table>
+                <caption class="visually-hidden">Pedidos salvos no PostgreSQL</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Pedido</th>
+                    <th scope="col">Cliente</th>
+                    <th scope="col">Linhas</th>
+                    <th scope="col">Subtotal</th>
+                    <th scope="col">Desconto</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Criado em</th>
+                    <th scope="col"><span class="visually-hidden">Ações</span></th>
+                  </tr>
+                </thead>
+                <tbody id="ordersBody">
+                  <tr><td colspan="8" class="table-message">Carregando pedidos…</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p id="ordersNotice" class="inline-notice" aria-live="polite"></p>
+          </article>
+
+          <aside id="orderDetail" class="card order-detail-card" aria-live="polite">
+            <div class="detail-empty-icon" aria-hidden="true"><svg class="empty-state-icon" viewBox="0 0 24 24" fill="none"><circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="1.7"/><path d="m15.5 15.5 4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div>
+            <p class="eyebrow">Snapshot persistido</p>
+            <h3>Selecione um pedido</h3>
+            <p>Abra uma linha do histórico ou informe um UUID para conferir cliente, itens e valores gravados.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section id="last-request" class="last-request-section" aria-labelledby="last-request-title">
+        <div class="last-request-heading">
+          <div>
+            <p class="eyebrow">Transparência</p>
+            <h2 id="last-request-title">Última chamada à API</h2>
+          </div>
+          <span class="last-request-caption">Método, status e correlação</span>
+        </div>
+        <article id="lastRequest" class="last-request-card" aria-live="polite">
+          <div class="last-request-empty">
+            <span class="request-pulse" aria-hidden="true"></span>
+            <p>As informações da chamada executada aparecem aqui.</p>
+          </div>
+        </article>
+      </section>
+
+      <footer class="page-footer">
+        <span>Central local de avaliação</span>
+        <span>Dados sintéticos · APIs reais · Sem acesso direto aos bancos</span>
+      </footer>
+    </main>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <dialog id="copyFallbackDialog" class="copy-dialog" aria-labelledby="copyFallbackTitle">
+      <h2 id="copyFallbackTitle">Copie o ID manualmente</h2>
+      <p>Selecione o identificador abaixo e copie usando Ctrl+C ou ⌘+C.</p>
+      <input id="copyFallbackValue" type="text" readonly aria-label="ID selecionado para cópia" />
+      <button id="closeCopyFallback" class="button button-primary" type="button">Concluir</button>
+    </dialog>
+  </body>
+</html>

@@ -43,6 +43,17 @@ describe('money rules', () => {
     ).toEqual({ amountCents: 10_000n, applied: true });
   });
 
+  it('rejects invalid subtotal, threshold, and discount rates', () => {
+    const policy = { enabled: true, thresholdCents: 0n, rateBps: 10_000 };
+    expect(() => calculateDiscount(-1n, policy)).toThrow(/discount inputs/i);
+    expect(() => calculateDiscount(1n, { ...policy, thresholdCents: -1n })).toThrow(
+      /discount inputs/i,
+    );
+    expect(() => calculateDiscount(1n, { ...policy, rateBps: 1.5 })).toThrow(/discount inputs/i);
+    expect(() => calculateDiscount(1n, { ...policy, rateBps: -1 })).toThrow(/discount inputs/i);
+    expect(() => calculateDiscount(1n, { ...policy, rateBps: 10_001 })).toThrow(/discount inputs/i);
+  });
+
   it('refuses unsafe JSON number conversion', () => {
     expect(toSafeInteger(9_007_199_254_740_991n, 'amount')).toBe(Number.MAX_SAFE_INTEGER);
     expect(() => toSafeInteger(9_007_199_254_740_992n, 'amount')).toThrow(RangeError);

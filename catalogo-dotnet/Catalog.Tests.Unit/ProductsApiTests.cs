@@ -63,6 +63,23 @@ public sealed class ProductsApiTests
 
     [Fact]
     [Trait("Category", "Unit")]
+    public async Task Get_by_id_returns_an_existing_product_snapshot()
+    {
+        using var factory = CreateFactory();
+        using var client = factory.CreateClient();
+
+        using var response = await client.GetAsync($"/api/v1/products/{FirstId}");
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        using var body = await JsonDocument.ParseAsync(await response.Content.ReadAsStreamAsync());
+        Assert.Equal(FirstId, body.RootElement.GetProperty("id").GetString());
+        Assert.Equal("TEC-001", body.RootElement.GetProperty("sku").GetString());
+        Assert.Equal(20_000, body.RootElement.GetProperty("priceCents").GetInt32());
+        Assert.True(body.RootElement.GetProperty("active").GetBoolean());
+    }
+
+    [Fact]
+    [Trait("Category", "Unit")]
     public async Task Batch_returns_inactive_products_and_classifies_missing_ids()
     {
         using var factory = CreateFactory();

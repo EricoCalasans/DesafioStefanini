@@ -33,10 +33,9 @@ jobs:
         working-directory: pedidos-typescript
         run: |
           npm ci
-          npm run build
           npm run typecheck
           npm run lint
-          npm test
+          npm run test:coverage
 
       - name: Catálogo - restore
         working-directory: catalogo-dotnet
@@ -52,7 +51,7 @@ jobs:
 
       - name: Catálogo - test
         working-directory: catalogo-dotnet
-        run: dotnet test Catalog.sln --configuration Release --no-build --no-restore
+        run: dotnet test Catalog.sln --configuration Release --no-build --no-restore -p:CollectCoverage=true -p:Threshold=95 -p:ThresholdStat=total -p:CoverletOutputFormat=cobertura
 
       - name: Validate contracts and documentation
         run: |

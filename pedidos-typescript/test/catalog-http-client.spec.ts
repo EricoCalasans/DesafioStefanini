@@ -61,6 +61,7 @@ describe('CatalogHttpClient', () => {
     ['duplicate product', (p) => ({ ...p, products: [p.products[0], p.products[0]] })],
     ['found and missing', (p) => ({ ...p, missingProductIds: [firstId] })],
     ['duplicate missing', (p) => ({ ...p, products: [], missingProductIds: [firstId, firstId] })],
+    ['malformed missing ID', (p) => ({ ...p, products: [], missingProductIds: ['not-a-uuid'] })],
     ['extra batch field', (p) => ({ ...p, privateField: true })],
     ['array root', () => []],
   ])('rejects supplier contract violation: %s', async (_label, mutate) => {
@@ -239,6 +240,59 @@ describe('CatalogHttpClient', () => {
     });
   });
 
+  it('rejects a response whose declared content length exceeds the limit', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(
+        async () =>
+          new Response('{}', {
+            headers: {
+              'content-type': 'application/json',
+              'content-length': String(256 * 1024 + 1),
+            },
+          }),
+      ),
+    );
+
+    await expect(client().queryProducts([firstId], correlationId)).rejects.toMatchObject({
+      status: 502,
+      code: 'CATALOG_INVALID_RESPONSE',
+    });
+  });
+
+  it('rejects empty bodies, failed body streams, and unexpected response access errors', async () => {
+    const brokenStream = new ReadableStream<Uint8Array>({
+      start(controller) {
+        controller.error(new Error('private stream detail'));
+      },
+    });
+    const unusualResponse = {
+      status: 200,
+      headers: {
+        get: () => {
+          throw new Error('private header detail');
+        },
+      },
+      body: null,
+    } as unknown as Response;
+    const responses = [
+      new Response(null, { headers: { 'content-type': 'application/json' } }),
+      new Response(brokenStream, { headers: { 'content-type': 'application/json' } }),
+      unusualResponse,
+    ];
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => responses.shift() as Response),
+    );
+
+    for (let attempt = 0; attempt < 3; attempt++) {
+      await expect(client().queryProducts([firstId], correlationId)).rejects.toMatchObject({
+        status: 502,
+        code: 'CATALOG_INVALID_RESPONSE',
+      });
+    }
+  });
+
   it('keeps the timeout active until the response body finishes', async () => {
     vi.stubGlobal(
       'fetch',
@@ -256,6 +310,25 @@ describe('CatalogHttpClient', () => {
           headers: { 'content-type': 'application/json' },
         });
       }),
+    );
+
+    await expect(client().queryProducts([firstId], correlationId)).rejects.toMatchObject({
+      status: 504,
+      code: 'CATALOG_TIMEOUT',
+    });
+  }, 5_000);
+
+  it('maps a timeout while waiting for the supplier response', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(
+        async (_url: string | URL, init?: RequestInit) =>
+          await new Promise<Response>((_resolve, reject) => {
+            init?.signal?.addEventListener('abort', () =>
+              reject(new DOMException('aborted', 'AbortError')),
+            );
+          }),
+      ),
     );
 
     await expect(client().queryProducts([firstId], correlationId)).rejects.toMatchObject({

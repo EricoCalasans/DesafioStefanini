@@ -175,4 +175,14 @@ describe('CreateOrderUseCase', () => {
     ).rejects.toMatchObject({ status: 422, code: 'ORDER_AMOUNT_LIMIT_EXCEEDED' });
     expect(deps.repository.create).not.toHaveBeenCalled();
   });
+
+  it('rethrows non-subtotal domain range errors without converting them to amount-limit errors', async () => {
+    const deps = dependencies();
+    const invalidQuantity = { ...input, items: [{ productId: firstId, quantity: 0 }] };
+
+    await expect(new CreateOrderUseCase(deps).execute(invalidQuantity)).rejects.toThrow(
+      'Quantity is outside the allowed range.',
+    );
+    expect(deps.repository.create).not.toHaveBeenCalled();
+  });
 });

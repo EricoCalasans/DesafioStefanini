@@ -2,12 +2,10 @@ import { Logger } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import type { Pool } from 'pg';
 import { expect, it, vi } from 'vitest';
+import { POOL } from '../src/adapters/postgres-order.repository.js';
+import { AppModule } from '../src/app.module.js';
 
 it('handles an idle PostgreSQL connection error without crashing or logging private details', async () => {
-  const { AppModule } = await import(new URL('../dist/app.module.js', import.meta.url).href);
-  const { POOL } = await import(
-    new URL('../dist/adapters/postgres-order.repository.js', import.meta.url).href
-  );
   const log = vi.spyOn(Logger.prototype, 'error').mockImplementation(() => undefined);
   const module = await Test.createTestingModule({ imports: [AppModule] }).compile();
   try {

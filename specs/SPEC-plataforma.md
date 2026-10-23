@@ -74,7 +74,7 @@ O workflow único [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) se c
 4. Compose efêmero com credenciais mascaradas, migrations, testes PostgreSQL, smoke integrado e comparação de respostas reais com OpenAPI.
 5. Cleanup da composição efêmera mesmo após falha.
 
-O workflow não publica imagens, não executa deploy, não configura cobertura mínima e não inclui agregador `quality-gate`. Os checks executam em pull request, porém a configuração de branch protection/required status checks não foi criada ou verificada; portanto, não declarar que o GitHub impede merge ou push sem check verde. A política de trabalho documentada é aguardar CI aprovada antes de promover alterações. Como não há deploy, não existe publicação que possa ignorar o resultado da CI.
+O workflow não publica imagens nem executa deploy. Os comandos de teste aplicam limites locais de cobertura: Pedidos exige 95% de linhas/instruções, 85% de branches e 90% de funções; Catálogo exige 95% no total combinado. Ainda não existe agregador `quality-gate` nem configuração verificada de branch protection/required status checks; portanto, não declarar que o GitHub impede merge ou push sem check verde. A política de trabalho documentada é aguardar CI aprovada antes de promover alterações. Como não há deploy, não existe publicação que possa ignorar o resultado da CI.
 
 ## 7. GitFlow
 

@@ -24,8 +24,11 @@ Execute os comandos neste diretório:
     dotnet restore Catalog.sln --locked-mode
     dotnet build Catalog.sln --configuration Release --no-restore
     dotnet test Catalog.sln --configuration Release
+    dotnet test Catalog.sln --configuration Release -p:CollectCoverage=true -p:Threshold=95 -p:ThresholdStat=total -p:CoverletOutputFormat=cobertura
     dotnet format Catalog.sln --verify-no-changes --no-restore
     dotnet run --project Catalog.Api
+
+O comando com cobertura falha abaixo de 95% no total combinado de linhas, branches ou métodos e grava `coverage.cobertura.xml` no projeto de testes.
 
 Para executar a API localmente, configure CATALOG_MONGODB_URI e CATALOG_MONGODB_DATABASE com credenciais locais obtidas fora do repositório. O Compose e a geração de credenciais compartilhados ficam em [infra](../infra/README.md).
 

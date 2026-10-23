@@ -83,12 +83,12 @@ def ids():
     found = re.findall(r'^\| (R\d\d) \|', text, re.M)
     assert Counter(found) == Counter(f'R{i:02d}' for i in range(1,54)), found
     specs = list((ROOT/'specs').glob('SPEC-*.md'))
-    assert len(specs) == 9, len(specs)
+    assert len(specs) == 10, len(specs)
     quality = re.findall(r'^\| (Q\d\d) \|', (ROOT/'specs/SPEC-qualidade.md').read_text(encoding='utf-8'), re.M)
     assert Counter(quality) == Counter(f'Q{i:02d}' for i in range(1,51)), quality
     tasks = re.findall(r'^- \[[ x]\] \*\*(T\d\d)', (ROOT/'docs/tasks/todo.md').read_text(encoding='utf-8'), re.M)
     assert Counter(tasks) == Counter(f'T{i:02d}' for i in range(1,46)), tasks
-    return 'R01-R53, Q01-Q50 e T01-T45 sem lacunas ou duplicações; 9 specs'
+    return 'R01-R53, Q01-Q50 e T01-T45 sem lacunas ou duplicações; 10 specs'
 
 check('IDs e contagem de artefatos', ids)
 

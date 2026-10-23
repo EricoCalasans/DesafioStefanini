@@ -2,7 +2,7 @@
 
 Esta pasta contém somente os recursos usados pelos dois projetos durante desenvolvimento e demonstração:
 
-- compose.yaml: PostgreSQL 17, MongoDB 8 e as APIs em containers separados; portas publicadas apenas no loopback local.
+- compose.yaml: PostgreSQL 17, MongoDB 8, as duas APIs e a Central local de avaliação em containers separados; portas publicadas apenas no loopback local.
 - postgres/01-roles.sql: cria `orders_test` e as contas de runtime e migração do PostgreSQL com permissões separadas.
 - mongo/bootstrap.js: configura validator e índices, cria contas separadas e insere 24 produtos sintéticos de forma idempotente (23 ativos e um inativo).
 - seed-demo.ps1: reaplica o seed do Catálogo sem apagar ou substituir produtos existentes.
@@ -19,6 +19,8 @@ Da raiz do repositório, inicie os bancos e APIs; o Compose executa o bootstrap 
 
     docker compose --env-file ..\desafio-local\.env -f infra\compose.yaml up -d --build --wait
     node infra/smoke-system.mjs
+
+Com a composição completa saudável, a Central de avaliação fica disponível em `http://localhost:4173/`. Ela reúne consultas do Catálogo, criação e histórico de pedidos; chamadas passam pelas APIs existentes.
 
 O PostgreSQL cria os papéis e o banco separado `orders_test` no primeiro início do volume. O Mongo bootstrap pode ser repetido: atualiza o validator, garante índices e usuários, e usa upsert para preservar produtos existentes. Os testes de integração usam exclusivamente `orders_test`.
 
