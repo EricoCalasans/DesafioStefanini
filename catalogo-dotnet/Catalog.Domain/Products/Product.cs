@@ -14,7 +14,7 @@ public sealed record Product(
     DateTimeOffset UpdatedAt)
 {
     private static readonly Regex ProductIdPattern = new(
-        "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+        "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\\z",
         RegexOptions.CultureInvariant | RegexOptions.Compiled);
 
     public static bool IsCanonicalId(string? value) =>

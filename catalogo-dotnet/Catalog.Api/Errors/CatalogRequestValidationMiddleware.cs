@@ -10,7 +10,7 @@ public sealed class CatalogRequestValidationMiddleware(RequestDelegate next)
     public async Task InvokeAsync(HttpContext context)
     {
         if (!HttpMethods.IsPost(context.Request.Method) ||
-            !context.Request.Path.Equals(QueryPath, StringComparison.OrdinalIgnoreCase))
+            !string.Equals(context.Request.Path.Value?.TrimEnd('/'), QueryPath, StringComparison.OrdinalIgnoreCase))
         {
             await next(context);
             return;

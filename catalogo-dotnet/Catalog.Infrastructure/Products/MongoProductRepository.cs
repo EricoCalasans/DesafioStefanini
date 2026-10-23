@@ -115,7 +115,7 @@ internal sealed class MongoProductRepository(IMongoDatabase database) : IProduct
         {
             throw;
         }
-        catch (MongoException exception)
+        catch (Exception exception) when (exception is MongoException or TimeoutException)
         {
             throw new CatalogPersistenceException(exception);
         }

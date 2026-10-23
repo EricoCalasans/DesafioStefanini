@@ -28,6 +28,23 @@ public sealed class ProductsApiTests
     ];
     private int _batchQueryCalls;
 
+    [Theory]
+    [InlineData("\n")]
+    [InlineData("\r\n")]
+    [Trait("Category", "Unit")]
+    public async Task Product_ids_with_trailing_control_characters_are_rejected_before_lookup(string suffix)
+    {
+        Assert.False(Product.IsCanonicalId(FirstId + suffix));
+        using var factory = CreateFactory();
+        using var client = factory.CreateClient();
+        using var response = await client.PostAsJsonAsync("/api/v1/products/query",
+            new { productIds = new[] { FirstId + suffix } });
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        Assert.Equal("VALIDATION_ERROR", await ReadCodeAsync(response));
+        Assert.Equal(0, _batchQueryCalls);
+    }
+
     [Fact]
     [Trait("Category", "Unit")]
     public async Task List_returns_only_active_products_in_id_order_with_pagination_metadata()
@@ -206,18 +223,22 @@ public sealed class ProductsApiTests
         Assert.True(query.GetProperty("responses").TryGetProperty("500", out _));
     }
 
-    [Fact]
+    [Theory]
+    [InlineData("/api/v1/products/query")]
+    [InlineData("/api/v1/products/query/")]
+    [InlineData("/API/v1/PRODUCTS/query")]
     [Trait("Category", "Unit")]
-    public async Task Unsupported_media_type_returns_problem_details()
+    public async Task Unsupported_media_type_returns_problem_details(string path)
     {
         using var factory = CreateFactory();
         using var client = factory.CreateClient();
         using var content = new StringContent($"{{\"productIds\":[\"{FirstId}\"]}}");
         content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("text/plain");
 
-        using var response = await client.PostAsync("/api/v1/products/query", content);
+        using var response = await client.PostAsync(path, content);
 
         Assert.Equal(HttpStatusCode.UnsupportedMediaType, response.StatusCode);
+        Assert.Equal("application/problem+json", response.Content.Headers.ContentType?.MediaType);
         Assert.Equal("UNSUPPORTED_MEDIA_TYPE", await ReadCodeAsync(response));
     }
 
