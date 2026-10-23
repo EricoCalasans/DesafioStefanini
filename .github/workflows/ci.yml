@@ -38,13 +38,21 @@ jobs:
           npm run lint
           npm test
 
-      - name: Catálogo - restore, format, build and test
+      - name: Catálogo - restore
         working-directory: catalogo-dotnet
-        run: |
-          dotnet restore Catalog.sln --locked-mode
-          dotnet format Catalog.sln --verify-no-changes --no-restore
-          dotnet build Catalog.sln --configuration Release --no-restore
-          dotnet test Catalog.sln --configuration Release --no-build --no-restore
+        run: dotnet restore Catalog.sln --locked-mode
+
+      - name: Catálogo - format
+        working-directory: catalogo-dotnet
+        run: dotnet format Catalog.sln --verify-no-changes --no-restore
+
+      - name: Catálogo - build
+        working-directory: catalogo-dotnet
+        run: dotnet build Catalog.sln --configuration Release --no-restore
+
+      - name: Catálogo - test
+        working-directory: catalogo-dotnet
+        run: dotnet test Catalog.sln --configuration Release --no-build --no-restore
 
       - name: Validate contracts and documentation
         run: |
@@ -100,4 +108,8 @@ jobs:
 
       - name: Stop ephemeral services
         if: always()
-        run: docker compose --env-file "$CHALLENGE_ENV_FILE" -f infra/compose.yaml down --volumes --remove-orphans
+        shell: bash
+        run: |
+          if [[ -n "${CHALLENGE_ENV_FILE:-}" && -f "$CHALLENGE_ENV_FILE" ]]; then
+            docker compose --env-file "$CHALLENGE_ENV_FILE" -f infra/compose.yaml down --volumes --remove-orphans
+          fi
